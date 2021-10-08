@@ -4,52 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a0ec615-8a40-4bc4-bc2b-aae3479afe28" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/Controller/main.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Exception/connectivity_exception.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Exception/database_exception.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Exception/database_timeout_exception.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Exception/server_exception.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/CellComponents/book.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/CellComponents/info.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/CellComponents/ranking.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/CellComponents/to_do_list.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/Elements/checkbox.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/Elements/element.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/Elements/images.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/Elements/text_type.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/Elements/texts.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/cell.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/sheet.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Model/user_settings.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Network/Encryption/asym_encryption.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Network/Encryption/sym_encryption.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Network/client.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Network/socket_custom.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/Elements/checkbox_custom.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/Elements/image_custom.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/Elements/item_content_sheet.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/Elements/text_field_custom.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/content_sheet.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/drawer_custom.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/floating_buttons_custom.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/interaction_to_main_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/interaction_view.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/login_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/main_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/options.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/View/tools_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget_test.dart" afterDir="false" />
-    </list>
+    <list default="true" id="0a0ec615-8a40-4bc4-bc2b-aae3479afe28" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Adeven\.android\avd\Pixel_XL_API_30.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -73,7 +34,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Dart/my_netia_server" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
