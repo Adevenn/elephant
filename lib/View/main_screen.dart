@@ -131,16 +131,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<void> updateElements() async{
-    try{
-      _elements = await interView.getElements(_currentSheet.id);
-    }
-    catch(e){
-      print('updateElements failed\n$e');
-    }
-  }
-
-  @override
   Future<void> updateSheets() async{
     try{
       _sheets = await interView.getSheets(_currentCell.id);
@@ -152,13 +142,22 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
+  Future<void> updateElements() async{
+    try{
+      _elements = await interView.getElements(_currentSheet.id);
+    }
+    catch(e){
+      print('updateElements failed\n$e');
+    }
+  }
+
+  @override
   Future<void> addCell(String title, String subtitle, String type) async{
     String msg = 'Cell added';
     try{
-      //TODO: Add a default sheet that refer to this cell
       await interView.addCell(title, subtitle, type);
       await updateCells();
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'addCell Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );
@@ -168,9 +167,9 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> addSheet(String title, String subtitle) async{
     String msg = 'Sheet added';
     try{
-      await interView.addSheet(_currentSheet.id, title, subtitle, _sheets.length);
+      await interView.addSheet(_currentCell.id, title, subtitle, _sheets.length);
       await updateSheets();
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'addSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );
@@ -182,7 +181,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addTexts(_currentSheet.id, type, _currentSheet.elements.length);
       await updateElements();
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'addTexts Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(msg))
     );
@@ -194,7 +193,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       //interView.addImage(_currentSheet.id, data, _currentSheet.elements.length);
       //updateElements(idSheet);
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'addImageFailed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );
@@ -206,7 +205,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addCheckbox(_currentSheet.id, _currentSheet.elements.length);
       await updateElements();
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'addCheckbox Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );
@@ -218,7 +217,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.deleteObject('Cell', index);
       await updateCells();
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'deleteCell Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );
@@ -233,7 +232,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       //TODO: If -> last sheet is deleted => Create a default one
       await interView.deleteObject('Sheet', index);
       await updateSheets();
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'deleteSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );
@@ -245,7 +244,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.deleteObject(type, index);
       await updateElements();
-    } catch(e){ msg = 'Failed'; }
+    } catch(e){ msg = 'deleteElement Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );

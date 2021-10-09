@@ -28,7 +28,7 @@ class SocketCustom{
     try{
       _asym = AsymEncryption();
       _sym = SymEncryption();
-      _socket = await Socket.connect(_ipServer, _portServer);
+      _socket = await Socket.connect(_ipServer, _portServer, timeout: const Duration(seconds: 5));
       _queue = StreamQueue(_socket);
 
       ///HELLO WORD

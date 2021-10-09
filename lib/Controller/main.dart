@@ -126,8 +126,8 @@ class Controller implements InteractionView{
   @override
   Future<void> addSheet(int idCell, String title, String subtitle, int idOrder) async{
     try{
-      var json = Sheet(-1, idCell, title, subtitle, idOrder).toJson();
-      await _client.addObject('Sheet', idCell, jsonEncode(json));
+      var json = jsonEncode(Sheet(-1, idCell, title, subtitle, idOrder).toJson());
+      await _client.addObject('Sheet', jsonEncode(json));
     }
     on ServerException catch(e){ throw ServerException(e.toString()); }
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
@@ -138,7 +138,7 @@ class Controller implements InteractionView{
   Future<void> addCheckbox(int idParent, int idOrder) async{
     try{
       var json = CheckBox(id: -1, idParent: idParent, text: '', idOrder: idOrder).toJson();
-      await _client.addObject('CheckBox', idParent, jsonEncode(json));
+      await _client.addObject('CheckBox', jsonEncode(json));
     }
     on ServerException catch(e){ throw ServerException(e.toString()); }
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
@@ -161,7 +161,7 @@ class Controller implements InteractionView{
   Future<void> addTexts(int idParent, int txtType, int idOrder) async{
     try{
       var json = Texts(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: idOrder).toJson();
-      await _client.addObject('Texts', idParent, jsonEncode(json));
+      await _client.addObject('Texts', jsonEncode(json));
     }
     on ServerException catch(e){ throw ServerException(e.toString()); }
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
@@ -208,7 +208,7 @@ class Controller implements InteractionView{
 class MyApp extends StatelessWidget{
   final InteractionView interactionView;
 
-  const MyApp(this.interactionView);
+   const MyApp(this.interactionView, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -86,7 +86,7 @@ class Client{
     catch(e) { throw Exception(e); }
   }
 
-  Future<void> addObject(String type, int idParent, String json) async{
+  Future<void> addObject(String type, String json) async{
     try{
       await _socket.connect();
       await _socket.writeAsym('addObject');
