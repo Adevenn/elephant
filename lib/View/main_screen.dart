@@ -45,8 +45,8 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
         appBar: appBar(),
         drawer: DrawerCustom(this, _cells, _currentCell),
         endDrawer: Drawer(child: Options(context)),
-        body: ContentSheet(key: UniqueKey(), sheetContent: _elements, interView: interView),
-        floatingActionButton: FloatingButtonsCustom(this, _currentCell, _sheets)//floatingActionBtn(),
+        body: ContentSheet(key: UniqueKey(), sheetContent: _elements, interView: interView, interMain: this),
+        floatingActionButton: FloatingButtonsCustom(this, _currentCell, _sheets)
       )
     );
   }
@@ -117,7 +117,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> setCurrentSheet(int index) async{
     _currentSheet = _sheets[index];
     await updateElements();
-    setState(() {});
   }
 
   @override
@@ -146,6 +145,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> updateElements() async{
     try{
       _elements = await interView.getElements(_currentSheet.id);
+      setState(() {});
     }
     catch(e){
       print('updateElements failed\n$e');
@@ -184,7 +184,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       await updateElements();
     } catch(e){ msg = 'addTexts Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(msg))
+      SnackBar(content: Text(msg))
     );
   }
 

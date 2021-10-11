@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/interaction_to_main_screen.dart';
+import '../Model/Elements/checkbox.dart';
+import '../Model/Elements/images.dart';
+import '../Model/Elements/texts.dart';
+import 'Elements/checkbox_custom.dart';
+import 'Elements/text_field_custom.dart';
 import 'interaction_view.dart';
 import 'Elements/item_content_sheet.dart';
-import '../../Model/Elements/element.dart' as elem;
-import 'tools_view.dart';
+import '../Model/Elements/element.dart' as elem;
 
 class ContentSheet extends StatefulWidget{
   final List<elem.Element> sheetContent;
   final InteractionView interView;
+  final InteractionToMainScreen interMain;
 
-  const ContentSheet({Key? key, required this.sheetContent, required this.interView}) : super(key: key);
+  const ContentSheet({Key? key, required this.sheetContent, required this.interView, required this.interMain}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ContentSheetState(sheetContent, interView);
+  State<StatefulWidget> createState() => _ContentSheetState();
 }
 
 class _ContentSheetState extends State<ContentSheet>{
 
-  InteractionView interView;
-  late List<Widget> _widgets;
-  List<elem.Element> elements;
+  InteractionToMainScreen get interMain => widget.interMain;
+  InteractionView get interView => widget.interView;
+  late final List<Widget> _widgets = elementsToWidgets(elements, interView);
+  List<elem.Element> get elements => widget.sheetContent;
 
-  _ContentSheetState(this.elements, this.interView){
-    _widgets = ToolsView.objListToWidgetList(elements, interView);
+  List<Widget> elementsToWidgets(List<Object> items, InteractionView interView){
+    List<Widget> _widgets = [];
+    for(var element in items) {
+      switch(element.runtimeType){
+        case Texts:
+          _widgets.add(TextFieldCustom(interView: interView, key: UniqueKey(), texts: element as Texts));
+          break;
+        case Images:
+          print("IMAGE TYPE");
+          break;
+        case CheckBox:
+          _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkBox: element as CheckBox));
+          break;
+        default:
+          throw Exception("Unknown element type");
+      }
+    }
+    return _widgets;
   }
 
   @override
@@ -51,13 +74,8 @@ class _ContentSheetState extends State<ContentSheet>{
                     widget: _widgets[i]
                   ),
                   onDismissed: (direction) async{
-                    interView.deleteObject(elements[i].runtimeType.toString(), elements[i].id);
-                    elements.removeAt(i);
+                    await interMain.deleteElement(elements[i].runtimeType.toString(), elements[i].id);
                     //TODO: Update idOrder on each element inside the sheet
-                    setState((){});
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Item deleted'))
-                    );
                   },
                   background: Container(color: const Color(0xBCC11717)),
                 )

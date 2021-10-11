@@ -57,35 +57,40 @@ class FloatingButtonsCustom extends StatelessWidget{
                         children: [
                           IconButton(
                             onPressed: () async {
-                             interMain.addTexts(TextType.title.index);
+                              Navigator.pop(context);
+                              await interMain.addTexts(TextType.title.index);
                             },
                             icon: const Icon(Icons.title_rounded),
                             iconSize: 45,
                           ),
                           IconButton(
                             onPressed: () async {
-                              interMain.addTexts(TextType.subtitle.index);
+                              Navigator.pop(context);
+                              await interMain.addTexts(TextType.subtitle.index);
                             },
                             icon: const Icon(Icons.title_rounded),
                             iconSize: 40,
                           ),
                           IconButton(
                             onPressed: () async {
-                              interMain.addTexts(TextType.text.index);
+                              Navigator.pop(context);
+                              await interMain.addTexts(TextType.text.index);
                             },
                             icon: const Icon(Icons.text_fields_rounded),
                             iconSize: 45,
                           ),
                           IconButton(
                             onPressed: () async {
-                              interMain.addImage();
+                              Navigator.pop(context);
+                              await interMain.addImage();
                             },
                             icon: const Icon(Icons.add_photo_alternate_outlined),
                             iconSize: 45,
                           ),
                           IconButton(
                             onPressed: () async {
-                              interMain.addCheckbox();
+                              Navigator.pop(context);
+                              await interMain.addCheckbox();
                             },
                             icon: const Icon(Icons.check_box_rounded),
                             iconSize: 45,

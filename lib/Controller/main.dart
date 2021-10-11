@@ -137,7 +137,7 @@ class Controller implements InteractionView{
   @override
   Future<void> addCheckbox(int idParent, int idOrder) async{
     try{
-      var json = CheckBox(id: -1, idParent: idParent, text: '', idOrder: idOrder).toJson();
+      var json = jsonEncode(CheckBox(id: -1, idParent: idParent, text: '', idOrder: idOrder).toJson());
       await _client.addObject('CheckBox', jsonEncode(json));
     }
     on ServerException catch(e){ throw ServerException(e.toString()); }
@@ -160,7 +160,7 @@ class Controller implements InteractionView{
   @override
   Future<void> addTexts(int idParent, int txtType, int idOrder) async{
     try{
-      var json = Texts(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: idOrder).toJson();
+      var json = jsonEncode(Texts(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: idOrder).toJson());
       await _client.addObject('Texts', jsonEncode(json));
     }
     on ServerException catch(e){ throw ServerException(e.toString()); }

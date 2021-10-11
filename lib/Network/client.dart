@@ -93,7 +93,6 @@ class Client{
       await _socket.synchronizeRead();
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
-      print('json: $json');
       await _socket.writeSym(json);
       await _socket.disconnectWithResult();
     }
