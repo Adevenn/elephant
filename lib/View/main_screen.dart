@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/Model/CellComponents/book.dart';
 import '../Model/cell.dart';
 import '../Model/Elements/element.dart' as elem;
 import '../Model/sheet.dart';
@@ -17,20 +18,18 @@ class MainScreen extends StatefulWidget{
   const MainScreen(this._interView, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MainState(_interView);
+  State<StatefulWidget> createState() => _MainState();
 }
 
 class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final InteractionView interView;
+  InteractionView get interView => widget._interView;
   var _cells = <Cell>[];
   var _sheets = <Sheet>[];
   var _elements = <elem.Element>[];
   late Cell _currentCell;
   late Sheet _currentSheet;
-
-  _MainState(this.interView);
 
 
   @override
@@ -86,6 +85,11 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
+  void setStateMainScreen(){
+    setState(() {});
+  }
+
+  @override
   bool isCellTitleValid(String title){
     for(int i = 0; i < _cells.length; i++){
       if(_cells[i].title == title){
@@ -111,6 +115,9 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     await updateSheets();
     await setCurrentSheet(0);
   }
+
+  @override
+  List<Sheet> getSheets() => _sheets;
 
   @override
   Future<void> setCurrentSheet(int index) async{

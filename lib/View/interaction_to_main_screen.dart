@@ -1,10 +1,14 @@
+import '../Model/sheet.dart';
+
 abstract class InteractionToMainScreen{
 
   void getDefaultCell();
+  void setStateMainScreen();
   bool isCellTitleValid(String title);
   bool isSheetTitleValid(String title);
 
   Future<void> selectCurrentCell(int index);
+  List<Sheet> getSheets();
   Future<void> setCurrentSheet(int index);
   Future<void> updateCells([String matchWord = '']);
   Future<void> updateSheets();

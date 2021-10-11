@@ -15,14 +15,14 @@ class DrawerCustom extends StatefulWidget{
   const DrawerCustom(this._interMain, this._cells, this._currentCell, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _DrawerCustomState(this._interMain);
+  State<StatefulWidget> createState() => _DrawerCustomState();
 }
 
 class _DrawerCustomState extends State<DrawerCustom>{
-  final InteractionToMainScreen interMain;
+  InteractionToMainScreen get interMain => widget._interMain;
   final _controllerResearch = TextEditingController();
 
-  _DrawerCustomState(this.interMain);
+  _DrawerCustomState();
 
 
   Future<void> applyResearch([String research = '']) async{

@@ -7,11 +7,11 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen(this._interaction, {Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState(_interaction);
+  _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<LoginScreen>{
-  final InteractionView _interaction;
+  InteractionView get interaction => widget._interaction;
   final _formKey = GlobalKey<FormState>();
   RegExp ipv4Reg = RegExp(r'^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$', caseSensitive: false, multiLine: false);
   final _ip = TextEditingController();
@@ -19,8 +19,6 @@ class _LoginState extends State<LoginScreen>{
   final _database = TextEditingController();
   final _username = TextEditingController();
   final _password = TextEditingController();
-
-  _LoginState(this._interaction);
 
   @override
   void initState(){
@@ -143,8 +141,8 @@ class _LoginState extends State<LoginScreen>{
                         );
                         var msg = 'Connected';
                         try{
-                          await _interaction.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
-                          _interaction.gotoMainScreen(context);
+                          await interaction.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
+                          interaction.gotoMainScreen(context);
                         }
                         catch(e) { msg = e.toString(); }
                         finally{
