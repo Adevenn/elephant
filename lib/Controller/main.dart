@@ -169,8 +169,8 @@ class Controller implements InteractionView{
   }
 
   @override
-  Future<void> deleteObject(String type, int index) async{
-    try{ await _client.deleteObject(type, index); }
+  Future<void> deleteObject(String type, int id) async{
+    try{ await _client.deleteObject(type, id); }
     on ServerException catch(e){ throw ServerException(e.toString()); }
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
     catch(e) { throw Exception(e); }

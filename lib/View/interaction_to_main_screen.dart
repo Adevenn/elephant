@@ -3,7 +3,6 @@ import '../Model/sheet.dart';
 abstract class InteractionToMainScreen{
 
   void getDefaultCell();
-  void setStateMainScreen();
   bool isCellTitleValid(String title);
   bool isSheetTitleValid(String title);
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/Model/CellComponents/book.dart';
 import '../Model/cell.dart';
 import '../Model/Elements/element.dart' as elem;
 import '../Model/sheet.dart';
@@ -81,11 +80,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   void getDefaultCell(){
     _currentCell = interView.getDefaultCell();
     _elements = interView.getDefaultElements();
-    setState(() {});
-  }
-
-  @override
-  void setStateMainScreen(){
     setState(() {});
   }
 
@@ -219,11 +213,14 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<void> deleteCell(int index) async{
+  Future<void> deleteCell(int idCell) async{
     String msg = 'Cell deleted';
     try{
-      await interView.deleteObject('Cell', index);
+      await interView.deleteObject('Cell', idCell);
       await updateCells();
+      if(_currentCell.id == idCell){
+        getDefaultCell();
+      }
     } catch(e){ msg = 'deleteCell Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -231,14 +228,14 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<void> deleteSheet(int index) async{
+  Future<void> deleteSheet(int idSheet) async{
     String msg = 'Sheet deleted';
     try{
-      
-      //TODO: If -> currentSheet.id == index => select the first Sheet
-      //TODO: If -> last sheet is deleted => Create a default one
-      await interView.deleteObject('Sheet', index);
+      await interView.deleteObject('Sheet', idSheet);
       await updateSheets();
+      if(_sheets.isEmpty || _currentSheet.id == idSheet){
+        setCurrentSheet(0);
+      }
     } catch(e){ msg = 'deleteSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
