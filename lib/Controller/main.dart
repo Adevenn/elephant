@@ -51,7 +51,7 @@ class Controller implements InteractionView{
   Future<void> testConnection(String ip, int port, String database, String username, String password) async {
     print('/* testConnection */');
     _client = Client(ip, port, database, username, password);
-    try{ await _client.testConnection(); }
+    try{ await _client.init(); }
     on ServerException catch (e) { throw ServerException(e.toString()); }
     on DatabaseException catch(e) { throw DatabaseException(e.toString()); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException(e.toString()); }

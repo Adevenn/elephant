@@ -1,7 +1,7 @@
 class ServerException implements Exception{
-  String message;
+  final String message;
 
-  ServerException([this.message = 'Connection to server failed, please reconnect']);
+  const ServerException([this.message = 'Connection to server failed, please reconnect']);
 
   @override
   String toString() => '$message Server disconnected';

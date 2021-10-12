@@ -1,7 +1,7 @@
 class DatabaseTimeoutException implements Exception{
   final String message;
 
-  DatabaseTimeoutException([this.message = '']);
+  const DatabaseTimeoutException([this.message = '']);
 
   @override
   String toString() => message;

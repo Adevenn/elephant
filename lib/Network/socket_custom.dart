@@ -12,43 +12,69 @@ class SocketCustom{
 
   late Socket _socket;
   late StreamQueue _queue;
-  late AsymEncryption _asym;
-  late SymEncryption _sym;
+  final AsymEncryption _asym = AsymEncryption();
+  final SymEncryption _sym = SymEncryption();
   final String _ipServer;
   final int _portServer;
   final String _database;
   final String _username;
   final String _password;
-  static const _helloWord = 'HelloHackerMan';
 
   SocketCustom(this._ipServer, this._portServer, this._database, this._username, this._password);
 
-  ///Connect the [_socket] to the server, setup encryption keys and send database values
-  Future<void> connect() async{
+  ///Send database, username and password
+  Future<void> _dbValues() async{
+    await writeAsym(_database);
+    await synchronizeRead();
+    await writeAsym(_username);
+    await synchronizeRead();
+    await writeAsym(_password);
+    await synchronizeRead();
+  }
+
+  Future<void> init() async{
     try{
-      _asym = AsymEncryption();
-      _sym = SymEncryption();
+      _socket = await Socket.connect(_ipServer, _portServer, timeout: const Duration(seconds: 5));
+      _queue = StreamQueue(_socket);
+      _socket.write('init');
+      _asym.clientKey = await read();
+      await _dbValues();
+      var result = await read();
+      await disconnect();
+      if(result == 'databaseTimeout'){
+        throw const DatabaseTimeoutException();
+      }
+      else if(result == 'failed'){
+        throw const DatabaseException();
+      }
+      else if(result != 'success'){
+        throw const ServerException();
+      }
+    }
+    on SocketException catch(e){ throw ServerException('(SocketCustom)firstConnection:\n$e'); }
+    on ServerException catch(e){ throw ServerException('(SocketCustom)firstConnection:\n$e'); }
+    on DatabaseException catch(e){ throw DatabaseException('(SocketCustom)firstConnection:\n$e');}
+    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('(SocketCustom)firstConnection:\n$e'); }
+    catch(e) { throw Exception(e); }
+  }
+
+  ///Connect the [_socket] to the server, setup encryption keys and send database values
+  Future<void> connect(String request) async{
+    try{
       _socket = await Socket.connect(_ipServer, _portServer, timeout: const Duration(seconds: 5));
       _queue = StreamQueue(_socket);
 
-      ///HELLO WORD
-      _socket.write(_helloWord);
+      await write(request);
+      await synchronizeRead();
 
       ///KEY EXCHANGE
-      _asym.clientKey = String.fromCharCodes(await _queue.next);
       await writeAsym(_sym.key);
       await synchronizeRead();
       //publicKey is too long to be asymmetrically encrypted
       await writeSym(_asym.publicKey);
       await synchronizeRead();
 
-      ///DATABASE, USERNAME & PASSWORD
-      await writeAsym(_database);
-      await synchronizeRead();
-      await writeAsym(_username);
-      await synchronizeRead();
-      await writeAsym(_password);
-      await synchronizeRead();
+      await _dbValues();
       print('INIT DONE');
     } catch(e){ throw ServerException('(CustomSocket)connect:\n$e'); }
   }
@@ -67,16 +93,16 @@ class SocketCustom{
         case 'success':
           break;
         case 'databaseTimeout':
-          throw DatabaseTimeoutException();
+          throw const DatabaseTimeoutException();
         case 'failed':
           throw const DatabaseException();
         default:
           throw Exception('Wrong answer value');
       }
     }
-    on SocketException { throw ServerException(); }
+    on SocketException { throw const ServerException(); }
     on DatabaseException { throw const DatabaseException();}
-    on DatabaseTimeoutException { throw DatabaseTimeoutException(); }
+    on DatabaseTimeoutException { throw const DatabaseTimeoutException(); }
     catch(e) { throw Exception(e); }
   }
 
@@ -86,39 +112,51 @@ class SocketCustom{
     _socket.destroy();
   }
 
+  Future<void> write(String plainText) async{
+    try{ _socket.write(plainText); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)synchronizeWrite\n$e'); }
+    catch (e){ throw Exception('(CustomSocket)write:\n$e'); }
+  }
+
   Future<void> writeAsym(String plainText) async{
     try{ _socket.write(_asym.encrypt(plainText)); }
-    on SocketException { throw ServerException('(CustomSocket)writeAsym'); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)writeAsym\n$e'); }
     catch(e){ throw Exception('(CustomSocket)writeAsym:\n$e'); }
   }
 
   Future<void> writeSym(String plainText) async{
     try{ _socket.write(_sym.encrypt(plainText)); }
-    on SocketException { throw ServerException('(CustomSocket)writeSym'); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)writeSym\n$e'); }
     catch(e){ throw Exception('(CustomSocket)writeSym:\n$e'); }
-  }
-
-  Future<void> synchronizeRead() async{
-    try{ await _queue.next; }
-    on SocketException { throw ServerException('(CustomSocket)synchronizeRead'); }
-    catch (e){ throw Exception('(CustomSocket)synchronizeRead:\n$e'); }
   }
 
   Future<void> synchronizeWrite() async{
     try{ _socket.write('ok'); }
-    on SocketException { throw ServerException('(CustomSocket)synchronizeWrite'); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)synchronizeWrite\n$e'); }
     catch (e){ throw Exception('(CustomSocket)synchronizeWrite:\n$e'); }
+  }
+
+  Future<String> read() async{
+    try{ return String.fromCharCodes(await _queue.next); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)readAsym\n$e'); }
+    catch(e) { throw Exception('(CustomSocket)read;\n$e'); }
   }
 
   Future<String> readAsym() async{
     try{ return _asym.decrypt(await _queue.next); }
-    on SocketException { throw ServerException('(CustomSocket)readAsym'); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)readAsym\n$e'); }
     catch(e) { throw Exception('(CustomSocket)readAsym;\n$e'); }
   }
 
   Future<String> readSym() async{
     try{ return _sym.decrypt(await _queue.next); }
-    on SocketException { throw ServerException('(CustomSocket)readSym'); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)readSym\n$e'); }
     catch(e) { throw Exception('(CustomSocket)readSym;\n$e'); }
+  }
+
+  Future<void> synchronizeRead() async{
+    try{ await _queue.next; }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)synchronizeRead\n$e'); }
+    catch (e){ throw Exception('(CustomSocket)synchronizeRead:\n$e'); }
   }
 }
