@@ -127,8 +127,8 @@ class _DrawerCustomState extends State<DrawerCustom>{
                       ],
                     ),
                     onTap: () async{
-                      await interMain.selectCurrentCell(index);
                       Navigator.pop(context);
+                      await interMain.selectCurrentCell(index);
                     },
                   );
                 },
