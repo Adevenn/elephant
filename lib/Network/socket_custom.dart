@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:async/async.dart';
@@ -16,19 +17,16 @@ class SocketCustom{
   final SymEncryption _sym = SymEncryption();
   final String _ipServer;
   final int _portServer;
-  final String _database;
-  final String _username;
-  final String _password;
+  late String _jsonDatabase;
 
-  SocketCustom(this._ipServer, this._portServer, this._database, this._username, this._password);
+  SocketCustom(this._ipServer, this._portServer, String database, String username, String password){
+    var databaseValues = {'database': database, 'username': username, 'password': password};
+    _jsonDatabase = jsonEncode(databaseValues);
+  }
 
   ///Send database, username and password
   Future<void> _dbValues() async{
-    await writeAsym(_database);
-    await synchronizeRead();
-    await writeAsym(_username);
-    await synchronizeRead();
-    await writeAsym(_password);
+    await writeAsym(_jsonDatabase);
     await synchronizeRead();
   }
 
