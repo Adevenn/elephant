@@ -6,9 +6,8 @@ import '../../Model/Elements/text_type.dart';
 class TextFieldCustom extends StatefulWidget{
   final InteractionView interView;
   final Texts texts;
-  final Key key;
 
-  const TextFieldCustom({required this.interView, required this.key, required this.texts});
+  const TextFieldCustom({required Key? key, required this.interView, required this.texts}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TextFieldCustomState();
@@ -16,13 +15,15 @@ class TextFieldCustom extends StatefulWidget{
 
 class _TextFieldCustomState extends State<TextFieldCustom>{
 
+  InteractionView get interView => widget.interView;
+  Texts get texts => widget.texts;
   final focus = FocusNode();
   late String backupText;
 
   @override
   void initState() {
     super.initState();
-    backupText = widget.texts.text;
+    backupText = texts.text;
     focus.addListener(_updateTexts);
   }
 
@@ -34,23 +35,23 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
   }
 
   void _updateTexts() {
-    if(backupText != widget.texts.text){
-      widget.interView.updateObject('Texts', widget.texts.toJson());
+    if(backupText != texts.text){
+      interView.updateObject('Texts', texts.toJson());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    switch(widget.texts.txtType){
+    switch(texts.txtType){
       case TextType.text:
         return TextFormField(
           focusNode: focus,
           keyboardType: TextInputType.multiline,
           minLines: 1,
           maxLines: 50,
-          initialValue: widget.texts.text,
+          initialValue: texts.text,
           decoration: const InputDecoration(hintText: "enter some text"),
-          onChanged: (value) => widget.texts.text = value,
+          onChanged: (value) => texts.text = value,
         );
       case TextType.subtitle:
         return TextFormField(
@@ -59,9 +60,9 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
             fontSize: 19,
             fontStyle: FontStyle.italic
           ),
-          initialValue: widget.texts.text,
+          initialValue: texts.text,
           decoration: const InputDecoration(hintText: "enter some text"),
-          onChanged: (value) => widget.texts.text = value,
+          onChanged: (value) => texts.text = value,
         );
       case TextType.title:
         return TextFormField(
@@ -71,15 +72,15 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
             fontSize: 22,
             fontWeight: FontWeight.bold
           ),
-          initialValue: widget.texts.text,
+          initialValue: texts.text,
           decoration: const InputDecoration(hintText: "enter some text"),
-          onChanged: (value) => widget.texts.text = value,
+          onChanged: (value) => texts.text = value,
         );
       case TextType.readonly:
         return Container(
           margin: const EdgeInsets.all(5),
           child: Text(
-            widget.texts.text,
+            texts.text,
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 18),
           ),

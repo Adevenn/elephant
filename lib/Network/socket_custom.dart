@@ -73,7 +73,7 @@ class SocketCustom{
       await synchronizeRead();
 
       await _dbValues();
-      print('INIT DONE');
+      print('init done');
     } catch(e){ throw ServerException('(CustomSocket)connect:\n$e'); }
   }
 

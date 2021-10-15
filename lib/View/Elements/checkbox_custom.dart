@@ -4,10 +4,9 @@ import '../interaction_view.dart';
 
 class CheckboxCustom extends StatefulWidget{
   final InteractionView interView;
-  final CheckBox checkBox;
-  final Key key;
+  final CheckBox checkbox;
 
-  const CheckboxCustom({required this.interView, required this.key, required this.checkBox});
+  const CheckboxCustom({required Key key, required this.interView, required this.checkbox}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CheckBoxState();
@@ -15,6 +14,8 @@ class CheckboxCustom extends StatefulWidget{
 
 class _CheckBoxState extends State<CheckboxCustom>{
 
+  CheckBox get checkbox => widget.checkbox;
+  InteractionView get interView => widget.interView;
   var focusCheckbox = FocusNode();
   var focusTxt = FocusNode();
   late bool backupChecked;
@@ -23,8 +24,8 @@ class _CheckBoxState extends State<CheckboxCustom>{
   @override
   void initState() {
     super.initState();
-    backupChecked = widget.checkBox.isChecked;
-    backupText = widget.checkBox.text;
+    backupChecked = checkbox.isChecked;
+    backupText = checkbox.text;
     focusTxt.addListener(_updateCheckbox);
     focusCheckbox.addListener(_updateCheckbox);
   }
@@ -38,13 +39,15 @@ class _CheckBoxState extends State<CheckboxCustom>{
     focusTxt.dispose();
   }
 
- void _updateCheckbox() async{
+  ///Update [checkbox] when values change and both elements
+  ///([checkbox.text] and [checkbox.isChecked]) lost focus
+  void _updateCheckbox() async{
     if(!focusCheckbox.hasFocus && !focusTxt.hasFocus){
-      if(backupChecked != widget.checkBox.isChecked
-          || backupText != widget.checkBox.text){
-        backupChecked = widget.checkBox.isChecked;
-        backupText = widget.checkBox.text;
-        widget.interView.updateObject('Checkbox', widget.checkBox.toJson());
+      if(backupChecked != checkbox.isChecked
+          || backupText != checkbox.text){
+        backupChecked = checkbox.isChecked;
+        backupText = checkbox.text;
+        interView.updateObject('Checkbox', checkbox.toJson());
       }
     }
   }
@@ -56,21 +59,18 @@ class _CheckBoxState extends State<CheckboxCustom>{
       children: [
         Checkbox(
           focusNode: focusCheckbox,
-          value: widget.checkBox.isChecked,
+          value: checkbox.isChecked,
           onChanged: (bool? value){
-            setState(() {
-              widget.checkBox.isChecked = value!;
-              print('isChecked updated');
-            });
             focusCheckbox.requestFocus();
+            setState(() => checkbox.isChecked = value!);
           },
         ),
         Expanded(
           child: TextFormField(
             focusNode: focusTxt,
-            initialValue: widget.checkBox.text,
+            initialValue: checkbox.text,
             decoration: const InputDecoration(hintText: 'enter some text'),
-            onChanged: (value) => widget.checkBox.text = value,
+            onChanged: (value) => checkbox.text = value,
           ),
         ),
       ],

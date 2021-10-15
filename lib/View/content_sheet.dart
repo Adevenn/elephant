@@ -38,7 +38,7 @@ class _ContentSheetState extends State<ContentSheet>{
           print("IMAGE TYPE");
           break;
         case CheckBox:
-          _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkBox: element as CheckBox));
+          _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkbox: element as CheckBox));
           break;
         default:
           throw Exception("Unknown element type");

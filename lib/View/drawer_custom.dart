@@ -112,7 +112,7 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                 ),
                                 TextButton(
                                   onPressed: () async{
-                                    if(widget._currentCell.title == widget._cells[index].title){
+                                    if(widget._currentCell.id == widget._cells[index].id){
                                       interMain.getDefaultCell();
                                     }
                                     await interMain.deleteCell(widget._cells[index].id);
@@ -126,9 +126,9 @@ class _DrawerCustomState extends State<DrawerCustom>{
                         )
                       ],
                     ),
-                    onTap: () async{
+                    onTap: (){
                       Navigator.pop(context);
-                      await interMain.selectCurrentCell(index);
+                      interMain.selectCurrentCell(index);
                     },
                   );
                 },

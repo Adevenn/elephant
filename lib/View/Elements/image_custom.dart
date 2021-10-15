@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class ImageCustom extends StatefulWidget{
   final Uint8List data;
-  const ImageCustom(this.data);
+  const ImageCustom(this.data, {Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _ImageState();
 }

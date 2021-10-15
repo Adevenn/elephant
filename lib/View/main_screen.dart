@@ -218,9 +218,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.deleteObject('Cell', idCell);
       await updateCells();
-      if(_currentCell.id == idCell){
-        getDefaultCell();
-      }
     } catch(e){ msg = 'deleteCell Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
