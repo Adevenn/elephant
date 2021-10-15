@@ -44,7 +44,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
         key: _scaffoldKey,
         appBar: appBar(),
         drawer: DrawerCustom(this, _cells, _currentCell),
-        endDrawer: Drawer(child: Options(context)),
+        endDrawer: const Drawer(child: Options()),
         body: ContentSheet(key: UniqueKey(), sheetContent: _elements, interView: interView, interMain: this),
         floatingActionButton: FloatingButtonsCustom(this, _currentCell, _sheets)
       )

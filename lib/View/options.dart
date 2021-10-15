@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Options extends StatefulWidget{
-  final BuildContext context;
-  const Options(this.context, {Key? key}) : super(key: key);
+  const Options({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _OptionState();
@@ -23,9 +22,7 @@ class _OptionState extends State<Options>{
             const Text("Read only :"),
             Switch(
               value: _isReadOnly,
-              onChanged: (value){
-                setState(() => _isReadOnly = value);
-              }
+              onChanged: (value) => setState(() => _isReadOnly = value)
             )
           ],
         ),
@@ -41,9 +38,7 @@ class _OptionState extends State<Options>{
             Switch(
               value: _themeIsDark,
               onChanged: (value) {
-                setState(() {
-                  _themeIsDark = value;
-                });
+                setState(() => _themeIsDark = value);
               },
             ),
           ],

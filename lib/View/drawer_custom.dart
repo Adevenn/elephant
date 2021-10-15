@@ -19,7 +19,10 @@ class DrawerCustom extends StatefulWidget{
 }
 
 class _DrawerCustomState extends State<DrawerCustom>{
+
   InteractionToMainScreen get interMain => widget._interMain;
+  List<Cell> get cells => widget._cells;
+  Cell get currentCell => widget._currentCell;
   final _controllerResearch = TextEditingController();
 
   _DrawerCustomState();
@@ -88,12 +91,12 @@ class _DrawerCustomState extends State<DrawerCustom>{
             /* CELL ITEMS */
             Expanded(
               child: ListView.builder(
-                itemCount: widget._cells.length,
+                itemCount: cells.length,
                 itemBuilder: (BuildContext context, int index){
                   return ListTile(
-                    leading: selectIconByCell(widget._cells[index].runtimeType),
-                    title: Text(widget._cells[index].title),
-                    subtitle: Text(widget._cells[index].subtitle),
+                    leading: selectIconByCell(cells[index].runtimeType),
+                    title: Text(cells[index].title),
+                    subtitle: Text(cells[index].subtitle),
                     trailing: Row(
                       /* DELETE CELL */
                       mainAxisSize: MainAxisSize.min,
@@ -104,7 +107,7 @@ class _DrawerCustomState extends State<DrawerCustom>{
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Remove cell'),
-                              content: Text('Do you really want to remove ${widget._cells[index].title} ?'),
+                              content: Text('Do you really want to remove ${cells[index].title} ?'),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
@@ -112,10 +115,10 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                 ),
                                 TextButton(
                                   onPressed: () async{
-                                    if(widget._currentCell.id == widget._cells[index].id){
+                                    if(currentCell.id == cells[index].id){
                                       interMain.getDefaultCell();
                                     }
-                                    await interMain.deleteCell(widget._cells[index].id);
+                                    await interMain.deleteCell(cells[index].id);
                                     Navigator.pop(context);
                                   },
                                   child: const Text('Yes'),
