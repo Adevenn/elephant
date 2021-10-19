@@ -105,12 +105,13 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> selectCurrentCell(int index) async{
     _currentCell = _cells[index];
     await updateSheets();
-    setCurrentSheet(0);
+    await setCurrentSheet(0);
   }
 
   @override
-  void setCurrentSheet(int index) {
+  Future<void> setCurrentSheet(int index) async{
     _currentSheet = _sheets[index];
+    await updateElements();
     setState(() {});
   }
 

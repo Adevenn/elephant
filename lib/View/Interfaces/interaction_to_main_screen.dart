@@ -9,7 +9,7 @@ abstract class InteractionToMainScreen{
   bool isSheetTitleValid(String title);
 
   Future<void> selectCurrentCell(int index);
-  void setCurrentSheet(int index);
+  Future<void> setCurrentSheet(int index);
   Future<List<Cell>> updateCells([String matchWord = '']);
   Future<List<Sheet>> updateSheets();
   Future<List<Element>> updateElements();
