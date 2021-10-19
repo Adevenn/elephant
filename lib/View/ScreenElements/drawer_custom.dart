@@ -108,30 +108,30 @@ class _DrawerCustomState extends State<DrawerCustom>{
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                  icon: const Icon(Icons.delete_forever_rounded),
-                                  onPressed: () => showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) => AlertDialog(
-                                      title: const Text('Remove cell'),
-                                      content: Text('Do you really want to remove ${cells[index].title} ?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(context),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () async{
-                                            if(currentCell.id == cells[index].id){
-                                              interMain.getDefaultCell();
-                                            }
-                                            await interMain.deleteCell(cells[index].id);
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Yes'),
-                                        ),
-                                      ],
-                                    ),
-                                  )
+                                icon: const Icon(Icons.delete_forever_rounded),
+                                onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('Remove cell'),
+                                    content: Text('Do you really want to remove ${cells[index].title} ?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async{
+                                          if(currentCell.id == cells[index].id){
+                                            interMain.getDefaultCell();
+                                          }
+                                          await interMain.deleteCell(cells[index].id);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Yes'),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               )
                             ],
                           ),

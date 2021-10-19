@@ -64,7 +64,7 @@ class _ContentSheetState extends State<ContentSheet>{
                       }
                       elem.Element item = elements.removeAt(oldIndex);
                       elements.insert(newIndex, item);
-                      interMain.updateElementsOrder();
+                      interMain.updateElementsOrder(elements);
                     },
                     children: [
                       for(int i = 0; i < widgets.length; i++)

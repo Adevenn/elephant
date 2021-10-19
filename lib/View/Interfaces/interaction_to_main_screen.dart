@@ -11,8 +11,8 @@ abstract class InteractionToMainScreen{
   Future<List<Cell>> updateCells([String matchWord = '']);
   Future<List<Sheet>> updateSheets();
   Future<List<Element>> updateElements();
-  Future<void> updateSheetsOrder();
-  Future<void> updateElementsOrder();
+  Future<void> updateSheetsOrder(List<Sheet> sheets);
+  Future<void> updateElementsOrder(List<Element> elements);
 
   Future<void> addCell(String title, String subtitle, String type);
   Future<void> addSheet(String title, String subtitle);

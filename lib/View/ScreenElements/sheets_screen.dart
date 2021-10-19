@@ -146,9 +146,12 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                   )
                                 )
                               ),
-                              onTap: () => Navigator.pop(context, index),
+                              onTap: () async{
+                                Navigator.pop(context);
+                                await interMain.setCurrentSheet(index);
+                              }
                             );
-                          },
+                          }
                         )
                       ),
                     ]

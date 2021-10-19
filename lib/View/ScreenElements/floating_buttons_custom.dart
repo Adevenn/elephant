@@ -26,12 +26,7 @@ class FloatingButtonsCustom extends StatelessWidget{
               message: 'Sheets',
               child: FloatingActionButton(
                 heroTag: 'sheetsBtn',
-                onPressed: () async {
-                  int? index = await Navigator.push(context, MaterialPageRoute(builder: (context) => SheetsScreen(interMain: interMain)));
-                  if(index != null){
-                    interMain.setCurrentSheet(index);
-                  }
-                },
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SheetsScreen(interMain: interMain))),
                 child: const Icon(Icons.text_snippet),
               ),
             ),
