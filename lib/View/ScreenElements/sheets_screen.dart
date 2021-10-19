@@ -93,9 +93,8 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                       TextButton(
                                         onPressed: () async {
                                           if(_formKey.currentState!.validate()){
-                                            await interMain.addSheet(_title.text, _subtitle.text);
                                             Navigator.pop(context);
-                                            setState(() {});
+                                            await interMain.addSheet(_title.text, _subtitle.text);
                                           }
                                         },
                                         child: const Text('Add'),
@@ -136,9 +135,8 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                       ),
                                       TextButton(
                                         onPressed: () async{
-                                          await interMain.deleteSheet(sheets[index].id);
                                           Navigator.pop(context);
-                                          setState(() {});
+                                          await interMain.deleteSheet(sheets[index].id);
                                         },
                                         child: const Text('Yes'),
                                       ),

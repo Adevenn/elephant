@@ -74,8 +74,8 @@ class _DrawerCustomState extends State<DrawerCustom>{
                         width: double.infinity,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5)
                         ),
                         child: Center(
                           child: TextField(
@@ -121,11 +121,11 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                       ),
                                       TextButton(
                                         onPressed: () async{
+                                          Navigator.pop(context);
                                           if(currentCell.id == cells[index].id){
                                             interMain.getDefaultCell();
                                           }
                                           await interMain.deleteCell(cells[index].id);
-                                          Navigator.pop(context);
                                         },
                                         child: const Text('Yes'),
                                       ),
@@ -205,8 +205,8 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                     TextButton(
                                       onPressed: () async {
                                         if(_formKey.currentState!.validate()){
-                                          await interMain.addCell(_title.text, _subtitle.text, _type);
                                           Navigator.pop(context);
+                                          await interMain.addCell(_title.text, _subtitle.text, _type);
                                         }
                                       },
                                       child: const Text('Add'),
