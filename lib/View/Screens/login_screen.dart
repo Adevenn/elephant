@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../Model/user_settings.dart';
-import 'interaction_view.dart';
+import '../../Model/user_settings.dart';
+import '../Interfaces/interaction_view.dart';
 
 class LoginScreen extends StatefulWidget {
   final InteractionView _interaction;

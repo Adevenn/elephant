@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../interaction_view.dart';
+import '../Interfaces/interaction_view.dart';
 import '../../Model/Elements/texts.dart';
 import '../../Model/Elements/text_type.dart';
 

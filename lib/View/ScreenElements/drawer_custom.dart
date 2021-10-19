@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Model/CellComponents/book.dart';
-import '../Model/CellComponents/ranking.dart';
-import '../Model/CellComponents/to_do_list.dart';
-import '../Model/cell.dart';
-import 'interaction_to_main_screen.dart';
+import '../../Model/CellComponents/book.dart';
+import '../../Model/CellComponents/ranking.dart';
+import '../../Model/CellComponents/to_do_list.dart';
+import '../../Model/cell.dart';
+import '../Interfaces/interaction_to_main_screen.dart';
 
 class DrawerCustom extends StatefulWidget{
 
   final InteractionToMainScreen _interMain;
-  final List<Cell> _cells;
   final Cell _currentCell;
 
-  const DrawerCustom(this._interMain, this._cells, this._currentCell, {Key? key}) : super(key: key);
+  const DrawerCustom(this._interMain, this._currentCell, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DrawerCustomState();
@@ -21,7 +20,6 @@ class DrawerCustom extends StatefulWidget{
 class _DrawerCustomState extends State<DrawerCustom>{
 
   InteractionToMainScreen get interMain => widget._interMain;
-  List<Cell> get cells => widget._cells;
   Cell get currentCell => widget._currentCell;
   final _controllerResearch = TextEditingController();
 
@@ -46,12 +44,6 @@ class _DrawerCustomState extends State<DrawerCustom>{
       default:
         throw Exception('Unknown type');
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    applyResearch();
   }
 
   @override
@@ -90,51 +82,81 @@ class _DrawerCustomState extends State<DrawerCustom>{
             ),
             /* CELL ITEMS */
             Expanded(
-              child: ListView.builder(
-                itemCount: cells.length,
-                itemBuilder: (BuildContext context, int index){
-                  return ListTile(
-                    leading: selectIconByCell(cells[index].runtimeType),
-                    title: Text(cells[index].title),
-                    subtitle: Text(cells[index].subtitle),
-                    trailing: Row(
-                      /* DELETE CELL */
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.delete_forever_rounded),
-                          onPressed: () => showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Remove cell'),
-                              content: Text('Do you really want to remove ${cells[index].title} ?'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('Cancel'),
+              child: FutureBuilder<List<Cell>>(
+               future: interMain.updateCells(),
+               builder: (BuildContext context, AsyncSnapshot<List<Cell>> snapshot){
+                if(snapshot.hasData){
+                  var cells = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: cells.length,
+                    itemBuilder: (BuildContext context, int index){
+                      return ListTile(
+                        leading: selectIconByCell(cells[index].runtimeType),
+                        title: Text(cells[index].title),
+                        subtitle: Text(cells[index].subtitle),
+                        trailing: Row(
+                          /* DELETE CELL */
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.delete_forever_rounded),
+                              onPressed: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Remove cell'),
+                                  content: Text('Do you really want to remove ${cells[index].title} ?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async{
+                                        if(currentCell.id == cells[index].id){
+                                          interMain.getDefaultCell();
+                                        }
+                                        await interMain.deleteCell(cells[index].id);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                  ],
                                 ),
-                                TextButton(
-                                  onPressed: () async{
-                                    if(currentCell.id == cells[index].id){
-                                      interMain.getDefaultCell();
-                                    }
-                                    await interMain.deleteCell(cells[index].id);
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Yes'),
-                                ),
-                              ],
-                            ),
-                          )
+                              )
+                            )
+                          ],
+                        ),
+                        onTap: (){
+                          Navigator.pop(context);
+                          interMain.selectCurrentCell(index);
+                        },
+                      );
+                    },
+                  );
+                }
+                else if(snapshot.hasError){
+                  throw Exception('');
+                }
+                else{
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 60,
+                          height: 60,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Awaiting ...'),
                         )
                       ],
                     ),
-                    onTap: (){
-                      Navigator.pop(context);
-                      interMain.selectCurrentCell(index);
-                    },
                   );
-                },
+                }
+               },
               ),
             ),
             Align(

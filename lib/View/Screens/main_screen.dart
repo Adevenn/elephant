@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../Model/cell.dart';
-import '../Model/Elements/element.dart' as elem;
-import '../Model/sheet.dart';
+import '../../Model/cell.dart';
+import '../../Model/Elements/element.dart' as elem;
+import '../../Model/sheet.dart';
 
-import 'content_sheet.dart';
-import 'drawer_custom.dart';
-import 'floating_buttons_custom.dart';
-import 'interaction_to_main_screen.dart';
-import 'interaction_view.dart';
-import 'options.dart';
+import '../ScreenElements/content_sheet.dart';
+import '../ScreenElements/drawer_custom.dart';
+import '../ScreenElements/floating_buttons_custom.dart';
+import '../Interfaces/interaction_to_main_screen.dart';
+import '../Interfaces/interaction_view.dart';
+import '../ScreenElements/options.dart';
 
 
 class MainScreen extends StatefulWidget{
@@ -43,9 +43,9 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       child: Scaffold(
         key: _scaffoldKey,
         appBar: appBar(),
-        drawer: DrawerCustom(this, _cells, _currentCell),
+        drawer: DrawerCustom(this, _currentCell),
         endDrawer: const Drawer(child: Options()),
-        body: ContentSheet(key: UniqueKey(), sheetContent: _elements, interView: interView, interMain: this),
+        body: ContentSheet(key: UniqueKey(), elements: _elements, interView: interView, interMain: this),
         floatingActionButton: FloatingButtonsCustom(this, _currentCell, _sheets)
       )
     );
@@ -120,13 +120,13 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<void> updateCells([String matchWord = '']) async{
+  Future<List<Cell>> updateCells([String matchWord = '']) async{
     try{
-      _cells = await interView.getCells(matchWord);
-      setState(() {});
+      return _cells = await interView.getCells(matchWord);
     }
     catch(e){
       print('updateCells failed\n$e');
+      return _cells = [];
     }
   }
 
@@ -149,6 +149,19 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     }
     catch(e){
       print('updateElements failed\n$e');
+    }
+  }
+
+  @override
+  Future<void> updateSheetsOrder() async{
+    //TODO: Implement drag and drop of sheets
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateElementsOrder() async{
+    for(var element in _elements){
+      print(element.idOrder);
     }
   }
 

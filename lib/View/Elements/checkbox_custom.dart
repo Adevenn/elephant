@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Model/Elements/checkbox.dart';
-import '../interaction_view.dart';
+import '../Interfaces/interaction_view.dart';
 
 class CheckboxCustom extends StatefulWidget{
   final InteractionView interView;

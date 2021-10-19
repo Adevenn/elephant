@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '../Model/sheet.dart';
-import '../Model/cell.dart';
-import '../Model/Elements/element.dart' as elem;
+import '../../Model/sheet.dart';
+import '../../Model/cell.dart';
+import '../../Model/Elements/element.dart' as elem;
 
 abstract class InteractionView{
 

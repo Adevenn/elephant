@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'sheets_screen.dart';
-import '../Model/cell.dart';
-import '../Model/CellComponents/book.dart';
-import '../Model/Elements/text_type.dart';
-import '../Model/sheet.dart';
-import 'interaction_to_main_screen.dart';
+import '../../Model/cell.dart';
+import '../../Model/CellComponents/book.dart';
+import '../../Model/Elements/text_type.dart';
+import '../../Model/sheet.dart';
+import '../Interfaces/interaction_to_main_screen.dart';
 
 class FloatingButtonsCustom extends StatelessWidget{
   final InteractionToMainScreen interMain;

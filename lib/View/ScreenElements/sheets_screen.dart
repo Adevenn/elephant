@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../Model/sheet.dart';
-import '../View/interaction_to_main_screen.dart';
+import '../../Model/sheet.dart';
+import '../Interfaces/interaction_to_main_screen.dart';
 
 class SheetsScreen extends StatefulWidget{
 

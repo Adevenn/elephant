@@ -13,9 +13,9 @@ import '../Model/cell.dart';
 import '../Model/CellComponents/info.dart';
 import '../Model/Elements/texts.dart';
 import '../Model/Elements/text_type.dart';
-import '../View/interaction_view.dart';
-import '../View/login_screen.dart';
-import '../View/main_screen.dart';
+import '../View/Interfaces/interaction_view.dart';
+import '../View/Screens/login_screen.dart';
+import '../View/Screens/main_screen.dart';
 
 void main() {
   Controller controller = Controller();

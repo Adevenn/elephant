@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/interaction_to_main_screen.dart';
-import '../Model/Elements/checkbox.dart';
-import '../Model/Elements/images.dart';
-import '../Model/Elements/texts.dart';
-import 'Elements/checkbox_custom.dart';
-import 'Elements/text_field_custom.dart';
-import 'interaction_view.dart';
-import 'Elements/item_content_sheet.dart';
-import '../Model/Elements/element.dart' as elem;
+import '../Interfaces/interaction_to_main_screen.dart';
+import '../../Model/Elements/checkbox.dart';
+import '../../Model/Elements/images.dart';
+import '../../Model/Elements/texts.dart';
+import '../Elements/checkbox_custom.dart';
+import '../Elements/text_field_custom.dart';
+import '../Interfaces/interaction_view.dart';
+import '../Elements/item_content_sheet.dart';
+import '../../Model/Elements/element.dart' as elem;
 
 class ContentSheet extends StatefulWidget{
-  final List<elem.Element> sheetContent;
+  final List<elem.Element> elements;
   final InteractionView interView;
   final InteractionToMainScreen interMain;
 
-  const ContentSheet({Key? key, required this.sheetContent, required this.interView, required this.interMain}) : super(key: key);
+  const ContentSheet({Key? key, required this.elements, required this.interView, required this.interMain}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ContentSheetState();
@@ -24,8 +24,8 @@ class _ContentSheetState extends State<ContentSheet>{
 
   InteractionToMainScreen get interMain => widget.interMain;
   InteractionView get interView => widget.interView;
-  late final List<Widget> _widgets = elementsToWidgets(elements, interView);
-  List<elem.Element> get elements => widget.sheetContent;
+  late final List<Widget> widgets = elementsToWidgets(elements, interView);
+  List<elem.Element> get elements => widget.elements;
 
   List<Widget> elementsToWidgets(List<Object> items, InteractionView interView){
     List<Widget> _widgets = [];
@@ -56,22 +56,20 @@ class _ContentSheetState extends State<ContentSheet>{
           flex: 5,
           child: ReorderableListView(
             onReorder: (int oldIndex, int newIndex) {
-              setState(() {
-                if (oldIndex < newIndex){
-                  newIndex -= 1;
-                }
-                elem.Element item = elements.removeAt(oldIndex);
-                elements.insert(newIndex, item);
-                //TODO: Update idOrder on each element inside the sheet
-              });
+              if (oldIndex < newIndex){
+                newIndex -= 1;
+              }
+              elem.Element item = elements.removeAt(oldIndex);
+              elements.insert(newIndex, item);
+              interMain.updateElementsOrder();
             },
             children: [
-              for(int i = 0; i < _widgets.length; i++)
+              for(int i = 0; i < widgets.length; i++)
                 Dismissible(
                   key: UniqueKey(),
                   child: ItemContentSheet(
                     key: UniqueKey(),
-                    widget: _widgets[i]
+                    widget: widgets[i]
                   ),
                   onDismissed: (direction) async{
                     await interMain.deleteElement(elements[i].runtimeType.toString(), elements[i].id);
