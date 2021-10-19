@@ -5,9 +5,8 @@ import '../Interfaces/interaction_to_main_screen.dart';
 class SheetsScreen extends StatefulWidget{
 
   final InteractionToMainScreen interMain;
-  final List<Sheet> sheets;
 
-  const SheetsScreen({Key? key, required this.interMain, required this.sheets}) : super(key: key);
+  const SheetsScreen({Key? key, required this.interMain}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SheetsScreenState();
@@ -16,13 +15,6 @@ class SheetsScreen extends StatefulWidget{
 class _SheetsScreenState extends State<SheetsScreen>{
 
   InteractionToMainScreen get interMain => widget.interMain;
-  late List<Sheet> sheets = widget.sheets;
-
-  @override
-  void setState(VoidCallback fn) {
-    super.setState(fn);
-    sheets = interMain.getSheets();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +99,73 @@ class _SheetsScreenState extends State<SheetsScreen>{
                 SizedBox(
                   width: 300,
                   height: 500,
-                  child: ListView.builder(
+                  child: FutureBuilder<List<Sheet>>(
+                    future: interMain.updateSheets(),
+                    builder: (BuildContext context, AsyncSnapshot<List<Sheet>> snapshot){
+                      if(snapshot.hasData){
+                        var sheets = snapshot.data!;
+                        return ListView.builder(
+                          itemCount: sheets.length,
+                          itemBuilder: (BuildContext context, int index){
+                            return ListTile(
+                              leading: const Icon(Icons.text_snippet_rounded),
+                              title: Text(sheets[index].title),
+                              subtitle: Text(sheets[index].subtitle),
+                              /* DELETE SHEET */
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete_forever_rounded),
+                                onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('Remove sheet'),
+                                    scrollable: true,
+                                    content: Text('Do you really want to delete ${sheets[index].title} ?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async{
+                                          await interMain.deleteSheet(sheets[index].id);
+                                          Navigator.pop(context);
+                                          setState(() {});
+                                        },
+                                        child: const Text('Yes'),
+                                      ),
+                                    ],
+                                  )
+                                )
+                              ),
+                              onTap: () => Navigator.pop(context, index),
+                            );
+                          },
+                        );
+                      }
+                      else if(snapshot.hasError){
+                        throw Exception('');
+                      }
+                      else{
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const <Widget>[
+                              SizedBox(
+                                child: CircularProgressIndicator(),
+                                width: 60,
+                                height: 60,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 16),
+                                child: Text('Awaiting ...'),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                  ), /*ListView.builder(
                     itemCount: sheets.length,
                     itemBuilder: (BuildContext context, int index){
                       return ListTile(
@@ -143,7 +201,7 @@ class _SheetsScreenState extends State<SheetsScreen>{
                         onTap: () => Navigator.pop(context, index),
                       );
                     },
-                  ),
+                  ),*/
                 ),
               ]
             ),

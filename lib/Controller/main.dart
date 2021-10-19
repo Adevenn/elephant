@@ -25,7 +25,6 @@ void main() {
 class Controller implements InteractionView{
   late Client _client;
   late final Info _defaultCell;
-  final _defaultCellElements = <elem.Element>[];
 
   start() async{
     createDefaultCell();
@@ -36,7 +35,6 @@ class Controller implements InteractionView{
 
   void createDefaultCell() {
     _defaultCell = Info(title: 'MyNetia');
-    _defaultCellElements.add(Texts(text: '<- Select a cell on the left', idParent: -1, txtType: TextType.readonly, id: -1, idOrder: 0));
   }
 
   /// VIEW INTERACTION ///
@@ -44,8 +42,6 @@ class Controller implements InteractionView{
   @override
   Cell getDefaultCell() => _defaultCell;
 
-  @override
-  List<elem.Element> getDefaultElements() => _defaultCellElements;
 
   @override
   Future<void> testConnection(String ip, int port, String database, String username, String password) async {

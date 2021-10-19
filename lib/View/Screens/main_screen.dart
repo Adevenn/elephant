@@ -45,8 +45,8 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
         appBar: appBar(),
         drawer: DrawerCustom(this, _currentCell),
         endDrawer: const Drawer(child: Options()),
-        body: ContentSheet(key: UniqueKey(), elements: _elements, interView: interView, interMain: this),
-        floatingActionButton: FloatingButtonsCustom(this, _currentCell, _sheets)
+        body: ContentSheet(key: UniqueKey(), interView: interView, interMain: this),
+        floatingActionButton: FloatingButtonsCustom(this, _currentCell)
       )
     );
   }
@@ -79,8 +79,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   void getDefaultCell(){
     _currentCell = interView.getDefaultCell();
-    _elements = interView.getDefaultElements();
-    setState(() {});
   }
 
   @override
@@ -107,16 +105,13 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> selectCurrentCell(int index) async{
     _currentCell = _cells[index];
     await updateSheets();
-    await setCurrentSheet(0);
+    setCurrentSheet(0);
   }
 
   @override
-  List<Sheet> getSheets() => _sheets;
-
-  @override
-  Future<void> setCurrentSheet(int index) async{
+  void setCurrentSheet(int index) {
     _currentSheet = _sheets[index];
-    await updateElements();
+    setState(() {});
   }
 
   @override
@@ -125,30 +120,30 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       return _cells = await interView.getCells(matchWord);
     }
     catch(e){
-      print('updateCells failed\n$e');
+      print('updateCells failed:\n$e');
       return _cells = [];
     }
   }
 
   @override
-  Future<void> updateSheets() async{
+  Future<List<Sheet>> updateSheets() async{
     try{
-      _sheets = await interView.getSheets(_currentCell.id);
-      setState(() {});
+      return _sheets = await interView.getSheets(_currentCell.id);
     }
     catch(e){
-      print('updateSheets failed\n$e');
+      print('updateSheets failed:\n$e');
+      return _sheets = [];
     }
   }
 
   @override
-  Future<void> updateElements() async{
+  Future<List<elem.Element>> updateElements() async{
     try{
-      _elements = await interView.getElements(_currentSheet.id);
-      setState(() {});
+      return _elements = await interView.getElements(_currentSheet.id);
     }
     catch(e){
-      print('updateElements failed\n$e');
+      print('updateElements failed:\n$e');
+      return _elements = [];
     }
   }
 
@@ -171,7 +166,8 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addCell(title, subtitle, type);
       await updateCells();
-    } catch(e){ msg = 'addCell Failed'; }
+      setState(() {});
+    } catch(e){ msg = 'addCell failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
     );
@@ -183,6 +179,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addSheet(_currentCell.id, title, subtitle, _sheets.length);
       await updateSheets();
+      setState(() {});
     } catch(e){ msg = 'addSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -195,6 +192,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addTexts(_currentSheet.id, type, _currentSheet.elements.length);
       await updateElements();
+      setState(() {});
     } catch(e){ msg = 'addTexts Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -207,6 +205,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       //interView.addImage(_currentSheet.id, data, _currentSheet.elements.length);
       //updateElements(idSheet);
+      //setState(() {});
     } catch(e){ msg = 'addImageFailed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -219,6 +218,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addCheckbox(_currentSheet.id, _currentSheet.elements.length);
       await updateElements();
+      setState(() {});
     } catch(e){ msg = 'addCheckbox Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -231,6 +231,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.deleteObject('Cell', idCell);
       await updateCells();
+      setState(() {});
     } catch(e){ msg = 'deleteCell Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -246,6 +247,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       if(_sheets.isEmpty || _currentSheet.id == idSheet){
         setCurrentSheet(0);
       }
+      setState(() {});
     } catch(e){ msg = 'deleteSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -258,6 +260,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.deleteObject(type, index);
       await updateElements();
+      setState(() {});
     } catch(e){ msg = 'deleteElement Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))

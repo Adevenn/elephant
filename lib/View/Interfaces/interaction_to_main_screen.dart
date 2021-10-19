@@ -1,6 +1,6 @@
-import '../../Model/cell.dart';
-
-import '../../Model/sheet.dart';
+import '/../Model/Elements/element.dart';
+import '/../Model/cell.dart';
+import '/../Model/sheet.dart';
 
 abstract class InteractionToMainScreen{
 
@@ -9,11 +9,10 @@ abstract class InteractionToMainScreen{
   bool isSheetTitleValid(String title);
 
   Future<void> selectCurrentCell(int index);
-  List<Sheet> getSheets();
-  Future<void> setCurrentSheet(int index);
+  void setCurrentSheet(int index);
   Future<List<Cell>> updateCells([String matchWord = '']);
-  Future<void> updateSheets();
-  Future<void> updateElements();
+  Future<List<Sheet>> updateSheets();
+  Future<List<Element>> updateElements();
   Future<void> updateSheetsOrder();
   Future<void> updateElementsOrder();
 

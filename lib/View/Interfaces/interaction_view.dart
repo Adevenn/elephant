@@ -9,8 +9,6 @@ abstract class InteractionView{
 
   ///Return the default Cell
   Cell getDefaultCell();
-  ///Return elements from the default Cell
-  List<elem.Element> getDefaultElements();
 
   /* NETWORK */
 

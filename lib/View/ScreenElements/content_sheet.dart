@@ -10,11 +10,10 @@ import '../Elements/item_content_sheet.dart';
 import '../../Model/Elements/element.dart' as elem;
 
 class ContentSheet extends StatefulWidget{
-  final List<elem.Element> elements;
   final InteractionView interView;
   final InteractionToMainScreen interMain;
 
-  const ContentSheet({Key? key, required this.elements, required this.interView, required this.interMain}) : super(key: key);
+  const ContentSheet({Key? key, required this.interView, required this.interMain}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ContentSheetState();
@@ -24,8 +23,6 @@ class _ContentSheetState extends State<ContentSheet>{
 
   InteractionToMainScreen get interMain => widget.interMain;
   InteractionView get interView => widget.interView;
-  late final List<Widget> widgets = elementsToWidgets(elements, interView);
-  List<elem.Element> get elements => widget.elements;
 
   List<Widget> elementsToWidgets(List<Object> items, InteractionView interView){
     List<Widget> _widgets = [];
@@ -49,39 +46,70 @@ class _ContentSheetState extends State<ContentSheet>{
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Container()),
-        Expanded(
-          flex: 5,
-          child: ReorderableListView(
-            onReorder: (int oldIndex, int newIndex) {
-              if (oldIndex < newIndex){
-                newIndex -= 1;
-              }
-              elem.Element item = elements.removeAt(oldIndex);
-              elements.insert(newIndex, item);
-              interMain.updateElementsOrder();
-            },
-            children: [
-              for(int i = 0; i < widgets.length; i++)
-                Dismissible(
-                  key: UniqueKey(),
-                  child: ItemContentSheet(
-                    key: UniqueKey(),
-                    widget: widgets[i]
+    return FutureBuilder<List<elem.Element>>(
+        future: interMain.updateElements(),
+        builder: (BuildContext context, AsyncSnapshot<List<elem.Element>> snapshot){
+          if(snapshot.hasData){
+            var elements = snapshot.data!;
+            var widgets = elementsToWidgets(elements, interView);
+            return Row(
+              children: [
+                Expanded(child: Container()),
+                Expanded(
+                  flex: 5,
+                  child: ReorderableListView(
+                    onReorder: (int oldIndex, int newIndex) {
+                      if (oldIndex < newIndex){
+                        newIndex -= 1;
+                      }
+                      elem.Element item = elements.removeAt(oldIndex);
+                      elements.insert(newIndex, item);
+                      interMain.updateElementsOrder();
+                    },
+                    children: [
+                      for(int i = 0; i < widgets.length; i++)
+                        Dismissible(
+                          key: UniqueKey(),
+                          child: ItemContentSheet(
+                              key: UniqueKey(),
+                              widget: widgets[i]
+                          ),
+                          onDismissed: (direction) async{
+                            await interMain.deleteElement(elements[i].runtimeType.toString(), elements[i].id);
+                            //TODO: Update idOrder on each element inside the sheet
+                          },
+                          background: Container(color: const Color(0xBCC11717)),
+                        )
+                    ],
                   ),
-                  onDismissed: (direction) async{
-                    await interMain.deleteElement(elements[i].runtimeType.toString(), elements[i].id);
-                    //TODO: Update idOrder on each element inside the sheet
-                  },
-                  background: Container(color: const Color(0xBCC11717)),
-                )
-            ],
-          ),
-        ),
-        Expanded(child: Container()),
-      ],
+                ),
+                Expanded(child: Container()),
+              ],
+            );
+          }
+          else if(snapshot.hasError){
+            throw Exception('');
+          }
+          else{
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 60,
+                    height: 60,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text('Awaiting ...'),
+                  )
+                ],
+              ),
+            );
+          }
+        }
     );
   }
 }
