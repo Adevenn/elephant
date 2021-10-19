@@ -5,8 +5,6 @@ import '/../Model/sheet.dart';
 abstract class InteractionToMainScreen{
 
   void getDefaultCell();
-  bool isCellTitleValid(String title);
-  bool isSheetTitleValid(String title);
 
   Future<void> selectCurrentCell(int index);
   Future<void> setCurrentSheet(int index);

@@ -82,26 +82,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  bool isCellTitleValid(String title){
-    for(int i = 0; i < _cells.length; i++){
-      if(_cells[i].title == title){
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @override
-  bool isSheetTitleValid(String title){
-    for(int i = 0; i < _sheets.length; i++){
-      if(_sheets[i].title == title){
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @override
   Future<void> selectCurrentCell(int index) async{
     _currentCell = _cells[index];
     await updateSheets();
