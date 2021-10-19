@@ -6,7 +6,7 @@ abstract class InteractionToMainScreen{
 
   void getDefaultCell();
 
-  Future<void> selectCurrentCell(int index);
+  Future<void> selectCurrentCell(Cell cell);
   Future<void> setCurrentSheet(int index);
   Future<List<Cell>> updateCells([String matchWord = '']);
   Future<List<Sheet>> updateSheets();

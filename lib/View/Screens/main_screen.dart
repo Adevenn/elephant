@@ -24,7 +24,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   InteractionView get interView => widget._interView;
-  var _cells = <Cell>[];
   var _sheets = <Sheet>[];
   var _elements = <elem.Element>[];
   late Cell _currentCell;
@@ -63,15 +62,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     );
   }
 
-  int selectCellFromTitle(String title) {
-    for(var i = 0; i < _cells.length; i++){
-      if(_cells[i].title == title){
-        return _cells[i].id;
-      }
-    }
-    throw Exception('(MainScreen)_selectCellFromTitle: Cell not found from title ($title)');
-  }
-
   /***************************/
   /* InteractionToMainScreen */
   /***************************/
@@ -82,8 +72,8 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<void> selectCurrentCell(int index) async{
-    _currentCell = _cells[index];
+  Future<void> selectCurrentCell(Cell cell) async{
+    _currentCell = cell;
     await updateSheets();
     await setCurrentSheet(0);
   }
@@ -98,11 +88,11 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   Future<List<Cell>> updateCells([String matchWord = '']) async{
     try{
-      return _cells = await interView.getCells(matchWord);
+      return await interView.getCells(matchWord);
     }
     catch(e){
       print('updateCells failed:\n$e');
-      return _cells = [];
+      return [];
     }
   }
 

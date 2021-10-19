@@ -137,7 +137,7 @@ class _DrawerCustomState extends State<DrawerCustom>{
                           ),
                           onTap: (){
                             Navigator.pop(context);
-                            interMain.selectCurrentCell(index);
+                            interMain.selectCurrentCell(cells[index]);
                           },
                         );
                       },

@@ -39,8 +39,8 @@ class _SheetsScreenState extends State<SheetsScreen>{
             return Row(
               children: [
                 Expanded(
-                    flex: 2,
-                    child: Container()
+                  flex: 2,
+                  child: Container()
                 ),
                 Expanded(
                   flex: 5,
@@ -155,8 +155,8 @@ class _SheetsScreenState extends State<SheetsScreen>{
                   ),
                 ),
                 Expanded(
-                    flex: 2,
-                    child: Container()
+                  flex: 2,
+                  child: Container()
                 ),
               ]
             );
