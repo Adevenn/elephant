@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../Model/cell.dart';
-import '../../Model/Elements/element.dart' as elem;
-import '../../Model/sheet.dart';
+import '/Model/cell.dart';
+import '/Model/Elements/element.dart' as elem;
+import '/Model/sheet.dart';
 
 import '../ScreenElements/content_sheet.dart';
 import '../ScreenElements/drawer_custom.dart';
@@ -41,8 +41,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       child: Scaffold(
         key: _scaffoldKey,
         appBar: appBar(),
-        drawer: DrawerCustom(this, _currentCell),
-        endDrawer: const Drawer(child: Options()),
+        drawer: const Drawer(child: Options()),
         body: ContentSheet(key: UniqueKey(), interView: interView, interMain: this),
         floatingActionButton: FloatingButtonsCustom(this, _currentCell)
       )
@@ -54,7 +53,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       title: Text(_currentCell.title),
       actions: [
         IconButton(
-          onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DrawerCustom(this, _currentCell))),
           icon: const Icon(Icons.miscellaneous_services)
         )
       ],
@@ -71,13 +70,14 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  void selectCurrentCell(Cell cell) async{
+  Future<void> selectCurrentCell(Cell cell) async{
     _currentCell = cell;
     setCurrentSheetIndex(0);
+
   }
 
   @override
-  void setCurrentSheetIndex([int index = 0]) async{
+  void setCurrentSheetIndex(int index) async{
     _indexCurrentSheet = index;
     await updateSheets();
     setState(() {});

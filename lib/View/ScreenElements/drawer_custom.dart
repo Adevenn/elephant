@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '/../Model/CellComponents/book.dart';
-import '/../Model/CellComponents/ranking.dart';
-import '/../Model/CellComponents/to_do_list.dart';
-import '/../Model/cell.dart';
+import '/Model/CellComponents/book.dart';
+import '/Model/CellComponents/ranking.dart';
+import '/Model/CellComponents/to_do_list.dart';
+import '/Model/cell.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 
 class DrawerCustom extends StatefulWidget{
@@ -56,8 +56,11 @@ class _DrawerCustomState extends State<DrawerCustom>{
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: FutureBuilder<List<Cell>>(
+    return Scaffold(
+      appBar: AppBar(
+          title: const Text('Cells')
+      ),
+      body: FutureBuilder<List<Cell>>(
         future: interMain.updateCells(researchWord),
         builder: (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
           if (snapshot.hasData) {

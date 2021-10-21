@@ -1,13 +1,13 @@
-import '/../Model/Elements/element.dart';
-import '/../Model/cell.dart';
-import '/../Model/sheet.dart';
+import '/Model/Elements/element.dart';
+import '/Model/cell.dart';
+import '/Model/sheet.dart';
 
 abstract class InteractionToMainScreen{
 
   void getDefaultCell();
 
-  void selectCurrentCell(Cell cell);
-  void setCurrentSheetIndex([int index = 0]);
+  Future<void> selectCurrentCell(Cell cell);
+  void setCurrentSheetIndex(int index);
   Future<List<Cell>> updateCells([String matchWord = '']);
   Future<List<Sheet>> updateSheets();
   Future<List<Element>> updateElements();

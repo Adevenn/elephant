@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
-import '../../Model/Elements/checkbox.dart';
-import '../../Model/Elements/images.dart';
-import '../../Model/Elements/texts.dart';
+import '/Model/Elements/checkbox.dart';
+import '/Model/Elements/images.dart';
+import '/Model/Elements/texts.dart';
 import '../Elements/checkbox_custom.dart';
 import '../Elements/text_field_custom.dart';
 import '../Interfaces/interaction_view.dart';
 import '../Elements/item_content_sheet.dart';
-import '../../Model/Elements/element.dart' as elem;
+import '/Model/Elements/element.dart' as elem;
 
 class ContentSheet extends StatefulWidget{
   final InteractionView interView;
