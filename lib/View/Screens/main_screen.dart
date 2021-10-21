@@ -71,10 +71,9 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<void> selectCurrentCell(Cell cell) async{
+  void selectCurrentCell(Cell cell) async{
     _currentCell = cell;
-    _indexCurrentSheet = 0;
-    setState(() {});
+    setCurrentSheetIndex(0);
   }
 
   @override
