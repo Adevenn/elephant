@@ -165,7 +165,7 @@ class Controller implements InteractionView{
   }
 
   @override
-  Future<void> deleteObject(String type, int id) async{
+  Future<void> deleteItem(String type, int id) async{
     try{ await _client.deleteItem(type, id); }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -173,7 +173,7 @@ class Controller implements InteractionView{
   }
 
   @override
-  Future<void> updateObject(String type, Map<String, dynamic> jsonValues) async{
+  Future<void> updateItem(String type, Map<String, dynamic> jsonValues) async{
     try{ await _client.updateItem(type, jsonEncode(jsonValues)); }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }

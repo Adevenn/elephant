@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '/../Model/CellComponents/info.dart';
+import '/Model/CellComponents/info.dart';
 import 'sheets_screen.dart';
-import '/../Model/cell.dart';
-import '/../Model/CellComponents/book.dart';
-import '/../Model/Elements/text_type.dart';
+import '/Model/cell.dart';
+import '/Model/CellComponents/book.dart';
+import '/Model/Elements/text_type.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 
 class FloatingButtonsCustom extends StatelessWidget{

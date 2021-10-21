@@ -194,7 +194,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> deleteCell(int idCell) async{
     String msg = 'Cell deleted';
     try{
-      await interView.deleteObject('Cell', idCell);
+      await interView.deleteItem('Cell', idCell);
       setState(() {});
     } catch(e){ msg = 'deleteCell Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
@@ -206,7 +206,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> deleteSheet(int idSheet) async{
     String msg = 'Sheet deleted';
     try{
-      await interView.deleteObject('Sheet', idSheet);
+      await interView.deleteItem('Sheet', idSheet);
     } catch(e){ msg = 'deleteSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -217,7 +217,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<void> deleteElement(String type, int index) async{
     String msg = 'Element deleted';
     try{
-      await interView.deleteObject(type, index);
+      await interView.deleteItem(type, index);
       setState(() {});
     } catch(e){ msg = 'deleteElement Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(

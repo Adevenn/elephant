@@ -28,8 +28,8 @@ abstract class InteractionView{
   Future<void> addCheckbox(int idParent);
   Future<void> addImage(int idParent, Uint8List data);
   Future<void> addTexts(int idParent, int txtType);
-  Future<void> deleteObject(String type, int index);
-  Future<void> updateObject(String type, Map<String, dynamic> jsonValues);
+  Future<void> deleteItem(String type, int index);
+  Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
 
   /* NAVIGATE */
   ///Load the login screen
