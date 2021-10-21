@@ -149,7 +149,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     String msg = 'Sheet added';
     try{
       await interView.addSheet(_currentCell.id, title, subtitle);
-      setState(() {});
     } catch(e){ msg = 'addSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))
@@ -209,11 +208,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     String msg = 'Sheet deleted';
     try{
       await interView.deleteObject('Sheet', idSheet);
-      /*await updateSheets();
-      if(_currentSheet.id == idSheet){
-        setCurrentSheet();
-      }*/
-      setState(() {});
     } catch(e){ msg = 'deleteSheet Failed'; }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg))

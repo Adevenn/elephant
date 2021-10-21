@@ -50,7 +50,7 @@ class _SheetsScreenState extends State<SheetsScreen>{
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Sheets'),
-                          /* BUTTON ALERT DIALOG TO ADD SHEET */
+                          /* ADD SHEET */
                           IconButton(
                             onPressed: (){
                               showDialog(
@@ -95,6 +95,7 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                           if(_formKey.currentState!.validate()){
                                             Navigator.pop(context);
                                             await interMain.addSheet(_title.text, _subtitle.text);
+                                            setState(() {});
                                           }
                                         },
                                         child: const Text('Add'),
@@ -137,6 +138,7 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                         onPressed: () async{
                                           Navigator.pop(context);
                                           await interMain.deleteSheet(sheets[index].id);
+                                          setState(() {});
                                         },
                                         child: const Text('Yes'),
                                       ),
