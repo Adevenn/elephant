@@ -48,9 +48,9 @@ class Controller implements InteractionView{
     print('/* testConnection */');
     _client = Client(ip, port, database, username, password);
     try{ await _client.init(); }
-    on ServerException catch (e) { throw ServerException(e.toString()); }
-    on DatabaseException catch(e) { throw DatabaseException(e.toString()); }
-    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch (e) { throw ServerException('$e'); }
+    on DatabaseException catch(e) { throw DatabaseException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
     finally{
       print('/* testConnection done */');
@@ -69,7 +69,7 @@ class Controller implements InteractionView{
       });
       print('/* getCells done */');
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
     catch(e) { throw Exception(e); }
     return cells;
   }
@@ -86,7 +86,7 @@ class Controller implements InteractionView{
       });
       print('/* getSheets done */');
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
     catch(e) { throw Exception(e); }
     return sheets;
   }
@@ -103,7 +103,7 @@ class Controller implements InteractionView{
       });
       print('/* getElements done */');
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
     catch(e) { throw Exception(e); }
     return elements;
   }
@@ -114,69 +114,69 @@ class Controller implements InteractionView{
       var cell = Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
       await _client.addCell(jsonEncode(cell.toJson()));
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
   }
 
   @override
-  Future<void> addSheet(int idCell, String title, String subtitle, int idOrder) async{
+  Future<void> addSheet(int idCell, String title, String subtitle) async{
     try{
-      var json = jsonEncode(Sheet(-1, idCell, title, subtitle, idOrder).toJson());
+      var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1).toJson());
       await _client.addObject('Sheet', jsonEncode(json));
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
   }
 
   @override
-  Future<void> addCheckbox(int idParent, int idOrder) async{
+  Future<void> addCheckbox(int idParent) async{
     try{
-      var json = jsonEncode(CheckBox(id: -1, idParent: idParent, text: '', idOrder: idOrder).toJson());
+      var json = jsonEncode(CheckBox(id: -1, idParent: idParent, text: '', idOrder: -1).toJson());
       await _client.addObject('CheckBox', jsonEncode(json));
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
   }
 
   @override
-  Future<void> addImage(int idParent, Uint8List data, int idOrder) async{
+  Future<void> addImage(int idParent, Uint8List data) async{
     try{
       //var json = Images().toJson();
       // TODO: implement addImage
       throw UnimplementedError();
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
   }
 
   @override
-  Future<void> addTexts(int idParent, int txtType, int idOrder) async{
+  Future<void> addTexts(int idParent, int txtType) async{
     try{
-      var json = jsonEncode(Texts(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: idOrder).toJson());
+      var json = jsonEncode(Texts(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: -1).toJson());
       await _client.addObject('Texts', jsonEncode(json));
     }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
   }
 
   @override
   Future<void> deleteObject(String type, int id) async{
     try{ await _client.deleteObject(type, id); }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
   }
 
   @override
   Future<void> updateObject(String type, Map<String, dynamic> jsonValues) async{
     try{ await _client.updateObject(type, jsonEncode(jsonValues)); }
-    on ServerException catch(e){ throw ServerException(e.toString()); }
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException(e.toString()); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
   }
 

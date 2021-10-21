@@ -52,8 +52,8 @@ class _SheetsScreenState extends State<SheetsScreen>{
                           const Text('Sheets'),
                           /* BUTTON ALERT DIALOG TO ADD SHEET */
                           IconButton(
-                            onPressed: () async{
-                              await showDialog(
+                            onPressed: (){
+                              showDialog(
                                 context: context,
                                 builder: (BuildContext context){
                                   var _formKey = GlobalKey<FormState>();
@@ -144,9 +144,9 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                   )
                                 )
                               ),
-                              onTap: () async{
+                              onTap: (){
                                 Navigator.pop(context);
-                                await interMain.setCurrentSheet(index);
+                                interMain.setCurrentSheetIndex(index);
                               }
                             );
                           }

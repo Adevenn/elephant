@@ -24,10 +24,10 @@ abstract class InteractionView{
   Future<List<elem.Element>> getElements(int idSheet);
 
   Future<void> addCell(String title, String subtitle, String type);
-  Future<void> addSheet(int idCell, String title, String subtitle, int idOrder);
-  Future<void> addCheckbox(int idParent, int idOrder);
-  Future<void> addImage(int idParent, Uint8List data, int idOrder);
-  Future<void> addTexts(int idParent, int txtType, int idOrder);
+  Future<void> addSheet(int idCell, String title, String subtitle);
+  Future<void> addCheckbox(int idParent);
+  Future<void> addImage(int idParent, Uint8List data);
+  Future<void> addTexts(int idParent, int txtType);
   Future<void> deleteObject(String type, int index);
   Future<void> updateObject(String type, Map<String, dynamic> jsonValues);
 
