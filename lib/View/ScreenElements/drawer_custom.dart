@@ -22,15 +22,14 @@ class _DrawerCustomState extends State<DrawerCustom>{
   InteractionToMainScreen get interMain => widget._interMain;
   Cell get currentCell => widget._currentCell;
   final _controllerResearch = TextEditingController();
+  String researchWord = '';
 
   _DrawerCustomState();
 
 
-  Future<void> applyResearch([String research = '']) async{
-    if(research == '') {
-      _controllerResearch.clear();
-    }
-    await interMain.updateCells(research);
+  void applyResearch([String newWord = '']){
+    researchWord = newWord;
+    setState(() {});
   }
 
   bool isCellTitleValid(List<Cell> cells, String title){
@@ -59,7 +58,7 @@ class _DrawerCustomState extends State<DrawerCustom>{
   Widget build(BuildContext context) {
     return Drawer(
       child: FutureBuilder<List<Cell>>(
-        future: interMain.updateCells(),
+        future: interMain.updateCells(researchWord),
         builder: (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
           if (snapshot.hasData) {
             var cells = snapshot.data!;
