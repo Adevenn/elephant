@@ -78,8 +78,9 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  void setCurrentSheetIndex([int index = 0]) {
+  void setCurrentSheetIndex([int index = 0]) async{
     _indexCurrentSheet = index;
+    await updateSheets();
     setState(() {});
   }
 
