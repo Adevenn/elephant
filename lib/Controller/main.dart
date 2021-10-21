@@ -123,7 +123,7 @@ class Controller implements InteractionView{
   Future<void> addSheet(int idCell, String title, String subtitle) async{
     try{
       var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1).toJson());
-      await _client.addObject('Sheet', jsonEncode(json));
+      await _client.addItem('Sheet', jsonEncode(json));
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -134,7 +134,7 @@ class Controller implements InteractionView{
   Future<void> addCheckbox(int idParent) async{
     try{
       var json = jsonEncode(CheckBox(id: -1, idParent: idParent, text: '', idOrder: -1).toJson());
-      await _client.addObject('CheckBox', jsonEncode(json));
+      await _client.addItem('CheckBox', jsonEncode(json));
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -157,7 +157,7 @@ class Controller implements InteractionView{
   Future<void> addTexts(int idParent, int txtType) async{
     try{
       var json = jsonEncode(Texts(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: -1).toJson());
-      await _client.addObject('Texts', jsonEncode(json));
+      await _client.addItem('Texts', jsonEncode(json));
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('$e'); }
@@ -166,7 +166,7 @@ class Controller implements InteractionView{
 
   @override
   Future<void> deleteObject(String type, int id) async{
-    try{ await _client.deleteObject(type, id); }
+    try{ await _client.deleteItem(type, id); }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
@@ -174,7 +174,7 @@ class Controller implements InteractionView{
 
   @override
   Future<void> updateObject(String type, Map<String, dynamic> jsonValues) async{
-    try{ await _client.updateObject(type, jsonEncode(jsonValues)); }
+    try{ await _client.updateItem(type, jsonEncode(jsonValues)); }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }

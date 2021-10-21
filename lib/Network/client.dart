@@ -73,9 +73,9 @@ class Client{
     catch(e) { throw Exception(e); }
   }
 
-  Future<void> addObject(String type, String json) async{
+  Future<void> addItem(String type, String json) async{
     try{
-      await _socket.connect('addObject');
+      await _socket.connect('addItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
       await _socket.writeSym(json);
@@ -86,9 +86,9 @@ class Client{
     catch(e) { throw Exception(e); }
   }
 
-  Future<void> deleteObject(String type, int id) async{
+  Future<void> deleteItem(String type, int id) async{
     try{
-      await _socket.connect('deleteObject');
+      await _socket.connect('deleteItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
       await _socket.writeAsym(id.toString());
@@ -99,9 +99,9 @@ class Client{
     catch(e) { throw Exception(e); }
   }
 
-  Future<void> updateObject(String type, String json) async{
+  Future<void> updateItem(String type, String json) async{
     try{
-      await _socket.connect('updateObject');
+      await _socket.connect('updateItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
       await _socket.writeSym(json);
