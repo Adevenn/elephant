@@ -36,132 +36,133 @@ class _SheetsScreenState extends State<SheetsScreen>{
         builder: (BuildContext context, AsyncSnapshot<List<Sheet>> snapshot) {
           if (snapshot.hasData) {
             var sheets = snapshot.data!;
-            return Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container()
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Sheets'),
-                          /* ADD SHEET */
-                          IconButton(
-                            onPressed: (){
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context){
-                                  var _formKey = GlobalKey<FormState>();
-                                  var _title = TextEditingController();
-                                  var _subtitle = TextEditingController();
-                                  return AlertDialog(
-                                    title: const Text('Add Sheet'),
-                                    scrollable: true,
-                                    content: Form(
-                                      key: _formKey,
-                                      child: Column(
-                                        children: [
-                                          TextFormField(
-                                            controller: _title,
-                                            decoration: const InputDecoration(hintText: 'Title'),
-                                            validator: (value){
-                                              if(value == null || value.isEmpty) {
-                                                return 'Please enter some text';
-                                              } else if (!isSheetTitleValid(sheets, value)) {
-                                                return 'Title already exist';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          TextFormField(
-                                            controller: _subtitle,
-                                            decoration: const InputDecoration(hintText: 'Subtitle'),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () async {
-                                          if(_formKey.currentState!.validate()){
-                                            Navigator.pop(context);
-                                            await interMain.addSheet(_title.text, _subtitle.text);
-                                            setState(() {});
-                                          }
-                                        },
-                                        child: const Text('Add'),
-                                      ),
-                                    ],
-                                  );
-                                }
-                              );
-                            },
-                            icon: const Icon(Icons.add_rounded)
-                          )
-                        ],
-                      ),
-                      /* SHEETS LIST */
-                      SizedBox(
-                        width: 300,
-                        height: 500,
-                        child: ListView.builder(
-                          itemCount: sheets.length,
-                          itemBuilder: (BuildContext context, int index){
-                            return ListTile(
+            return Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  /* SHEETS LIST */
+                  Expanded(
+                    child: ReorderableListView(
+                      onReorder: (int oldIndex, int newIndex){
+                        if (oldIndex < newIndex){
+                          newIndex -= 1;
+                        }
+                        Sheet item = sheets.removeAt(oldIndex);
+                        sheets.insert(newIndex, item);
+                        //TODO: updateSheetOrder
+                      },
+                      children: [
+                        for(var i = 0; i < sheets.length; i++)
+                          Dismissible(
+                            key: UniqueKey(),
+                            background: Container(color: const Color(0xBCC11717)),
+                            child: ListTile(
+                              key: UniqueKey(),
                               leading: const Icon(Icons.text_snippet_rounded),
-                              title: Text(sheets[index].title),
-                              subtitle: Text(sheets[index].subtitle),
-                              /* DELETE SHEET */
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete_forever_rounded),
-                                onPressed: () => showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('Remove sheet'),
-                                    scrollable: true,
-                                    content: Text('Do you really want to delete ${sheets[index].title} ?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () async{
-                                          Navigator.pop(context);
-                                          await interMain.deleteSheet(sheets[index].id);
-                                          setState(() {});
-                                        },
-                                        child: const Text('Yes'),
-                                      ),
-                                    ],
-                                  )
-                                )
-                              ),
+                              title: Text(sheets[i].title),
+                              subtitle: Text(sheets[i].subtitle),
                               onTap: (){
                                 Navigator.pop(context);
-                                interMain.setCurrentSheetIndex(index);
+                                interMain.setCurrentSheetIndex(i);
+                              }
+                            ),
+                            /* DELETE SHEET */
+                            onDismissed: (direction) async{
+                              await showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Remove sheet'),
+                                  scrollable: true,
+                                  content: Text('Do you really want to delete ${sheets[i].title} ?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async{
+                                        Navigator.pop(context);
+                                        await interMain.deleteSheet(sheets[i].id);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                  ],
+                                )
+                              );
+                              setState(() {});
+                            }
+                          )
+                      ],
+                    ),
+                  ),
+                  /* ADD SHEET */
+                  Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Column(
+                      children: [
+                        const Divider(),
+                        ListTile(
+                          leading: const Icon(Icons.add_rounded),
+                          title: const Text('Add sheet'),
+                          onTap: (){
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context){
+                                var _formKey = GlobalKey<FormState>();
+                                var _title = TextEditingController();
+                                var _subtitle = TextEditingController();
+                                return AlertDialog(
+                                  title: const Text('Add Sheet'),
+                                  scrollable: true,
+                                  content: Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: [
+                                        TextFormField(
+                                          controller: _title,
+                                          decoration: const InputDecoration(hintText: 'Title'),
+                                          validator: (value){
+                                            if(value == null || value.isEmpty) {
+                                              return 'Please enter some text';
+                                            } else if (!isSheetTitleValid(sheets, value)) {
+                                              return 'Title already exist';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        TextFormField(
+                                          controller: _subtitle,
+                                          decoration: const InputDecoration(hintText: 'Subtitle'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        if(_formKey.currentState!.validate()){
+                                          Navigator.pop(context);
+                                          await interMain.addSheet(_title.text, _subtitle.text);
+                                          setState(() {});
+                                        }
+                                      },
+                                      child: const Text('Add'),
+                                    ),
+                                  ],
+                                );
                               }
                             );
-                          }
+                          },
                         )
-                      ),
-                    ]
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container()
-                ),
-              ]
+                      ],
+                    ),
+                  )
+                ]
+              ),
             );
           }
           else if(snapshot.hasError){

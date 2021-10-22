@@ -58,7 +58,7 @@ class _ContentSheetState extends State<ContentSheet>{
               Expanded(
                 flex: 5,
                 child: ReorderableListView(
-                  onReorder: (int oldIndex, int newIndex) {
+                  onReorder: (int oldIndex, int newIndex){
                     if (oldIndex < newIndex){
                       newIndex -= 1;
                     }
@@ -67,7 +67,7 @@ class _ContentSheetState extends State<ContentSheet>{
                     interMain.updateElementsOrder(elements);
                   },
                   children: [
-                    for(int i = 0; i < widgets.length; i++)
+                    for(var i = 0; i < widgets.length; i++)
                       Dismissible(
                         key: UniqueKey(),
                         child: ItemContentSheet(
