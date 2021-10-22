@@ -54,7 +54,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       actions: [
         IconButton(
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DrawerCustom(this, _currentCell))),
-          icon: const Icon(Icons.miscellaneous_services)
+          icon: const Icon(Icons.sort)
         )
       ],
     );
