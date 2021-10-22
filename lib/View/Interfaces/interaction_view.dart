@@ -30,6 +30,8 @@ abstract class InteractionView{
   Future<void> addTexts(int idParent, int txtType);
   Future<void> deleteItem(String type, int index);
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
+  Future<void> updateSheetOrder(List<Sheet> sheets);
+  Future<void> updateElementOrder(List<Element> elements);
 
   /* NAVIGATE */
   ///Load the login screen

@@ -181,6 +181,24 @@ class Controller implements InteractionView{
   }
 
   @override
+  Future<void> updateSheetOrder(List<Sheet> sheets) async{
+    var jsonList = <String>[];
+    for(var i = 0; i < sheets.length; i++){
+      jsonList.add(jsonEncode(sheets[i]));
+    }
+    _client.updateOrder('sheet', jsonEncode(jsonList));
+  }
+
+  @override
+  Future<void> updateElementOrder(List<Element> elements) async{
+    var jsonList = <String>[];
+    for(var i = 0; i < elements.length; i++){
+      jsonList.add(jsonEncode(elements[i]));
+    }
+    _client.updateOrder('element', jsonEncode(jsonList));
+  }
+
+  @override
   void gotoLoginScreen(BuildContext context) {
     Navigator.pushReplacement(
       context,
