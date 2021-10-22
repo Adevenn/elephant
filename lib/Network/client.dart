@@ -111,4 +111,17 @@ class Client{
     on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
     catch(e) { throw Exception(e); }
   }
+
+  Future<void> updateOrder(String type, String json) async{
+    try{
+      await _socket.connect('updateOrder');
+      await _socket.writeAsym(type);
+      await _socket.synchronizeRead();
+      await _socket.writeSym(json);
+      await _socket.disconnectWithResult();
+    }
+    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
+    on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
+    catch(e) { throw Exception(e); }
+  }
 }
