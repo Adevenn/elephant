@@ -114,7 +114,6 @@ class Client{
 
   Future<void> updateOrder(String type, String json) async{
     try{
-      print(json);
       await _socket.connect('updateOrder');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();

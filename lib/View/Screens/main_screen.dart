@@ -98,7 +98,6 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<List<Sheet>> updateSheets() async{
     try{
       var sheets = await interView.getSheets(_currentCell.id);
-      print('sheets: $sheets');
       _currentSheet = sheets[_indexCurrentSheet];
       return sheets;
     }

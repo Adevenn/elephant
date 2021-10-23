@@ -194,7 +194,6 @@ class Controller implements InteractionView{
 
   @override
   Future<void> updateSheetOrder(List<Sheet> sheets) async{
-    print('/* SHEET UPDATE ORDER*/');
     try{
       var jsonList = <String>[];
       for(var i = 0; i < sheets.length; i++){
@@ -205,9 +204,6 @@ class Controller implements InteractionView{
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
-    finally{
-      print('/* SHEET UPDATE ORDER DONE */');
-    }
   }
 
   @override
