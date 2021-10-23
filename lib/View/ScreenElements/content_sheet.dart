@@ -65,6 +65,7 @@ class _ContentSheetState extends State<ContentSheet>{
                     elem.Element item = elements.removeAt(oldIndex);
                     elements.insert(newIndex, item);
                     interMain.updateElementsOrder(elements);
+                    setState(() {});
                   },
                   children: [
                     for(var i = 0; i < widgets.length; i++)
@@ -76,6 +77,7 @@ class _ContentSheetState extends State<ContentSheet>{
                         ),
                         onDismissed: (direction) async{
                           await interMain.deleteElement(elements[i].runtimeType.toString(), elements[i].id);
+                          setState(() {});
                         },
                         background: Container(color: const Color(0xBCC11717)),
                       )

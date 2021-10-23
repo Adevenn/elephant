@@ -98,6 +98,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   Future<List<Sheet>> updateSheets() async{
     try{
       var sheets = await interView.getSheets(_currentCell.id);
+      print('sheets: $sheets');
       _currentSheet = sheets[_indexCurrentSheet];
       return sheets;
     }
@@ -120,8 +121,12 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
 
   @override
   Future<void> updateSheetsOrder(List<Sheet> sheets) async{
-    //TODO: Implement drag and drop of sheets
-    throw UnimplementedError();
+    for(var i = 0; i < sheets.length; i++){
+      if(sheets[i].idOrder != i){
+        sheets[i].idOrder = i;
+      }
+    }
+    await interView.updateSheetOrder(sheets);
   }
 
   @override
@@ -133,95 +138,95 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
 
   @override
   Future<void> addCell(String title, String subtitle, String type) async{
-    String msg = 'Cell added';
-    try{
-      await interView.addCell(title, subtitle, type);
-      setState(() {});
-    } catch(e){ msg = 'addCell failed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    try{ await interView.addCell(title, subtitle, type); }
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add cell failed'))
+      );
+    }
   }
 
   @override
   Future<void> addSheet(String title, String subtitle) async{
-    String msg = 'Sheet added';
-    try{
-      await interView.addSheet(_currentCell.id, title, subtitle);
-    } catch(e){ msg = 'addSheet Failed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    try{ await interView.addSheet(_currentCell.id, title, subtitle); }
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add sheet failed'))
+      );
+      print(e);
+    }
   }
 
   @override
   Future<void> addTexts(int type) async{
-    String msg = 'Text added';
     try{
       await interView.addTexts(_currentSheet.id, type);
       setState(() {});
-    } catch(e){ msg = 'addTexts Failed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    } catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add text failed'))
+      );
+      print(e);
+    }
   }
 
   @override
   Future<void> addImage() async{
-    String msg = 'Image added';
     try{
       //interView.addImage(_currentSheet.id, data);
       //setState(() {});
-    } catch(e){ msg = 'addImageFailed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    } catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Add image failed'))
+      );
+    }
+
   }
 
   @override
   Future<void> addCheckbox() async{
-    String msg = 'Checkbox added';
     try{
       await interView.addCheckbox(_currentSheet.id);
       setState(() {});
-    } catch(e){ msg = 'addCheckbox Failed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    }
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add checkbox failed'))
+      );
+      print(e);
+    }
   }
 
   @override
   Future<void> deleteCell(int idCell) async{
-    String msg = 'Cell deleted';
-    try{
-      await interView.deleteItem('Cell', idCell);
-      setState(() {});
-    } catch(e){ msg = 'deleteCell Failed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    try{ await interView.deleteItem('Cell', idCell); }
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Delete cell failed'))
+      );
+      print(e);
+    }
   }
 
   @override
   Future<void> deleteSheet(int idSheet) async{
-    String msg = 'Sheet deleted';
-    try{
-      await interView.deleteItem('Sheet', idSheet);
-    } catch(e){ msg = 'deleteSheet Failed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    try{ await interView.deleteItem('Sheet', idSheet); }
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Delete sheet failed'))
+      );
+      print(e);
+    }
   }
 
   @override
   Future<void> deleteElement(String type, int index) async{
-    String msg = 'Element deleted';
-    try{
-      await interView.deleteItem(type, index);
-      setState(() {});
-    } catch(e){ msg = 'deleteElement Failed'; }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg))
-    );
+    try{ await interView.deleteItem(type, index); }
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Delete $type failed'))
+      );
+      print(e);
+    }
   }
 }

@@ -139,15 +139,13 @@ class _LoginState extends State<LoginScreen>{
                             duration: Duration(seconds: 1),
                           )
                         );
-                        var msg = 'Connected';
                         try{
                           await interaction.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
                           interaction.gotoMainScreen(context);
                         }
-                        catch(e) { msg = e.toString(); }
-                        finally{
+                        catch(e) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(msg))
+                              SnackBar(content: Text('$e'))
                           );
                         }
                       }

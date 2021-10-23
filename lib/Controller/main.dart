@@ -110,6 +110,7 @@ class Controller implements InteractionView{
 
   @override
   Future<void> addCell(String title, String subtitle, String type) async{
+    print('/* ADD CELL */');
     try{
       var cell = Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
       await _client.addCell(jsonEncode(cell.toJson()));
@@ -117,10 +118,14 @@ class Controller implements InteractionView{
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
+    finally{
+      print('/* ADD CELL DONE */');
+    }
   }
 
   @override
   Future<void> addSheet(int idCell, String title, String subtitle) async{
+    print('/* ADD SHEET */');
     try{
       var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1).toJson());
       await _client.addItem('Sheet', jsonEncode(json));
@@ -128,6 +133,9 @@ class Controller implements InteractionView{
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
+    finally{
+      print('/* ADD SHEET DONE */');
+    }
   }
 
   @override
@@ -166,10 +174,14 @@ class Controller implements InteractionView{
 
   @override
   Future<void> deleteItem(String type, int id) async{
+    print('/* DELETE ITEM */');
     try{ await _client.deleteItem(type, id); }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
+    finally{
+      print('/* DELETE ITEM DONE */');
+    }
   }
 
   @override
@@ -182,11 +194,20 @@ class Controller implements InteractionView{
 
   @override
   Future<void> updateSheetOrder(List<Sheet> sheets) async{
-    var jsonList = <String>[];
-    for(var i = 0; i < sheets.length; i++){
-      jsonList.add(jsonEncode(sheets[i]));
+    print('/* SHEET UPDATE ORDER*/');
+    try{
+      var jsonList = <String>[];
+      for(var i = 0; i < sheets.length; i++){
+        jsonList.add(jsonEncode(sheets[i]));
+      }
+      await _client.updateOrder('sheet', jsonEncode(jsonList));
     }
-    _client.updateOrder('sheet', jsonEncode(jsonList));
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
+    catch(e) { throw Exception(e); }
+    finally{
+      print('/* SHEET UPDATE ORDER DONE */');
+    }
   }
 
   @override
@@ -195,7 +216,7 @@ class Controller implements InteractionView{
     for(var i = 0; i < elements.length; i++){
       jsonList.add(jsonEncode(elements[i]));
     }
-    _client.updateOrder('element', jsonEncode(jsonList));
+    await _client.updateOrder('element', jsonEncode(jsonList));
   }
 
   @override

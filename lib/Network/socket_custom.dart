@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:async/async.dart';
-import '../Exception/database_exception.dart';
-import '../Exception/database_timeout_exception.dart';
-import '../Exception/server_exception.dart';
+import '/Exception/database_exception.dart';
+import '/Exception/database_timeout_exception.dart';
+import '/Exception/server_exception.dart';
 
 import 'Encryption/asym_encryption.dart';
 import 'Encryption/sym_encryption.dart';
@@ -49,10 +49,10 @@ class SocketCustom{
         throw const ServerException();
       }
     }
-    on SocketException catch(e){ throw ServerException('(SocketCustom)firstConnection:\n$e'); }
-    on ServerException catch(e){ throw ServerException('(SocketCustom)firstConnection:\n$e'); }
-    on DatabaseException catch(e){ throw DatabaseException('(SocketCustom)firstConnection:\n$e');}
-    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('(SocketCustom)firstConnection:\n$e'); }
+    on SocketException catch(e){ throw ServerException('(SocketCustom)init:\n$e'); }
+    on ServerException catch(e){ throw ServerException('(SocketCustom)init:\n$e'); }
+    on DatabaseException catch(e){ throw DatabaseException('(SocketCustom)init:\n$e');}
+    on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('(SocketCustom)init:\n$e'); }
     catch(e) { throw Exception(e); }
   }
 
@@ -73,7 +73,6 @@ class SocketCustom{
       await synchronizeRead();
 
       await _dbValues();
-      print('init done');
     } catch(e){ throw ServerException('(CustomSocket)connect:\n$e'); }
   }
 
@@ -112,7 +111,7 @@ class SocketCustom{
 
   Future<void> write(String plainText) async{
     try{ _socket.write(plainText); }
-    on SocketException catch(e){ throw ServerException('(CustomSocket)synchronizeWrite\n$e'); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)write\n$e'); }
     catch (e){ throw Exception('(CustomSocket)write:\n$e'); }
   }
 
@@ -136,7 +135,7 @@ class SocketCustom{
 
   Future<String> read() async{
     try{ return String.fromCharCodes(await _queue.next); }
-    on SocketException catch(e){ throw ServerException('(CustomSocket)readAsym\n$e'); }
+    on SocketException catch(e){ throw ServerException('(CustomSocket)read\n$e'); }
     catch(e) { throw Exception('(CustomSocket)read;\n$e'); }
   }
 

@@ -65,86 +65,83 @@ class _DrawerCustomState extends State<DrawerCustom>{
         builder: (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
           if (snapshot.hasData) {
             var cells = snapshot.data!;
-            return Container(
+            return Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   /* RESEARCH */
-                  Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: Center(
-                          child: TextField(
-                            onSubmitted: (value) => applyResearch(value),
-                            controller: _controllerResearch,
-                            decoration: InputDecoration(
-                              hintText: 'Search...',
-                              prefixIcon: const Icon(Icons.search),
-                              suffixIcon: IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () => applyResearch(),
-                              ),
-                            ),
+                  Container(
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Center(
+                      child: TextField(
+                        onSubmitted: (value) => applyResearch(value),
+                        controller: _controllerResearch,
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => applyResearch(),
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                   /* CELL ITEMS */
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: cells.length,
-                      itemBuilder: (BuildContext context, int index){
-                        return ListTile(
-                          leading: selectIconByCell(cells[index].runtimeType),
-                          title: Text(cells[index].title),
-                          subtitle: Text(cells[index].subtitle),
-                          trailing: Row(
-                            /* DELETE CELL */
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.delete_forever_rounded),
-                                onPressed: () => showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('Remove cell'),
-                                    content: Text('Do you really want to remove ${cells[index].title} ?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () async{
-                                          Navigator.pop(context);
-                                          if(currentCell.id == cells[index].id){
-                                            interMain.getDefaultCell();
-                                          }
-                                          await interMain.deleteCell(cells[index].id);
-                                        },
-                                        child: const Text('Yes'),
-                                      ),
-                                    ],
-                                  ),
+                    child: ListView(
+                      children: [
+                        for(var index = 0; index < cells.length; index++)
+                          Dismissible(
+                            key: UniqueKey(),
+                            background: Container(color: const Color(0xBCC11717)),
+                            child: ListTile(
+                              leading: selectIconByCell(cells[index].runtimeType),
+                              title: Text(cells[index].title),
+                              subtitle: Text(cells[index].subtitle),
+                              onTap: (){
+                                Navigator.pop(context);
+                                interMain.selectCurrentCell(cells[index]);
+                              },
+                            ),
+                            /* DELETE CELL*/
+                            onDismissed: (direction) async{
+                              bool result = await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Remove cell'),
+                                  content: Text('Do you really want to remove ${cells[index].title} ?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, false),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, true),
+                                      child: const Text('Yes'),
+                                    ),
+                                  ],
                                 )
-                              )
-                            ],
-                          ),
-                          onTap: (){
-                            Navigator.pop(context);
-                            interMain.selectCurrentCell(cells[index]);
-                          },
-                        );
-                      },
+                              );
+                              if(result){
+                                if(currentCell.id == cells[index].id){
+                                  interMain.getDefaultCell();
+                                }
+                                await interMain.deleteCell(cells[index].id);
+                              }
+                              setState(() {});
+                            },
+                          )
+                      ],
                     ),
                   ),
+                  /* ADD CELL DIALOG */
                   Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Column(
@@ -153,15 +150,14 @@ class _DrawerCustomState extends State<DrawerCustom>{
                         ListTile(
                           leading: const Icon(Icons.add_rounded),
                           title: const Text('Add cell'),
-                          onTap: (){
-                            showDialog(
+                          onTap: () async{
+                            var list = await showDialog<List<String>?>(
                               context: context,
                               builder: (BuildContext context){
                                 var _formKey = GlobalKey<FormState>();
-                                var _title = TextEditingController();
-                                var _subtitle = TextEditingController();
-                                String _type = "Book";
-                                /* ADD CELL DIALOG */
+                                var title = TextEditingController();
+                                var subtitle = TextEditingController();
+                                String type = "Book";
                                 return AlertDialog(
                                   title: const Text('Add cell'),
                                   scrollable: true,
@@ -170,18 +166,18 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                     child: Column(
                                       children: [
                                         DropdownButton(
-                                          value: _type,
+                                          value: type,
                                           icon: const Icon(Icons.keyboard_arrow_down_rounded),
                                           items: <String>['Book', 'ToDoList', 'Ranking'].map<DropdownMenuItem<String>>((String value){
                                             return DropdownMenuItem<String>(
                                               value: value,
-                                              child: Text(value),
+                                              child: Text(value)
                                             );
                                           }).toList(),
-                                          onChanged: (String? newValue) => setState(() => _type = newValue!),
+                                          onChanged: (String? newValue) => setState(() => type = newValue!),
                                         ),
                                         TextFormField(
-                                          controller: _title,
+                                          controller: title,
                                           decoration: const InputDecoration(hintText: 'Title'),
                                           validator: (value){
                                             if(value == null || value.isEmpty) {
@@ -193,7 +189,7 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                           },
                                         ),
                                         TextFormField(
-                                          controller: _subtitle,
+                                          controller: subtitle,
                                           decoration: const InputDecoration(hintText: 'Subtitle'),
                                         ),
                                       ],
@@ -205,10 +201,10 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                       child: const Text('Cancel'),
                                     ),
                                     TextButton(
-                                      onPressed: () async {
+                                      onPressed: (){
                                         if(_formKey.currentState!.validate()){
-                                          Navigator.pop(context);
-                                          await interMain.addCell(_title.text, _subtitle.text, _type);
+                                          List<String> list = [title.text, subtitle.text, type];
+                                          Navigator.pop(context, list);
                                         }
                                       },
                                       child: const Text('Add'),
@@ -217,6 +213,10 @@ class _DrawerCustomState extends State<DrawerCustom>{
                                 );
                               }
                             );
+                            if(list != null){
+                              await interMain.addCell(list[0], list[1], list[2]);
+                              setState(() {});
+                            }
                           },
                         )
                       ],

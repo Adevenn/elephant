@@ -36,59 +36,59 @@ class _SheetsScreenState extends State<SheetsScreen>{
         builder: (BuildContext context, AsyncSnapshot<List<Sheet>> snapshot) {
           if (snapshot.hasData) {
             var sheets = snapshot.data!;
-            return Container(
+            return Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   /* SHEETS LIST */
                   Expanded(
                     child: ReorderableListView(
-                      onReorder: (int oldIndex, int newIndex){
+                      onReorder: (int oldIndex, int newIndex) async{
                         if (oldIndex < newIndex){
                           newIndex -= 1;
                         }
                         Sheet item = sheets.removeAt(oldIndex);
                         sheets.insert(newIndex, item);
-                        //TODO: updateSheetOrder
+                        await interMain.updateSheetsOrder(sheets);
+                        setState(() {});
                       },
                       children: [
-                        for(var i = 0; i < sheets.length; i++)
+                        for(var index = 0; index < sheets.length; index++)
                           Dismissible(
                             key: UniqueKey(),
                             background: Container(color: const Color(0xBCC11717)),
                             child: ListTile(
-                              key: UniqueKey(),
                               leading: const Icon(Icons.text_snippet_rounded),
-                              title: Text(sheets[i].title),
-                              subtitle: Text(sheets[i].subtitle),
+                              title: Text(sheets[index].title),
+                              subtitle: Text(sheets[index].subtitle),
                               onTap: (){
                                 Navigator.pop(context);
-                                interMain.setCurrentSheetIndex(i);
+                                interMain.setCurrentSheetIndex(index);
                               }
                             ),
                             /* DELETE SHEET */
                             onDismissed: (direction) async{
-                              await showDialog(
+                              bool result = await showDialog(
+                                barrierDismissible: false,
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
                                   title: const Text('Remove sheet'),
-                                  scrollable: true,
-                                  content: Text('Do you really want to delete ${sheets[i].title} ?'),
+                                  content: Text('Do you really want to delete ${sheets[index].title} ?'),
                                   actions: [
                                     TextButton(
-                                      onPressed: () => Navigator.pop(context),
+                                      onPressed: () => Navigator.pop(context, false),
                                       child: const Text('Cancel'),
                                     ),
                                     TextButton(
-                                      onPressed: () async{
-                                        Navigator.pop(context);
-                                        await interMain.deleteSheet(sheets[i].id);
-                                      },
+                                      onPressed: () => Navigator.pop(context, true),
                                       child: const Text('Yes'),
                                     ),
                                   ],
                                 )
                               );
+                              if(result){
+                                await interMain.deleteSheet(sheets[index].id);
+                              }
                               setState(() {});
                             }
                           )
@@ -104,8 +104,8 @@ class _SheetsScreenState extends State<SheetsScreen>{
                         ListTile(
                           leading: const Icon(Icons.add_rounded),
                           title: const Text('Add sheet'),
-                          onTap: (){
-                            showDialog(
+                          onTap: () async{
+                            var list = await showDialog<List<String>?>(
                               context: context,
                               builder: (BuildContext context){
                                 var _formKey = GlobalKey<FormState>();
@@ -143,11 +143,10 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                       child: const Text('Cancel'),
                                     ),
                                     TextButton(
-                                      onPressed: () async {
+                                      onPressed: (){
                                         if(_formKey.currentState!.validate()){
-                                          Navigator.pop(context);
-                                          await interMain.addSheet(_title.text, _subtitle.text);
-                                          setState(() {});
+                                          List<String> sheet = [_title.text, _subtitle.text];
+                                          Navigator.pop(context, sheet);
                                         }
                                       },
                                       child: const Text('Add'),
@@ -156,6 +155,10 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                 );
                               }
                             );
+                            if(list != null){
+                              await interMain.addSheet(list[0], list[1]);
+                              setState(() {});
+                            }
                           },
                         )
                       ],
