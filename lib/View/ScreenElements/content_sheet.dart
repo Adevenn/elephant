@@ -76,7 +76,7 @@ class _ContentSheetState extends State<ContentSheet>{
                           widget: widgets[i]
                         ),
                         onDismissed: (direction) async{
-                          await interMain.deleteElement(elements[i].runtimeType.toString(), elements[i].id);
+                          await interMain.deleteElement(elements[i].id);
                           setState(() {});
                         },
                         background: Container(color: const Color(0xBCC11717)),

@@ -219,11 +219,11 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<void> deleteElement(String type, int index) async{
-    try{ await interView.deleteItem(type, index); }
+  Future<void> deleteElement(int index) async{
+    try{ await interView.deleteItem('Element', index); }
     catch(e){
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Delete $type failed'))
+        const SnackBar(content: Text('Delete element failed'))
       );
       print(e);
     }

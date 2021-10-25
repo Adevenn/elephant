@@ -22,6 +22,6 @@ abstract class InteractionToMainScreen{
 
   Future<void> deleteCell(int index);
   Future<void> deleteSheet(int index);
-  Future<void> deleteElement(String type, int index);
+  Future<void> deleteElement(int index);
 
 }
