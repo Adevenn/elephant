@@ -207,7 +207,7 @@ class Controller implements InteractionView{
   }
 
   @override
-  Future<void> updateElementOrder(List<Element> elements) async{
+  Future<void> updateElementOrder(List<elem.Element> elements) async{
     var jsonList = <String>[];
     for(var i = 0; i < elements.length; i++){
       jsonList.add(jsonEncode(elements[i]));

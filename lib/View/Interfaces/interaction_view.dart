@@ -31,7 +31,7 @@ abstract class InteractionView{
   Future<void> deleteItem(String type, int index);
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
   Future<void> updateSheetOrder(List<Sheet> sheets);
-  Future<void> updateElementOrder(List<Element> elements);
+  Future<void> updateElementOrder(List<elem.Element> elements);
 
   /* NAVIGATE */
   ///Load the login screen

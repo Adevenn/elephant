@@ -58,13 +58,13 @@ class _ContentSheetState extends State<ContentSheet>{
               Expanded(
                 flex: 5,
                 child: ReorderableListView(
-                  onReorder: (int oldIndex, int newIndex){
+                  onReorder: (int oldIndex, int newIndex) async{
                     if (oldIndex < newIndex){
                       newIndex -= 1;
                     }
                     elem.Element item = elements.removeAt(oldIndex);
                     elements.insert(newIndex, item);
-                    interMain.updateElementsOrder(elements);
+                    await interMain.updateElementsOrder(elements);
                     setState(() {});
                   },
                   children: [
