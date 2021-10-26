@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import '/Model/CellComponents/info.dart';
-import 'sheets_screen.dart';
+import 'sheet_screen.dart';
 import '/Model/cell.dart';
 import '/Model/CellComponents/book.dart';
 import '/Model/Elements/text_type.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 
-class FloatingButtonsCustom extends StatelessWidget{
+class FloatingButtons extends StatelessWidget{
   final InteractionToMainScreen interMain;
   final Cell _currentCell;
 
-  const FloatingButtonsCustom(this.interMain, this._currentCell, {Key? key}) : super(key: key);
+  const FloatingButtons(this.interMain, this._currentCell, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -26,7 +26,7 @@ class FloatingButtonsCustom extends StatelessWidget{
               message: 'Sheets',
               child: FloatingActionButton(
                 heroTag: 'sheetsBtn',
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SheetsScreen(interMain: interMain))),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SheetScreen(interMain: interMain))),
                 child: const Icon(Icons.text_snippet),
               ),
             ),

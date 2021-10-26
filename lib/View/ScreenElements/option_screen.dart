@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Options extends StatefulWidget{
-  const Options({Key? key}) : super(key: key);
+class OptionScreen extends StatefulWidget{
+  const OptionScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _OptionState();
 }
 
-class _OptionState extends State<Options>{
+class _OptionState extends State<OptionScreen>{
   static bool _themeIsDark = false;
   static bool _isReadOnly = false;
 

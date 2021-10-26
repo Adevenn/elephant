@@ -9,17 +9,17 @@ import '../Interfaces/interaction_view.dart';
 import '../Elements/item_content_sheet.dart';
 import '/Model/Elements/element.dart' as elem;
 
-class ContentSheet extends StatefulWidget{
+class ElementScreen extends StatefulWidget{
   final InteractionView interView;
   final InteractionToMainScreen interMain;
 
-  const ContentSheet({Key? key, required this.interView, required this.interMain}) : super(key: key);
+  const ElementScreen({Key? key, required this.interView, required this.interMain}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ContentSheetState();
+  State<StatefulWidget> createState() => _ElementScreenState();
 }
 
-class _ContentSheetState extends State<ContentSheet>{
+class _ElementScreenState extends State<ElementScreen>{
 
   InteractionToMainScreen get interMain => widget.interMain;
   InteractionView get interView => widget.interView;

@@ -1,79 +1,122 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '/Model/sheet.dart';
+import '/Model/CellComponents/book.dart';
+import '/Model/CellComponents/ranking.dart';
+import '/Model/CellComponents/to_do_list.dart';
+import '/Model/cell.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 
-class SheetsScreen extends StatefulWidget{
+class CellScreen extends StatefulWidget{
 
-  final InteractionToMainScreen interMain;
+  final InteractionToMainScreen _interMain;
+  final Cell _currentCell;
 
-  const SheetsScreen({Key? key, required this.interMain}) : super(key: key);
+  const CellScreen(this._interMain, this._currentCell, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _SheetsScreenState();
+  State<StatefulWidget> createState() => _CellScreenState();
 }
 
-class _SheetsScreenState extends State<SheetsScreen>{
+class _CellScreenState extends State<CellScreen>{
 
-  InteractionToMainScreen get interMain => widget.interMain;
+  InteractionToMainScreen get interMain => widget._interMain;
+  Cell get currentCell => widget._currentCell;
+  final _controllerResearch = TextEditingController();
+  String researchWord = '';
 
-  bool isSheetTitleValid(List<Sheet> sheets, String title){
-    for(int i = 0; i < sheets.length; i++){
-      if(sheets[i].title == title){
+  _CellScreenState();
+
+
+  void applyResearch([String newWord = '']){
+    researchWord = newWord;
+    setState(() {});
+  }
+
+  bool isCellTitleValid(List<Cell> cells, String title){
+    for(int i = 0; i < cells.length; i++){
+      if(cells[i].title == title){
         return false;
       }
     }
     return true;
   }
 
+  Icon selectIconByCell(Type type){
+    switch(type){
+      case Book:
+        return const Icon(Icons.menu_book_rounded);
+      case ToDoList:
+        return const Icon(Icons.playlist_add_check_rounded);
+      case Ranking:
+        return const Icon(Icons.format_list_numbered_rounded);
+      default:
+        throw Exception('Unknown type');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sheets')
+          title: const Text('Cells')
       ),
-      body: FutureBuilder<List<Sheet>>(
-        future: interMain.updateSheets(),
-        builder: (BuildContext context, AsyncSnapshot<List<Sheet>> snapshot) {
+      body: FutureBuilder<List<Cell>>(
+        future: interMain.updateCells(researchWord),
+        builder: (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
           if (snapshot.hasData) {
-            var sheets = snapshot.data!;
+            var cells = snapshot.data!;
             return Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  /* SHEETS LIST */
+                  /* RESEARCH */
+                  Container(
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Center(
+                      child: TextField(
+                        onSubmitted: (value) => applyResearch(value),
+                        controller: _controllerResearch,
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => applyResearch(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  /* CELL ITEMS */
                   Expanded(
-                    child: ReorderableListView(
-                      onReorder: (int oldIndex, int newIndex) async{
-                        if (oldIndex < newIndex){
-                          newIndex -= 1;
-                        }
-                        Sheet item = sheets.removeAt(oldIndex);
-                        sheets.insert(newIndex, item);
-                        await interMain.updateSheetsOrder(sheets);
-                        setState(() {});
-                      },
+                    child: ListView(
                       children: [
-                        for(var index = 0; index < sheets.length; index++)
+                        for(var index = 0; index < cells.length; index++)
                           Dismissible(
                             key: UniqueKey(),
                             background: Container(color: const Color(0xBCC11717)),
                             child: ListTile(
-                              leading: const Icon(Icons.text_snippet_rounded),
-                              title: Text(sheets[index].title),
-                              subtitle: Text(sheets[index].subtitle),
+                              leading: selectIconByCell(cells[index].runtimeType),
+                              title: Text(cells[index].title),
+                              subtitle: Text(cells[index].subtitle),
                               onTap: (){
                                 Navigator.pop(context);
-                                interMain.setCurrentSheetIndex(index);
-                              }
+                                interMain.selectCurrentCell(cells[index]);
+                              },
                             ),
-                            /* DELETE SHEET */
+                            /* DELETE CELL*/
                             onDismissed: (direction) async{
                               bool result = await showDialog(
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Remove sheet'),
-                                  content: Text('Do you really want to delete ${sheets[index].title} ?'),
+                                  title: const Text('Remove cell'),
+                                  content: Text('Do you really want to remove ${cells[index].title} ?'),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, false),
@@ -87,15 +130,18 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                 )
                               );
                               if(result){
-                                await interMain.deleteSheet(sheets[index].id);
+                                if(currentCell.id == cells[index].id){
+                                  interMain.getDefaultCell();
+                                }
+                                await interMain.deleteCell(cells[index].id);
                               }
                               setState(() {});
-                            }
+                            },
                           )
                       ],
                     ),
                   ),
-                  /* ADD SHEET */
+                  /* ADD CELL DIALOG */
                   Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Column(
@@ -103,35 +149,47 @@ class _SheetsScreenState extends State<SheetsScreen>{
                         const Divider(),
                         ListTile(
                           leading: const Icon(Icons.add_rounded),
-                          title: const Text('Add sheet'),
+                          title: const Text('Add cell'),
                           onTap: () async{
                             var list = await showDialog<List<String>?>(
                               context: context,
-                              builder: (BuildContext context){
+                              builder: (context){
                                 var _formKey = GlobalKey<FormState>();
-                                var _title = TextEditingController();
-                                var _subtitle = TextEditingController();
+                                var title = TextEditingController();
+                                var subtitle = TextEditingController();
+                                String type = "Book";
                                 return AlertDialog(
-                                  title: const Text('Add Sheet'),
+                                  title: const Text('Add cell'),
                                   scrollable: true,
                                   content: Form(
                                     key: _formKey,
                                     child: Column(
                                       children: [
+                                        DropdownButton(
+                                          value: type,
+                                          icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                                          items: <String>['Book', 'ToDoList', 'Ranking'].map<DropdownMenuItem<String>>((String value){
+                                            return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value)
+                                            );
+                                          }).toList(),
+                                          onChanged: (String? newValue) => setState(() => type = newValue!),
+                                        ),
                                         TextFormField(
-                                          controller: _title,
+                                          controller: title,
                                           decoration: const InputDecoration(hintText: 'Title'),
                                           validator: (value){
                                             if(value == null || value.isEmpty) {
                                               return 'Please enter some text';
-                                            } else if (!isSheetTitleValid(sheets, value)) {
+                                            } else if (!isCellTitleValid(cells, value)) {
                                               return 'Title already exist';
                                             }
                                             return null;
                                           },
                                         ),
                                         TextFormField(
-                                          controller: _subtitle,
+                                          controller: subtitle,
                                           decoration: const InputDecoration(hintText: 'Subtitle'),
                                         ),
                                       ],
@@ -145,8 +203,8 @@ class _SheetsScreenState extends State<SheetsScreen>{
                                     TextButton(
                                       onPressed: (){
                                         if(_formKey.currentState!.validate()){
-                                          List<String> sheet = [_title.text, _subtitle.text];
-                                          Navigator.pop(context, sheet);
+                                          List<String> list = [title.text, subtitle.text, type];
+                                          Navigator.pop(context, list);
                                         }
                                       },
                                       child: const Text('Add'),
@@ -156,15 +214,15 @@ class _SheetsScreenState extends State<SheetsScreen>{
                               }
                             );
                             if(list != null){
-                              await interMain.addSheet(list[0], list[1]);
+                              await interMain.addCell(list[0], list[1], list[2]);
                               setState(() {});
                             }
                           },
                         )
                       ],
                     ),
-                  )
-                ]
+                  ),
+                ],
               ),
             );
           }
@@ -191,7 +249,7 @@ class _SheetsScreenState extends State<SheetsScreen>{
             );
           }
         }
-      ),
+      )
     );
   }
 }

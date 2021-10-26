@@ -3,12 +3,12 @@ import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
 import '/Model/sheet.dart';
 
-import '../ScreenElements/content_sheet.dart';
-import '../ScreenElements/drawer_custom.dart';
-import '../ScreenElements/floating_buttons_custom.dart';
+import '../ScreenElements/element_screen.dart';
+import '../ScreenElements/cell_screen.dart';
+import '../ScreenElements/floating_buttons.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 import '../Interfaces/interaction_view.dart';
-import '../ScreenElements/options.dart';
+import '../ScreenElements/option_screen.dart';
 
 
 class MainScreen extends StatefulWidget{
@@ -41,9 +41,9 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       child: Scaffold(
         key: _scaffoldKey,
         appBar: appBar(),
-        drawer: const Drawer(child: Options()),
-        body: ContentSheet(key: UniqueKey(), interView: interView, interMain: this),
-        floatingActionButton: FloatingButtonsCustom(this, _currentCell)
+        drawer: const Drawer(child: OptionScreen()),
+        body: ElementScreen(key: UniqueKey(), interView: interView, interMain: this),
+        floatingActionButton: FloatingButtons(this, _currentCell)
       )
     );
   }
@@ -53,7 +53,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       title: Text(_currentCell.title),
       actions: [
         IconButton(
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DrawerCustom(this, _currentCell))),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CellScreen(this, _currentCell))),
           icon: const Icon(Icons.sort)
         )
       ],
