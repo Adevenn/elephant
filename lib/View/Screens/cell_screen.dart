@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_netia_client/View/ScreenPart/add_cell_dialog.dart';
+import 'package:my_netia_client/View/ScreenPart/delete_cell_dialog.dart';
 import '/Model/CellComponents/book.dart';
 import '/Model/CellComponents/ranking.dart';
 import '/Model/CellComponents/to_do_list.dart';
@@ -106,20 +107,8 @@ class _CellScreenState extends State<CellScreen>{
                               bool result = await showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Remove cell'),
-                                  content: Text('Do you really want to remove ${cells[index].title} ?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, false),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, true),
-                                      child: const Text('Yes'),
-                                    ),
-                                  ],
-                                )
+                                builder: (BuildContext context)
+                                  => DeleteCellDialog(cellTitle: cells[index].title)
                               );
                               if(result){
                                 if(currentCell.id == cells[index].id){

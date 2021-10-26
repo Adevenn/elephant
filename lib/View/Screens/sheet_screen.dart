@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_netia_client/View/ScreenPart/add_sheet_dialog.dart';
+import 'package:my_netia_client/View/ScreenPart/delete_sheet_dialog.dart';
 import '/Model/sheet.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 
@@ -63,20 +64,8 @@ class _SheetScreenState extends State<SheetScreen>{
                               bool result = await showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Remove sheet'),
-                                  content: Text('Do you really want to delete ${sheets[index].title} ?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, false),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, true),
-                                      child: const Text('Yes'),
-                                    ),
-                                  ],
-                                )
+                                builder: (BuildContext context)
+                                  => DeleteSheetDialog(sheetTitle: sheets[index].title)
                               );
                               if(result){
                                 await interMain.deleteSheet(sheets[index].id);
