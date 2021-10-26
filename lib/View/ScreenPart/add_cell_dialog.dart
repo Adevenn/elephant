@@ -38,15 +38,15 @@ class _AddCellDialogState extends State<AddCellDialog>{
         child: Column(
           children: [
             DropdownButton(
-                value: type,
-                icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                items: <String>['Book', 'ToDoList', 'Ranking'].map<DropdownMenuItem<String>>((String value){
-                  return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value)
-                  );
-                }).toList(),
-                onChanged: (String? newValue) => (() => type = newValue!)
+              value: type,
+              icon: const Icon(Icons.keyboard_arrow_down_rounded),
+              items: <String>['Book', 'ToDoList', 'Ranking'].map<DropdownMenuItem<String>>((String value){
+                return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value)
+                );
+              }).toList(),
+              onChanged: (String? newValue) => (() => type = newValue!)
             ),
             TextFormField(
               controller: title,
