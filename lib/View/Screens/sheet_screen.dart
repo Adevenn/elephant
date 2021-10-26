@@ -104,9 +104,6 @@ class _SheetScreenState extends State<SheetScreen>{
               ),
             );
           }
-          else if(snapshot.hasError){
-            throw Exception('');
-          }
           else{
             return Center(
               child: Column(

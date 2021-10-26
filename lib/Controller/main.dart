@@ -174,14 +174,10 @@ class Controller implements InteractionView{
 
   @override
   Future<void> deleteItem(String type, int id) async{
-    print('/* DELETE ITEM */');
     try{ await _client.deleteItem(type, id); }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
-    finally{
-      print('/* DELETE ITEM DONE */');
-    }
   }
 
   @override
@@ -217,11 +213,12 @@ class Controller implements InteractionView{
 
   @override
   void gotoLoginScreen(BuildContext context) {
-    Navigator.pushReplacement(
+    Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute<void>(
+      MaterialPageRoute(
         builder: (BuildContext context) => LoginScreen(this),
       ),
+      (route) => false,
     );
   }
 
@@ -229,7 +226,7 @@ class Controller implements InteractionView{
   void gotoMainScreen(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute<void>(
+      MaterialPageRoute(
         builder: (BuildContext context) => MainScreen(this),
       ),
     );

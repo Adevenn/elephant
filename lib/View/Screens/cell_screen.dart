@@ -79,7 +79,10 @@ class _CellScreenState extends State<CellScreen>{
                           prefixIcon: const Icon(Icons.search),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.clear),
-                            onPressed: () => applyResearch(),
+                            onPressed: () {
+                              _controllerResearch.text = '';
+                              applyResearch();
+                            }
                           ),
                         ),
                       ),
@@ -148,9 +151,6 @@ class _CellScreenState extends State<CellScreen>{
                 ],
               ),
             );
-          }
-          else if(snapshot.hasError){
-            throw Exception('');
           }
           else{
             return Center(

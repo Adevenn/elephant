@@ -67,13 +67,13 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   void getDefaultCell(){
     _currentCell = interView.getDefaultCell();
+    _currentSheet = Sheet(-1, -1, 'my_netia', '', 0);
   }
 
   @override
   Future<void> selectCurrentCell(Cell cell) async{
     _currentCell = cell;
     setCurrentSheetIndex(0);
-
   }
 
   @override
@@ -85,13 +85,8 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
 
   @override
   Future<List<Cell>> updateCells([String matchWord = '']) async{
-    try{
-      return await interView.getCells(matchWord);
-    }
-    catch(e){
-      print('updateCells failed:\n$e');
-      return [];
-    }
+    try{ return await interView.getCells(matchWord); }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
@@ -101,21 +96,13 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       _currentSheet = sheets[_indexCurrentSheet];
       return sheets;
     }
-    catch(e){
-      print('updateSheets failed:\n$e');
-      return [];
-    }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
   Future<List<elem.Element>> updateElements() async{
-    try{
-      return await interView.getElements(_currentSheet.id);
-    }
-    catch(e){
-      print('updateElements failed:\n$e');
-      return [];
-    }
+    try{ return await interView.getElements(_currentSheet.id); }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
@@ -136,22 +123,13 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   Future<void> addCell(String title, String subtitle, String type) async{
     try{ await interView.addCell(title, subtitle, type); }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add cell failed'))
-      );
-    }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
   Future<void> addSheet(String title, String subtitle) async{
     try{ await interView.addSheet(_currentCell.id, title, subtitle); }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add sheet failed'))
-      );
-      print(e);
-    }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
@@ -159,12 +137,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addTexts(_currentSheet.id, type);
       setState(() {});
-    } catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add text failed'))
-      );
-      print(e);
-    }
+    } catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
@@ -172,12 +145,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       //interView.addImage(_currentSheet.id, data);
       //setState(() {});
-    } catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Add image failed'))
-      );
-    }
-
+    } catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
@@ -186,44 +154,37 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       await interView.addCheckbox(_currentSheet.id);
       setState(() {});
     }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add checkbox failed'))
-      );
-      print(e);
-    }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
   Future<void> deleteCell(int idCell) async{
     try{ await interView.deleteItem('Cell', idCell); }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Delete cell failed'))
-      );
-      print(e);
-    }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
   Future<void> deleteSheet(int idSheet) async{
     try{ await interView.deleteItem('Sheet', idSheet); }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Delete sheet failed'))
-      );
-      print(e);
-    }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override
   Future<void> deleteElement(int index) async{
     try{ await interView.deleteItem('Element', index); }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Delete element failed'))
-      );
-      print(e);
-    }
+    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+  }
+}
+
+class MainScreenException implements Exception{
+  InteractionView interView;
+  BuildContext context;
+
+  MainScreenException({required this.interView, required this.context, required Object error}){
+    interView.gotoLoginScreen(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Connexion with server lost'))
+    );
+    //TODO: Send error to server
   }
 }

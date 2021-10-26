@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/Screens/main_screen.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 import '/Model/Elements/checkbox.dart';
 import '/Model/Elements/images.dart';
@@ -87,9 +88,6 @@ class _ElementScreenState extends State<ElementScreen>{
               Expanded(child: Container()),
             ],
           );
-        }
-        else if(snapshot.hasError){
-          throw Exception('');
         }
         else{
           return Center(
