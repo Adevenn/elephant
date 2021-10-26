@@ -3,12 +3,12 @@ import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
 import '/Model/sheet.dart';
 
-import '../ScreenElements/element_screen.dart';
-import '../ScreenElements/cell_screen.dart';
-import '../ScreenElements/floating_buttons.dart';
+import '../ScreenPart/element_screen.dart';
+import 'cell_screen.dart';
+import '../ScreenPart/floating_buttons.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 import '../Interfaces/interaction_view.dart';
-import '../ScreenElements/option_screen.dart';
+import 'option_screen.dart';
 
 
 class MainScreen extends StatefulWidget{

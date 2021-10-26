@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '/Model/CellComponents/info.dart';
-import 'sheet_screen.dart';
+import '../Screens/sheet_screen.dart';
 import '/Model/cell.dart';
 import '/Model/CellComponents/book.dart';
 import '/Model/Elements/text_type.dart';

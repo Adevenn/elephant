@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/ScreenPart/add_cell_dialog.dart';
 import '/Model/CellComponents/book.dart';
 import '/Model/CellComponents/ranking.dart';
 import '/Model/CellComponents/to_do_list.dart';
@@ -30,15 +31,6 @@ class _CellScreenState extends State<CellScreen>{
   void applyResearch([String newWord = '']){
     researchWord = newWord;
     setState(() {});
-  }
-
-  bool isCellTitleValid(List<Cell> cells, String title){
-    for(int i = 0; i < cells.length; i++){
-      if(cells[i].title == title){
-        return false;
-      }
-    }
-    return true;
   }
 
   Icon selectIconByCell(Type type){
@@ -153,65 +145,7 @@ class _CellScreenState extends State<CellScreen>{
                           onTap: () async{
                             var list = await showDialog<List<String>?>(
                               context: context,
-                              builder: (context){
-                                var _formKey = GlobalKey<FormState>();
-                                var title = TextEditingController();
-                                var subtitle = TextEditingController();
-                                String type = "Book";
-                                return AlertDialog(
-                                  title: const Text('Add cell'),
-                                  scrollable: true,
-                                  content: Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      children: [
-                                        DropdownButton(
-                                          value: type,
-                                          icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                                          items: <String>['Book', 'ToDoList', 'Ranking'].map<DropdownMenuItem<String>>((String value){
-                                            return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value)
-                                            );
-                                          }).toList(),
-                                          onChanged: (String? newValue) => setState(() => type = newValue!),
-                                        ),
-                                        TextFormField(
-                                          controller: title,
-                                          decoration: const InputDecoration(hintText: 'Title'),
-                                          validator: (value){
-                                            if(value == null || value.isEmpty) {
-                                              return 'Please enter some text';
-                                            } else if (!isCellTitleValid(cells, value)) {
-                                              return 'Title already exist';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        TextFormField(
-                                          controller: subtitle,
-                                          decoration: const InputDecoration(hintText: 'Subtitle'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: (){
-                                        if(_formKey.currentState!.validate()){
-                                          List<String> list = [title.text, subtitle.text, type];
-                                          Navigator.pop(context, list);
-                                        }
-                                      },
-                                      child: const Text('Add'),
-                                    ),
-                                  ],
-                                );
-                              }
+                              builder: (context) =>  AddCellDialog(cells: cells),
                             );
                             if(list != null){
                               await interMain.addCell(list[0], list[1], list[2]);
