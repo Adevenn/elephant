@@ -137,7 +137,7 @@ class _CellScreenState extends State<CellScreen>{
                           onTap: () async{
                             var list = await showDialog<List<String>?>(
                               context: context,
-                              builder: (context) =>  AddCellDialog(cells: cells),
+                              builder: (context) => AddCellDialog(cells: cells),
                             );
                             if(list != null){
                               await interMain.addCell(list[0], list[1], list[2]);

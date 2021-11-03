@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Screens/main_screen.dart';
+import '../ScreenPart/delete_element_dialog.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
-import '/Model/Elements/checkbox.dart';
-import '/Model/Elements/images.dart';
-import '/Model/Elements/texts.dart';
+import '/Model/Elements/checkbox.dart' as cb;
+import '/Model/Elements/image.dart' as img;
+import '/Model/Elements/text.dart' as text;
 import '../Elements/checkbox_custom.dart';
 import '../Elements/text_field_custom.dart';
 import '../Interfaces/interaction_view.dart';
@@ -29,17 +29,17 @@ class _ElementScreenState extends State<ElementScreen>{
     List<Widget> _widgets = [];
     for(var element in items) {
       switch(element.runtimeType){
-        case Texts:
-          _widgets.add(TextFieldCustom(interView: interView, key: UniqueKey(), texts: element as Texts));
+        case text.Text:
+          _widgets.add(TextFieldCustom(interView: interView, key: UniqueKey(), texts: element as text.Text));
           break;
-        case Images:
-          print("IMAGE TYPE");
+        case img.Image:
+          print('IMAGE TYPE');
           break;
-        case CheckBox:
-          _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkbox: element as CheckBox));
+        case cb.Checkbox:
+          _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkbox: element as cb.Checkbox));
           break;
         default:
-          throw Exception("Unknown element type");
+          throw Exception('Unknown element type');
       }
     }
     return _widgets;
@@ -69,15 +69,23 @@ class _ElementScreenState extends State<ElementScreen>{
                     setState(() {});
                   },
                   children: [
-                    for(var i = 0; i < widgets.length; i++)
+                    for(var index = 0; index < widgets.length; index++)
                       Dismissible(
                         key: UniqueKey(),
                         child: ItemContentSheet(
                           key: UniqueKey(),
-                          widget: widgets[i]
+                          widget: widgets[index]
                         ),
                         onDismissed: (direction) async{
-                          await interMain.deleteElement(elements[i].id);
+                          bool result = await showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context)
+                              => DeleteElementDialog(elementType: elements[index].runtimeType.toString())
+                          );
+                          if(result){
+                            await interMain.deleteElement(elements[index].id);
+                          }
                           setState(() {});
                         },
                         background: Container(color: const Color(0xBCC11717)),

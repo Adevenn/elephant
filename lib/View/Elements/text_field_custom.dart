@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../Interfaces/interaction_view.dart';
-import '../../Model/Elements/texts.dart';
+import '../../Model/Elements/text.dart' as text;
 import '../../Model/Elements/text_type.dart';
 
 class TextFieldCustom extends StatefulWidget{
   final InteractionView interView;
-  final Texts texts;
+  final text.Text texts;
 
   const TextFieldCustom({required Key? key, required this.interView, required this.texts}) : super(key: key);
 
@@ -16,7 +16,7 @@ class TextFieldCustom extends StatefulWidget{
 class _TextFieldCustomState extends State<TextFieldCustom>{
 
   InteractionView get interView => widget.interView;
-  Texts get texts => widget.texts;
+  text.Text get texts => widget.texts;
   final focus = FocusNode();
   late String backupText;
 
@@ -36,7 +36,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
 
   void _updateTexts() {
     if(backupText != texts.text){
-      interView.updateItem('Texts', texts.toJson());
+      interView.updateItem('Text', texts.toJson());
     }
   }
 
@@ -50,7 +50,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
           minLines: 1,
           maxLines: 50,
           initialValue: texts.text,
-          decoration: const InputDecoration(hintText: "enter some text"),
+          decoration: const InputDecoration(hintText: 'enter some text'),
           onChanged: (value) => texts.text = value,
         );
       case TextType.subtitle:
@@ -61,7 +61,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
             fontStyle: FontStyle.italic
           ),
           initialValue: texts.text,
-          decoration: const InputDecoration(hintText: "enter some text"),
+          decoration: const InputDecoration(hintText: 'enter some text'),
           onChanged: (value) => texts.text = value,
         );
       case TextType.title:
@@ -73,7 +73,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
             fontWeight: FontWeight.bold
           ),
           initialValue: texts.text,
-          decoration: const InputDecoration(hintText: "enter some text"),
+          decoration: const InputDecoration(hintText: 'enter some text'),
           onChanged: (value) => texts.text = value,
         );
       case TextType.readonly:
@@ -86,7 +86,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
           ),
         );
       default:
-        throw Exception("UNKNOWN TEXT TYPE");
+        throw Exception('Unknown text type');
     }
   }
 }

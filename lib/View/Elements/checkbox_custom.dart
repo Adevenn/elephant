@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../Model/Elements/checkbox.dart';
+import '../../Model/Elements/checkbox.dart' as cb;
 import '../Interfaces/interaction_view.dart';
 
 class CheckboxCustom extends StatefulWidget{
   final InteractionView interView;
-  final CheckBox checkbox;
+  final cb.Checkbox checkbox;
 
   const CheckboxCustom({required Key key, required this.interView, required this.checkbox}) : super(key: key);
 
@@ -14,7 +14,7 @@ class CheckboxCustom extends StatefulWidget{
 
 class _CheckBoxState extends State<CheckboxCustom>{
 
-  CheckBox get checkbox => widget.checkbox;
+  cb.Checkbox get checkbox => widget.checkbox;
   InteractionView get interView => widget.interView;
   var focusCheckbox = FocusNode();
   var focusTxt = FocusNode();

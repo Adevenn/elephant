@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import '../Exception/database_exception.dart';
 import '../Exception/database_timeout_exception.dart';
 import '../Exception/server_exception.dart';
-import '../Model/Elements/checkbox.dart';
+import '../Model/Elements/checkbox.dart' as cb;
 import '../Model/Elements/element.dart' as elem;
 import '../Model/sheet.dart';
 import '../Network/client.dart';
 import '../Model/cell.dart';
 import '../Model/CellComponents/info.dart';
-import '../Model/Elements/texts.dart';
+import '../Model/Elements/text.dart' as text;
 import '../Model/Elements/text_type.dart';
 import '../View/Interfaces/interaction_view.dart';
 import '../View/Screens/login_screen.dart';
@@ -141,8 +141,8 @@ class Controller implements InteractionView{
   @override
   Future<void> addCheckbox(int idParent) async{
     try{
-      var json = jsonEncode(CheckBox(id: -1, idParent: idParent, text: '', idOrder: -1).toJson());
-      await _client.addItem('CheckBox', jsonEncode(json));
+      var json = jsonEncode(cb.Checkbox(id: -1, idParent: idParent, text: '', idOrder: -1).toJson());
+      await _client.addItem('Checkbox', jsonEncode(json));
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -152,7 +152,7 @@ class Controller implements InteractionView{
   @override
   Future<void> addImage(int idParent, Uint8List data) async{
     try{
-      //var json = Images().toJson();
+      //var json = Image().toJson();
       // TODO: implement addImage
       throw UnimplementedError();
     }
@@ -164,8 +164,8 @@ class Controller implements InteractionView{
   @override
   Future<void> addTexts(int idParent, int txtType) async{
     try{
-      var json = jsonEncode(Texts(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: -1).toJson());
-      await _client.addItem('Texts', jsonEncode(json));
+      var json = jsonEncode(text.Text(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: -1).toJson());
+      await _client.addItem('Text', jsonEncode(json));
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('$e'); }
@@ -195,7 +195,7 @@ class Controller implements InteractionView{
       for(var i = 0; i < sheets.length; i++){
         jsonList.add(jsonEncode(sheets[i]));
       }
-      await _client.updateOrder('sheet', jsonEncode(jsonList));
+      await _client.updateOrder('Sheet', jsonEncode(jsonList));
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -208,7 +208,7 @@ class Controller implements InteractionView{
     for(var i = 0; i < elements.length; i++){
       jsonList.add(jsonEncode(elements[i]));
     }
-    await _client.updateOrder('element', jsonEncode(jsonList));
+    await _client.updateOrder('Element', jsonEncode(jsonList));
   }
 
   @override
