@@ -29,8 +29,7 @@ class Client{
     try{
       await _socket.connect('cells');
       await _socket.writeAsym(matchWord);
-      //json is too long to be asymmetrically encrypted
-      var cellsAsJson = await _socket.readSym();
+      var cellsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return cellsAsJson;
     }
@@ -42,7 +41,7 @@ class Client{
     try{
       await _socket.connect('sheets');
       await _socket.writeAsym(idCell.toString());
-      var sheetsAsJson = await _socket.readSym();
+      var sheetsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return sheetsAsJson;
     }
@@ -104,7 +103,7 @@ class Client{
       await _socket.connect('updateItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
-      await _socket.writeSym(json);
+      await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
     }
     on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
@@ -117,7 +116,7 @@ class Client{
       await _socket.connect('updateOrder');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
-      await _socket.writeSym(json);
+      await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
     }
     on ServerException { throw const ServerException('Connection failed : Server disconnected'); }

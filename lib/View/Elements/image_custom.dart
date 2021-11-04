@@ -15,7 +15,15 @@ class ImageCustom extends StatefulWidget{
 class _ImageState extends State<ImageCustom>{
   @override
   Widget build(BuildContext context) {
-    return Image.memory(widget.data);
+    return Container(
+      constraints: const BoxConstraints(
+        maxWidth: 500,
+        maxHeight: 500,
+        minWidth: 250,
+        minHeight: 250
+      ),
+      child: Image.memory(widget.data)
+    );
   }
 
 }

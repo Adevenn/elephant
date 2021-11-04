@@ -12,14 +12,17 @@ class _ItemContentSheetState extends State<ItemContentSheet>{
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: const Icon(Icons.delete_outline_rounded)
-        ),
-        Expanded( child: widget.widget),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: const Icon(Icons.delete_outline_rounded)
+          ),
+          Expanded( child: widget.widget),
+        ],
+      ),
     );
   }
 }
