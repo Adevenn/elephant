@@ -54,7 +54,7 @@ class Client{
     try{
       await _socket.connect('elements');
       await _socket.writeAsym(idSheet.toString());
-      var elementsAsJson = await _socket.readSym();
+      var elementsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return elementsAsJson;
     }
