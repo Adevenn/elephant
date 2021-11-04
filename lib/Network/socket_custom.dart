@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:async/async.dart';
 import '/Exception/database_exception.dart';
@@ -107,6 +108,32 @@ class SocketCustom{
     await _socket.flush();
     await _socket.close();
     _socket.destroy();
+  }
+
+  Future<void> writeBigString(String file) async{
+    try{
+      await writeSym(file);
+      await write('--- end of file ---');
+    }
+    catch(e){
+      throw Exception(e);
+    }
+  }
+
+  Future<String> readBigString() async{
+    try{
+      var file = '';
+      while(true){
+        file += String.fromCharCodes(await _queue.next);
+        if(file.endsWith('--- end of file ---')) {
+          break;
+        }
+      }
+      return _sym.decryptString(file.substring(0, file.length - 19));
+    }
+    catch(e){
+      throw Exception(e);
+    }
   }
 
   Future<void> write(String plainText) async{

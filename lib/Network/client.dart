@@ -78,7 +78,7 @@ class Client{
       await _socket.connect('addItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
-      await _socket.writeSym(json);
+      await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
     }
     on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
