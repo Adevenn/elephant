@@ -47,21 +47,16 @@ class Controller implements InteractionView{
 
   @override
   Future<void> testConnection(String ip, int port, String database, String username, String password) async {
-    print('/* testConnection */');
     _client = Client(ip, port, database, username, password);
     try{ await _client.init(); }
     on ServerException catch (e) { throw ServerException('$e'); }
     on DatabaseException catch(e) { throw DatabaseException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
-    finally{
-      print('/* testConnection done */');
-    }
   }
 
   @override
   Future<List<Cell>> getCells([String research = '']) async {
-    print('/* getCells */');
     var cells = <Cell>[];
     try{
       var jsonList = jsonDecode(await _client.cells(research));
@@ -69,7 +64,6 @@ class Controller implements InteractionView{
         var cell = Cell.fromJson(jsonDecode(json));
         cells.add(cell);
       });
-      print('/* getCells done */');
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     catch(e) { throw Exception(e); }
@@ -78,7 +72,6 @@ class Controller implements InteractionView{
 
   @override
   Future<List<Sheet>> getSheets(int idCell) async{
-    print('/* getSheets */');
     var sheets = <Sheet>[];
     try{
       var jsonList = jsonDecode(await _client.sheets(idCell));
@@ -86,7 +79,6 @@ class Controller implements InteractionView{
         var sheet = Sheet.fromJson(jsonDecode(json));
         sheets.add(sheet);
       });
-      print('/* getSheets done */');
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     catch(e) { throw Exception(e); }
@@ -95,7 +87,6 @@ class Controller implements InteractionView{
 
   @override
   Future<List<elem.Element>> getElements(int idSheet) async{
-    print('/* getElements */');
     var elements = <elem.Element>[];
     try{
       var jsonList = jsonDecode(await _client.elements(idSheet));
@@ -103,7 +94,6 @@ class Controller implements InteractionView{
         var element = elem.Element.fromJson(jsonDecode(json));
         elements.add(element);
       });
-      print('/* getElements done */');
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     catch(e) { throw Exception(e); }
@@ -112,7 +102,6 @@ class Controller implements InteractionView{
 
   @override
   Future<void> addCell(String title, String subtitle, String type) async{
-    print('/* ADD CELL */');
     try{
       var cell = Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
       await _client.addCell(jsonEncode(cell));
@@ -120,14 +109,10 @@ class Controller implements InteractionView{
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
-    finally{
-      print('/* ADD CELL DONE */');
-    }
   }
 
   @override
   Future<void> addSheet(int idCell, String title, String subtitle) async{
-    print('/* ADD SHEET */');
     try{
       var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1));
       await _client.addItem('Sheet', json);
@@ -135,9 +120,6 @@ class Controller implements InteractionView{
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
-    finally{
-      print('/* ADD SHEET DONE */');
-    }
   }
 
   @override
@@ -153,7 +135,6 @@ class Controller implements InteractionView{
 
   @override
   Future<void> addImage(int idParent, Uint8List data) async{
-    print('ADD IMAGE');
     try{
       var json = jsonEncode(img.Image(id: -1, data: data, idParent: idParent, idOrder: -1));
       await _client.addItem('Image', json);
@@ -161,9 +142,6 @@ class Controller implements InteractionView{
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
-    finally{
-      print('ADD IMAGE END');
-    }
   }
 
   @override

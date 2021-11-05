@@ -121,7 +121,8 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
 
   @override
   Future<void> updateElementsOrder(List<elem.Element> elements) async{
-    await interView.updateElementOrder(elements);
+    try{ await interView.updateElementOrder(elements); }
+    catch(e) { throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
   @override

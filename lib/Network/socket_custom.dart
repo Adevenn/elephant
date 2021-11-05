@@ -57,9 +57,6 @@ class SocketCustom{
       ///KEY EXCHANGE
       await writeAsym(_sym.key);
       await synchronizeRead();
-      //publicKey is too long to be asymmetrically encrypted
-      await writeSym(_asym.publicKey);
-      await synchronizeRead();
 
       await _dbValues();
     } catch(e){ throw ServerException('(CustomSocket)setup:\n$e'); }
@@ -70,7 +67,7 @@ class SocketCustom{
   ///Analyze the result send by the server and return an exception if the result != 'success'
   Future<void> disconnectWithResult() async{
     try {
-      var result = await readAsym();
+      var result = await readSym();
       await _socket.flush();
       await _socket.close();
       _socket.destroy();
@@ -150,12 +147,6 @@ class SocketCustom{
     try{ return String.fromCharCodes(await _queue.next); }
     on SocketException catch(e){ throw ServerException('(CustomSocket)read\n$e'); }
     catch(e) { throw Exception('(CustomSocket)read;\n$e'); }
-  }
-
-  Future<String> readAsym() async{
-    try{ return _asym.decrypt(await _queue.next); }
-    on SocketException catch(e){ throw ServerException('(CustomSocket)readAsym\n$e'); }
-    catch(e) { throw Exception('(CustomSocket)readAsym;\n$e'); }
   }
 
   Future<String> readSym() async{
