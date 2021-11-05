@@ -40,7 +40,7 @@ class Client{
   Future<String> sheets(int idCell) async{
     try{
       await _socket.setup('sheets');
-      await _socket.writeAsym(idCell.toString());
+      await _socket.writeSym(idCell.toString());
       var sheetsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return sheetsAsJson;
@@ -52,7 +52,7 @@ class Client{
   Future<String> elements(int idSheet) async{
     try{
       await _socket.setup('elements');
-      await _socket.writeAsym(idSheet.toString());
+      await _socket.writeSym(idSheet.toString());
       var elementsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return elementsAsJson;
