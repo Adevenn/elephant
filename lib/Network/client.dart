@@ -101,7 +101,7 @@ class Client{
   Future<void> updateItem(String type, String json) async{
     try{
       await _socket.setup('updateItem');
-      await _socket.writeAsym(type);
+      await _socket.writeSym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
@@ -114,7 +114,7 @@ class Client{
   Future<void> updateOrder(String type, String json) async{
     try{
       await _socket.setup('updateOrder');
-      await _socket.writeAsym(type);
+      await _socket.writeSym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
