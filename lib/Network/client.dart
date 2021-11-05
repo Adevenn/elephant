@@ -88,9 +88,9 @@ class Client{
   Future<void> deleteItem(String type, int id) async{
     try{
       await _socket.setup('deleteItem');
-      await _socket.writeAsym(type);
+      await _socket.writeSym(type);
       await _socket.synchronizeRead();
-      await _socket.writeAsym(id.toString());
+      await _socket.writeSym(id.toString());
       await _socket.disconnectWithResult();
     }
     on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
