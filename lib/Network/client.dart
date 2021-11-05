@@ -22,12 +22,13 @@ class Client{
     on ServerException { throw const ServerException('Connection failed : Wrong IP or PORT or server disconnected'); }
     on DatabaseException { throw const DatabaseException('Connection failed : Wrong DATABASE, USERNAME or PASSWORD'); }
     on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
-    catch(e) { throw Exception('(Client)testConnection:\n$e'); }
+    catch(e) { throw Exception('(Client)init:\n$e'); }
   }
 
   Future<String> cells(String matchWord) async{
     try{
       await _socket.setup('cells');
+      //Asym because matchWord can be null ('')
       await _socket.writeAsym(matchWord);
       var cellsAsJson = await _socket.readBigString();
       await _socket.disconnect();

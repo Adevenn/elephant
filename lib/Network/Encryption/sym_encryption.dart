@@ -11,7 +11,7 @@ class SymEncryption{
   SymEncryption([String key = '']){
     if(key == ''){ _key = Key.fromSecureRandom(32); }
     else{ _key = Key.fromBase64(key); }
-    _encrypt = Encrypter(AES(_key, padding: null));
+    _encrypt = Encrypter(AES(_key));
   }
 
   String encrypt(String plainText) => _encrypt.encrypt(plainText, iv: _iv).base64;
