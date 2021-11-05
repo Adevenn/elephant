@@ -27,7 +27,7 @@ class SocketCustom{
 
   ///Send database, username and password
   Future<void> _dbValues() async{
-    await writeAsym(_jsonDatabase);
+    await writeSym(_jsonDatabase);
     await synchronizeRead();
   }
 
