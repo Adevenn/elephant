@@ -81,7 +81,7 @@ class Controller implements InteractionView{
     print('/* getSheets */');
     var sheets = <Sheet>[];
     try{
-      var jsonList = jsonDecode(await _client.sheetsFromIdCell(idCell));
+      var jsonList = jsonDecode(await _client.sheets(idCell));
       jsonList.forEach((json) {
         var sheet = Sheet.fromJson(jsonDecode(json));
         sheets.add(sheet);
@@ -98,7 +98,7 @@ class Controller implements InteractionView{
     print('/* getElements */');
     var elements = <elem.Element>[];
     try{
-      var jsonList = jsonDecode(await _client.elementsFromIdSheet(idSheet));
+      var jsonList = jsonDecode(await _client.elements(idSheet));
       jsonList.forEach((json) {
         var element = elem.Element.fromJson(jsonDecode(json));
         elements.add(element);

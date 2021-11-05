@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:async/async.dart';
 import '/Exception/database_exception.dart';
@@ -43,11 +42,11 @@ class SocketCustom{
     on ServerException catch(e){ throw ServerException('(SocketCustom)init:\n$e'); }
     on DatabaseException catch(e){ throw DatabaseException('(SocketCustom)init:\n$e');}
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('(SocketCustom)init:\n$e'); }
-    catch(e) { throw Exception(e); }
+    catch(e){ throw Exception(e); }
   }
 
   ///Connect the [_socket] to the server, setup encryption keys and send database values
-  Future<void> connect(String request) async{
+  Future<void> setup(String request) async{
     try{
       _socket = await Socket.connect(_ipServer, _portServer, timeout: const Duration(seconds: 5));
       _queue = StreamQueue(_socket);
@@ -63,7 +62,7 @@ class SocketCustom{
       await synchronizeRead();
 
       await _dbValues();
-    } catch(e){ throw ServerException('(CustomSocket)connect:\n$e'); }
+    } catch(e){ throw ServerException('(CustomSocket)setup:\n$e'); }
   }
 
   ///Disconnect the [_socket] and return an Exception if an error occurs
@@ -102,10 +101,7 @@ class SocketCustom{
     try{
       await writeSym(file);
       await write('--- end of file ---');
-    }
-    catch(e){
-      throw Exception(e);
-    }
+    } catch(e){ throw Exception(e); }
   }
 
   Future<String> readBigString() async{
@@ -118,16 +114,15 @@ class SocketCustom{
         }
       }
       return _sym.decryptString(file.substring(0, file.length - 19));
-    }
-    catch(e){
-      throw Exception(e);
-    }
+    } catch(e){ throw Exception(e); }
   }
+
+  //WRITE
 
   Future<void> write(String plainText) async{
     try{ _socket.write(plainText); }
     on SocketException catch(e){ throw ServerException('(CustomSocket)write\n$e'); }
-    catch (e){ throw Exception('(CustomSocket)write:\n$e'); }
+    catch(e){ throw Exception('(CustomSocket)write:\n$e'); }
   }
 
   Future<void> writeAsym(String plainText) async{
@@ -147,6 +142,9 @@ class SocketCustom{
     on SocketException catch(e){ throw ServerException('(CustomSocket)synchronizeWrite\n$e'); }
     catch (e){ throw Exception('(CustomSocket)synchronizeWrite:\n$e'); }
   }
+
+
+  //READ
 
   Future<String> read() async{
     try{ return String.fromCharCodes(await _queue.next); }

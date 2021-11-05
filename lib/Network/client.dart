@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import '../Exception/database_timeout_exception.dart';
-import '../Exception/database_exception.dart';
-import '../Exception/server_exception.dart';
+import '/Exception/database_timeout_exception.dart';
+import '/Exception/database_exception.dart';
+import '/Exception/server_exception.dart';
 
 import 'socket_custom.dart';
 
@@ -27,7 +27,7 @@ class Client{
 
   Future<String> cells(String matchWord) async{
     try{
-      await _socket.connect('cells');
+      await _socket.setup('cells');
       await _socket.writeAsym(matchWord);
       var cellsAsJson = await _socket.readBigString();
       await _socket.disconnect();
@@ -37,33 +37,33 @@ class Client{
     catch(e) { throw Exception ('(Client)cells:\n$e'); }
   }
 
-  Future<String> sheetsFromIdCell(int idCell) async{
+  Future<String> sheets(int idCell) async{
     try{
-      await _socket.connect('sheets');
+      await _socket.setup('sheets');
       await _socket.writeAsym(idCell.toString());
       var sheetsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return sheetsAsJson;
     }
     on SocketException{ throw const ServerException('Connection failed'); }
-    catch(e) { throw Exception('(Client)sheetsFromIdCell:\n$e'); }
+    catch(e) { throw Exception('(Client)sheets:\n$e'); }
   }
 
-  Future<String> elementsFromIdSheet(int idSheet) async{
+  Future<String> elements(int idSheet) async{
     try{
-      await _socket.connect('elements');
+      await _socket.setup('elements');
       await _socket.writeAsym(idSheet.toString());
       var elementsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return elementsAsJson;
     }
     on SocketException{ throw const ServerException('Connection failed'); }
-    catch(e) { throw Exception(e); }
+    catch(e) { throw Exception('(Client)elements:\n$e'); }
   }
 
   Future<void> addCell(String jsonCell) async{
     try{
-      await _socket.connect('addCell');
+      await _socket.setup('addCell');
       await _socket.writeSym(jsonCell);
       await _socket.disconnectWithResult();
     }
@@ -74,7 +74,7 @@ class Client{
 
   Future<void> addItem(String type, String json) async{
     try{
-      await _socket.connect('addItem');
+      await _socket.setup('addItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
@@ -87,7 +87,7 @@ class Client{
 
   Future<void> deleteItem(String type, int id) async{
     try{
-      await _socket.connect('deleteItem');
+      await _socket.setup('deleteItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
       await _socket.writeAsym(id.toString());
@@ -100,7 +100,7 @@ class Client{
 
   Future<void> updateItem(String type, String json) async{
     try{
-      await _socket.connect('updateItem');
+      await _socket.setup('updateItem');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
@@ -113,7 +113,7 @@ class Client{
 
   Future<void> updateOrder(String type, String json) async{
     try{
-      await _socket.connect('updateOrder');
+      await _socket.setup('updateOrder');
       await _socket.writeAsym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
