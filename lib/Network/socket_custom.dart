@@ -37,18 +37,7 @@ class SocketCustom{
       _queue = StreamQueue(_socket);
       _socket.write('init');
       _asym.clientKey = await read();
-      await _dbValues();
-      var result = await read();
       await disconnect();
-      if(result == 'databaseTimeout'){
-        throw const DatabaseTimeoutException();
-      }
-      else if(result == 'failed'){
-        throw const DatabaseException();
-      }
-      else if(result != 'success'){
-        throw const ServerException();
-      }
     }
     on SocketException catch(e){ throw ServerException('(SocketCustom)init:\n$e'); }
     on ServerException catch(e){ throw ServerException('(SocketCustom)init:\n$e'); }
@@ -86,7 +75,6 @@ class SocketCustom{
       await _socket.flush();
       await _socket.close();
       _socket.destroy();
-      print('Result: $result');
       switch(result){
         case 'success':
           break;
