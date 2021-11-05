@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'checkbox.dart';
 import 'image.dart';
 import 'text.dart';
@@ -15,7 +17,7 @@ abstract class Element{
       case 'Checkbox':
         return Checkbox(id: json['id'], idParent: json['idParent'], isChecked: json['isChecked'], text: json['text'], idOrder: json['idOrder']);
       case 'Image':
-        return Image(id: json['id'], idParent: json['idParent'], data: json['data'], idOrder: json['idOrder']);
+        return Image(id: json['id'], idParent: json['idParent'], data: Uint8List.fromList(json['data'].cast<int>()), idOrder: json['idOrder']);
       case 'Text':
         return Text(id: json['id'], idParent: json['idParent'], text: json['text'], txtType: TextType.values[json['txtType']], idOrder: json['idOrder']);
       default:

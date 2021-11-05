@@ -11,10 +11,13 @@ class SymEncryption{
   SymEncryption([String key = '']){
     if(key == ''){ _key = Key.fromSecureRandom(32); }
     else{ _key = Key.fromBase64(key); }
-    _encrypt = Encrypter(AES(_key));
+    _encrypt = Encrypter(AES(_key, padding: null));
   }
 
   String encrypt(String plainText) => _encrypt.encrypt(plainText, iv: _iv).base64;
 
   String decrypt(Uint8List encryptedMsg) => _encrypt.decrypt64(String.fromCharCodes(encryptedMsg), iv: _iv);
+
+  String decryptString(String mssg) => _encrypt.decrypt64(mssg, iv: _iv);
+
 }

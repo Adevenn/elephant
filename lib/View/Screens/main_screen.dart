@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
@@ -143,8 +147,14 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   Future<void> addImage() async{
     try{
-      //interView.addImage(_currentSheet.id, data);
-      //setState(() {});
+      FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true, allowedExtensions: ['jpg, png, jpeg']);
+      if(result != null){
+        List<File> files = result.paths.map((path) => File(path!)).toList();
+        for (var file in files) {
+          await interView.addImage(_currentSheet.id, await file.readAsBytes());
+        }
+      }
+      setState(() {});
     } catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
   }
 
@@ -185,6 +195,7 @@ class MainScreenException implements Exception{
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Connexion with server lost'))
     );
+    print(error);
     //TODO: Send error to server
   }
 }

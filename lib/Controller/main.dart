@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/Network/Encryption/sym_encryption.dart';
 import '../Exception/database_exception.dart';
 import '../Exception/database_timeout_exception.dart';
 import '../Exception/server_exception.dart';
 import '../Model/Elements/checkbox.dart' as cb;
+import '../Model/Elements/image.dart' as img;
 import '../Model/Elements/element.dart' as elem;
 import '../Model/sheet.dart';
 import '../Network/client.dart';
@@ -113,7 +115,7 @@ class Controller implements InteractionView{
     print('/* ADD CELL */');
     try{
       var cell = Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
-      await _client.addCell(jsonEncode(cell.toJson()));
+      await _client.addCell(jsonEncode(cell));
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -127,8 +129,8 @@ class Controller implements InteractionView{
   Future<void> addSheet(int idCell, String title, String subtitle) async{
     print('/* ADD SHEET */');
     try{
-      var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1).toJson());
-      await _client.addItem('Sheet', jsonEncode(json));
+      var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1));
+      await _client.addItem('Sheet', json);
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -141,8 +143,8 @@ class Controller implements InteractionView{
   @override
   Future<void> addCheckbox(int idParent) async{
     try{
-      var json = jsonEncode(cb.Checkbox(id: -1, idParent: idParent, text: '', idOrder: -1).toJson());
-      await _client.addItem('Checkbox', jsonEncode(json));
+      var json = jsonEncode(cb.Checkbox(id: -1, idParent: idParent, text: '', idOrder: -1));
+      await _client.addItem('Checkbox', json);
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
@@ -151,21 +153,24 @@ class Controller implements InteractionView{
 
   @override
   Future<void> addImage(int idParent, Uint8List data) async{
+    print('ADD IMAGE');
     try{
-      //var json = Image().toJson();
-      // TODO: implement addImage
-      throw UnimplementedError();
+      var json = jsonEncode(img.Image(id: -1, data: data, idParent: idParent, idOrder: -1));
+      await _client.addItem('Image', json);
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
+    finally{
+      print('ADD IMAGE END');
+    }
   }
 
   @override
   Future<void> addTexts(int idParent, int txtType) async{
     try{
-      var json = jsonEncode(text.Text(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: -1).toJson());
-      await _client.addItem('Text', jsonEncode(json));
+      var json = jsonEncode(text.Text(text:'', idParent: idParent, txtType: TextType.values[txtType], id: -1, idOrder: -1));
+      await _client.addItem('Text', json);
     }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e){ throw DatabaseTimeoutException('$e'); }
