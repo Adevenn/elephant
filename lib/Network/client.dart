@@ -75,7 +75,7 @@ class Client{
   Future<void> addItem(String type, String json) async{
     try{
       await _socket.setup('addItem');
-      await _socket.writeAsym(type);
+      await _socket.writeSym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
