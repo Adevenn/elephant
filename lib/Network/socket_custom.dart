@@ -35,8 +35,24 @@ class SocketCustom{
       _socket = await Socket.connect(_ipServer, _portServer, timeout: const Duration(seconds: 5));
       _queue = StreamQueue(_socket);
       _socket.write('init');
+
+      //Key Exchange
       _asym.clientKey = await read();
+      await writeAsym(_sym.key);
+      await synchronizeRead();
+
+      await _dbValues();
+      var result = await read();
       await disconnect();
+      if(result == 'databaseTimeout'){
+        throw const DatabaseTimeoutException();
+      }
+      else if(result == 'failed'){
+        throw const DatabaseException();
+      }
+      else if(result != 'success'){
+        throw const ServerException();
+      }
     }
     on SocketException catch(e){ throw ServerException('(SocketCustom)init:\n$e'); }
     on ServerException catch(e){ throw ServerException('(SocketCustom)init:\n$e'); }
