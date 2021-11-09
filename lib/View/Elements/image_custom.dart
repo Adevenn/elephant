@@ -1,11 +1,12 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Interfaces/interaction_view.dart';
+import '../Interfaces/interaction_view.dart';
 
 class ImageCustom extends StatefulWidget{
 
   final Uint8List data;
   final InteractionView interView;
+
   const ImageCustom({required this.interView, required this.data, required Key? key}) : super(key: key);
 
   @override

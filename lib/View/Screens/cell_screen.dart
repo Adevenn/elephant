@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/ScreenPart/add_cell_dialog.dart';
-import 'package:my_netia_client/View/ScreenPart/delete_cell_dialog.dart';
+import '/View/ScreenPart/add_cell_dialog.dart';
+import '/View/ScreenPart/delete_cell_dialog.dart';
 import '/Model/CellComponents/book.dart';
 import '/Model/CellComponents/ranking.dart';
 import '/Model/CellComponents/to_do_list.dart';
@@ -24,7 +24,7 @@ class _CellScreenState extends State<CellScreen>{
   InteractionToMainScreen get interMain => widget._interMain;
   Cell get currentCell => widget._currentCell;
   final _controllerResearch = TextEditingController();
-  String researchWord = '';
+  var researchWord = '';
 
   _CellScreenState();
 
