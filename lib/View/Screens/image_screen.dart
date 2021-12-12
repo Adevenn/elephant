@@ -25,6 +25,9 @@ class ImageScreen extends StatelessWidget{
                 var image = snapshot.data!;
                 return Center(
                   child: InteractiveViewer(
+                    boundaryMargin: const EdgeInsets.all(20.0),
+                    minScale: 0.1,
+                    maxScale: 1.6,
                     child: Container(
                       child: ImageRaw(data: image.imgRaw!),
                     ),
