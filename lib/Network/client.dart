@@ -28,7 +28,7 @@ class Client{
   Future<String> cells(String matchWord) async{
     try{
       await _socket.setup('cells');
-      //Asym because matchWord can be null ('')
+      //Asym because matchWord can be null ('') (Sym can't send empty string)
       await _socket.writeAsym(matchWord);
       var cellsAsJson = await _socket.readBigString();
       await _socket.disconnect();
@@ -60,6 +60,17 @@ class Client{
     }
     on SocketException{ throw const ServerException('Connection failed'); }
     catch(e) { throw Exception('(Client)elements:\n$e'); }
+  }
+
+  Future<String> rawImage(int idImage) async{
+    try{
+      await _socket.setup('rawImage');
+      await _socket.writeSym(idImage.toString());
+      var imageData = await _socket.readBigString();
+      await _socket.disconnect();
+      return imageData;
+    }
+    catch(e){ throw Exception(e); }
   }
 
   Future<void> addCell(String jsonCell) async{

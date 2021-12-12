@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '/Model/Elements/image.dart' as Img;
+import '/Model/Elements/image.dart' as img;
 import '/Model/sheet.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
@@ -40,5 +40,5 @@ abstract class InteractionView{
   ///Load the main screen
   void gotoMainScreen(BuildContext context);
 
-  Future<Img.Image> getRawImage(int idImage);
+  Future<Uint8List?> getRawImage(int idImage);
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/ScreenPart/add_sheet_dialog.dart';
-import 'package:my_netia_client/View/ScreenPart/delete_sheet_dialog.dart';
+import '/View/ScreenPart/add_sheet_dialog.dart';
+import '/View/ScreenPart/delete_sheet_dialog.dart';
 import '/Model/sheet.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 

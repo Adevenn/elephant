@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '/View/Elements/image_raw.dart';
-import '/Model/Elements/image.dart' as Img;
+import '/Model/Elements/image.dart' as img;
 import '/View/Interfaces/interaction_to_main_screen.dart';
 
 class ImageScreen extends StatelessWidget{
@@ -18,9 +18,9 @@ class ImageScreen extends StatelessWidget{
           appBar: AppBar(
             title: const Text('Image'),
           ),
-          body: FutureBuilder<Img.Image>(
-            future: interMain.getRawImage(idImage),
-            builder: (BuildContext context, AsyncSnapshot<Img.Image> snapshot) {
+          body: FutureBuilder<img.Image>(
+            future: interMain.selectRawImage(idImage),
+            builder: (BuildContext context, AsyncSnapshot<img.Image> snapshot) {
               if(snapshot.hasData){
                 var image = snapshot.data!;
                 return Center(

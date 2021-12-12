@@ -25,16 +25,11 @@ void main() {
 
 class Controller implements InteractionView{
   late Client _client;
-  late final Info _defaultCell;
+  final Info _defaultCell = Info(title: 'MyNetia');
 
   start() async{
-    createDefaultCell();
     runApp(MyApp(this));
     //TODO: Disable some actions when _readOnly = true (inside Options)
-  }
-
-  void createDefaultCell() {
-    _defaultCell = Info(title: 'MyNetia');
   }
 
   /// VIEW INTERACTION ///
@@ -63,6 +58,7 @@ class Controller implements InteractionView{
       });
     }
     on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
     return cells;
   }
@@ -78,6 +74,7 @@ class Controller implements InteractionView{
       });
     }
     on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
     return sheets;
   }
@@ -93,8 +90,17 @@ class Controller implements InteractionView{
       });
     }
     on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e) { throw Exception(e); }
     return elements;
+  }
+
+  @override
+  Future<Uint8List?> getRawImage(int idImage) async{
+    try{ return jsonDecode(await _client.rawImage(idImage)); }
+    on ServerException catch(e) { throw ServerException('$e'); }
+    on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
+    catch(e){ throw Exception(e); }
   }
 
   @override
@@ -210,12 +216,6 @@ class Controller implements InteractionView{
         builder: (BuildContext context) => MainScreen(this),
       ),
     );
-  }
-
-  @override
-  Future<img.Image> getRawImage(int idImage) {
-    // TODO: implement getRawImage
-    throw UnimplementedError();
   }
 }
 

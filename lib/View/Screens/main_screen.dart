@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui';
 
-import 'package:image/image.dart' as Img;
-import '/Model/Elements/image.dart' as ImgModel;
+import 'package:image/image.dart' as img;
+import '/Model/Elements/image.dart' as img_model;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -79,8 +77,16 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   }
 
   @override
-  Future<ImgModel.Image> getRawImage(int idImage) async{
-    return await interView.getRawImage(idImage);
+  Future<img_model.Image> selectRawImage(int idImage) async{
+    for(var i = 0; i < _currentSheet.elemCount; i++){
+      if(_currentSheet.elements[i].id == idImage){
+        if((_currentSheet.elements[i] as img_model.Image).imgRaw == null){
+          (_currentSheet.elements[i] as img_model.Image).imgRaw = await interView.getRawImage(idImage);
+        }
+        return _currentSheet.elements[i] as img_model.Image;
+      }
+    }
+    throw Exception('Error with selectRawImage');
   }
 
   @override
@@ -161,8 +167,8 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       if(result != null){
         List<File> files = result.paths.map((path) => File(path!)).toList();
         for(var file in files) {
-          var img = Img.decodeImage(await file.readAsBytes())!;
-          var imgResize = Img.encodePng(Img.copyResize(img, height: 1080));
+          var image = img.decodeImage(await file.readAsBytes())!;
+          var imgResize = img.encodePng(img.copyResize(image, height: 1080));
           var fileResize = File(basename(file.path))..writeAsBytes(imgResize);
           await interView.addImage(_currentSheet.id, await fileResize.readAsBytes());
         }
