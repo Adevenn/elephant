@@ -2,22 +2,21 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/Network/Encryption/sym_encryption.dart';
-import '../Exception/database_exception.dart';
-import '../Exception/database_timeout_exception.dart';
-import '../Exception/server_exception.dart';
-import '../Model/Elements/checkbox.dart' as cb;
-import '../Model/Elements/image.dart' as img;
-import '../Model/Elements/element.dart' as elem;
-import '../Model/sheet.dart';
-import '../Network/client.dart';
-import '../Model/cell.dart';
-import '../Model/CellComponents/info.dart';
-import '../Model/Elements/text.dart' as text;
-import '../Model/Elements/text_type.dart';
-import '../View/Interfaces/interaction_view.dart';
-import '../View/Screens/login_screen.dart';
-import '../View/Screens/main_screen.dart';
+import '/Exception/database_exception.dart';
+import '/Exception/database_timeout_exception.dart';
+import '/Exception/server_exception.dart';
+import '/Model/Elements/checkbox.dart' as cb;
+import '/Model/Elements/image.dart' as img;
+import '/Model/Elements/element.dart' as elem;
+import '/Model/sheet.dart';
+import '/Network/client.dart';
+import '/Model/cell.dart';
+import '/Model/CellComponents/info.dart';
+import '/Model/Elements/text.dart' as text;
+import '/Model/Elements/text_type.dart';
+import '/View/Interfaces/interaction_view.dart';
+import '/View/Screens/login_screen.dart';
+import '/View/Screens/main_screen.dart';
 
 void main() {
   Controller controller = Controller();
@@ -32,7 +31,6 @@ class Controller implements InteractionView{
     createDefaultCell();
     runApp(MyApp(this));
     //TODO: Disable some actions when _readOnly = true (inside Options)
-    //TODO: Themes
   }
 
   void createDefaultCell() {
@@ -43,7 +41,6 @@ class Controller implements InteractionView{
 
   @override
   Cell getDefaultCell() => _defaultCell;
-
 
   @override
   Future<void> testConnection(String ip, int port, String database, String username, String password) async {

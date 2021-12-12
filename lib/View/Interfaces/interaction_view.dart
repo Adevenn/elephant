@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/Model/Elements/image.dart' as Img;
-import '../../Model/sheet.dart';
-import '../../Model/cell.dart';
-import '../../Model/Elements/element.dart' as elem;
+import '/Model/Elements/image.dart' as Img;
+import '/Model/sheet.dart';
+import '/Model/cell.dart';
+import '/Model/Elements/element.dart' as elem;
 
 abstract class InteractionView{
 
