@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/Model/Elements/image.dart' as Img;
 import '../../Model/sheet.dart';
 import '../../Model/cell.dart';
 import '../../Model/Elements/element.dart' as elem;
@@ -38,4 +39,6 @@ abstract class InteractionView{
   void gotoLoginScreen(BuildContext context);
   ///Load the main screen
   void gotoMainScreen(BuildContext context);
+
+  Future<Img.Image> getRawImage(int idImage);
 }

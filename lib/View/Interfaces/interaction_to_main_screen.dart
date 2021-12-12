@@ -1,3 +1,4 @@
+import '/Model/Elements/image.dart';
 import '/Model/Elements/element.dart';
 import '/Model/cell.dart';
 import '/Model/sheet.dart';
@@ -6,6 +7,7 @@ abstract class InteractionToMainScreen{
 
   void getDefaultCell();
 
+  Future<Image> getRawImage(int idImage);
   Future<void> selectCurrentCell(Cell cell);
   void setCurrentSheetIndex(int index);
   Future<List<Cell>> updateCells([String matchWord = '']);

@@ -136,7 +136,7 @@ class Controller implements InteractionView{
   @override
   Future<void> addImage(int idParent, Uint8List data) async{
     try{
-      var json = jsonEncode(img.Image(id: -1, data: data, idParent: idParent, idOrder: -1));
+      var json = jsonEncode(img.Image(id: -1, imgPreview: data, idParent: idParent, idOrder: -1));
       await _client.addItem('Image', json);
     }
     on ServerException catch(e) { throw ServerException('$e'); }
@@ -213,6 +213,12 @@ class Controller implements InteractionView{
         builder: (BuildContext context) => MainScreen(this),
       ),
     );
+  }
+
+  @override
+  Future<img.Image> getRawImage(int idImage) {
+    // TODO: implement getRawImage
+    throw UnimplementedError();
   }
 }
 

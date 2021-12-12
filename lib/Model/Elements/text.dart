@@ -11,10 +11,10 @@ class Text extends Element{
   @override
   Map<String, dynamic> toJson() => {
     'id' : id,
-    'idParent' : idParent,
+    'id_parent' : idParent,
     'text' : text,
-    'txtType' : txtType.index,
-    'idOrder' : idOrder,
+    'txt_type' : txtType.index,
+    'id_order' : idOrder,
     'type' : runtimeType.toString(),
   };
 }

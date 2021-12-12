@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Elements/image_custom.dart';
+import 'package:my_netia_client/View/Elements/image_preview.dart';
 import '../ScreenPart/delete_element_dialog.dart';
 import '../Interfaces/interaction_to_main_screen.dart';
 import '/Model/Elements/checkbox.dart' as cb;
@@ -34,7 +34,7 @@ class _ElementScreenState extends State<ElementScreen>{
           _widgets.add(TextFieldCustom(interView: interView, key: UniqueKey(), texts: element as text.Text));
           break;
         case img.Image:
-          _widgets.add(ImageCustom(interView: interView, data: (element as img.Image).data, key: UniqueKey()));
+          _widgets.add(ImagePreview(interView: interView, data: (element as img.Image).imgPreview, key: UniqueKey()));
           break;
         case cb.Checkbox:
           _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkbox: element as cb.Checkbox));

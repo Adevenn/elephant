@@ -15,11 +15,11 @@ abstract class Element{
   factory Element.fromJson(Map<String, dynamic> json){
     switch(json['type']){
       case 'Checkbox':
-        return Checkbox(id: json['id'], idParent: json['idParent'], isChecked: json['isChecked'], text: json['text'], idOrder: json['idOrder']);
+        return Checkbox(id: json['id'], idParent: json['id_parent'], isChecked: json['is_checked'], text: json['text'], idOrder: json['id_order']);
       case 'Image':
-        return Image(id: json['id'], idParent: json['idParent'], data: Uint8List.fromList(json['data'].cast<int>()), idOrder: json['idOrder']);
+        return Image(id: json['id'], idParent: json['id_parent'], imgPreview: Uint8List.fromList(json['img_preview'].cast<int>()), idOrder: json['id_order']);
       case 'Text':
-        return Text(id: json['id'], idParent: json['idParent'], text: json['text'], txtType: TextType.values[json['txtType']], idOrder: json['idOrder']);
+        return Text(id: json['id'], idParent: json['id_parent'], text: json['text'], txtType: TextType.values[json['txt_type']], idOrder: json['id_order']);
       default:
         throw Exception('Json with wrong element type');
     }

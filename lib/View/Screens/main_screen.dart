@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
+import 'package:image/image.dart' as Img;
+import '/Model/Elements/image.dart' as ImgModel;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
 import '/Model/sheet.dart';
@@ -57,7 +61,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       title: Text(_currentCell.title),
       actions: [
         IconButton(
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CellScreen(this, _currentCell))),
+          onPressed: () => Navigator.push(this.context, MaterialPageRoute(builder: (context) => CellScreen(this, _currentCell))),
           icon: const Icon(Icons.sort)
         )
       ],
@@ -72,6 +76,11 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   void getDefaultCell(){
     _currentCell = interView.getDefaultCell();
     _currentSheet = Sheet(-1, -1, 'my_netia', '', 0);
+  }
+
+  @override
+  Future<ImgModel.Image> getRawImage(int idImage) async{
+    return await interView.getRawImage(idImage);
   }
 
   @override
@@ -90,7 +99,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   Future<List<Cell>> updateCells([String matchWord = '']) async{
     try{ return await interView.getCells(matchWord); }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
@@ -100,13 +109,13 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       _currentSheet = sheets[_indexCurrentSheet];
       return sheets;
     }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
   Future<List<elem.Element>> updateElements() async{
     try{ return await interView.getElements(_currentSheet.id); }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
@@ -122,19 +131,19 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   Future<void> updateElementsOrder(List<elem.Element> elements) async{
     try{ await interView.updateElementOrder(elements); }
-    catch(e) { throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e) { throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
   Future<void> addCell(String title, String subtitle, String type) async{
     try{ await interView.addCell(title, subtitle, type); }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
   Future<void> addSheet(String title, String subtitle) async{
     try{ await interView.addSheet(_currentCell.id, title, subtitle); }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
@@ -142,7 +151,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
     try{
       await interView.addTexts(_currentSheet.id, type);
       setState(() {});
-    } catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    } catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
@@ -151,12 +160,15 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true, allowedExtensions: ['jpg, png, jpeg']);
       if(result != null){
         List<File> files = result.paths.map((path) => File(path!)).toList();
-        for (var file in files) {
-          await interView.addImage(_currentSheet.id, await file.readAsBytes());
+        for(var file in files) {
+          var img = Img.decodeImage(await file.readAsBytes())!;
+          var imgResize = Img.encodePng(Img.copyResize(img, height: 1080));
+          var fileResize = File(basename(file.path))..writeAsBytes(imgResize);
+          await interView.addImage(_currentSheet.id, await fileResize.readAsBytes());
         }
       }
       setState(() {});
-    } catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    } catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
@@ -165,25 +177,25 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       await interView.addCheckbox(_currentSheet.id);
       setState(() {});
     }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
   Future<void> deleteCell(int idCell) async{
     try{ await interView.deleteItem('Cell', idCell); }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
   Future<void> deleteSheet(int idSheet) async{
     try{ await interView.deleteItem('Sheet', idSheet); }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 
   @override
   Future<void> deleteElement(int index) async{
     try{ await interView.deleteItem('Element', index); }
-    catch(e){ throw MainScreenException(interView: interView, context: context, error: e); }
+    catch(e){ throw MainScreenException(interView: interView, context: this.context, error: e); }
   }
 }
 
