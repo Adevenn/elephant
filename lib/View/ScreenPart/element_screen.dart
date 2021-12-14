@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Elements/image_preview.dart';
+import '/View/Elements/image_preview.dart';
 import '../ScreenPart/delete_element_dialog.dart';
-import '../Interfaces/interaction_to_main_screen.dart';
+import '../Interfaces/interaction_main_screen.dart';
 import '/Model/Elements/checkbox.dart' as cb;
 import '/Model/Elements/image.dart' as img;
 import '/Model/Elements/text.dart' as text;
@@ -12,8 +12,8 @@ import '../Elements/item_content_sheet.dart';
 import '/Model/Elements/element.dart' as elem;
 
 class ElementScreen extends StatefulWidget{
-  final InteractionView interView;
-  final InteractionToMainScreen interMain;
+  final InteractionMain interView;
+  final InteractionMainScreen interMain;
 
   const ElementScreen({Key? key, required this.interView, required this.interMain}) : super(key: key);
 
@@ -23,10 +23,10 @@ class ElementScreen extends StatefulWidget{
 
 class _ElementScreenState extends State<ElementScreen>{
 
-  InteractionToMainScreen get interMain => widget.interMain;
-  InteractionView get interView => widget.interView;
+  InteractionMainScreen get interMain => widget.interMain;
+  InteractionMain get interView => widget.interView;
 
-  List<Widget> elementsToWidgets(List<Object> items, InteractionView interView){
+  List<Widget> elementsToWidgets(List<Object> items, InteractionMain interView){
     List<Widget> _widgets = [];
     for(var element in items) {
       switch(element.runtimeType){
@@ -34,7 +34,7 @@ class _ElementScreenState extends State<ElementScreen>{
           _widgets.add(TextFieldCustom(interView: interView, key: UniqueKey(), texts: element as text.Text));
           break;
         case img.Image:
-          _widgets.add(ImagePreview(interView: interView, data: (element as img.Image).imgPreview, key: UniqueKey()));
+          _widgets.add(ImagePreview(interMain: interMain, image: element as img.Image, key: UniqueKey()));
           break;
         case cb.Checkbox:
           _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkbox: element as cb.Checkbox));

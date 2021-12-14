@@ -3,7 +3,7 @@ import '../../Model/Elements/checkbox.dart' as cb;
 import '../Interfaces/interaction_view.dart';
 
 class CheckboxCustom extends StatefulWidget{
-  final InteractionView interView;
+  final InteractionMain interView;
   final cb.Checkbox checkbox;
 
   const CheckboxCustom({required Key key, required this.interView, required this.checkbox}) : super(key: key);
@@ -15,7 +15,7 @@ class CheckboxCustom extends StatefulWidget{
 class _CheckBoxState extends State<CheckboxCustom>{
 
   cb.Checkbox get checkbox => widget.checkbox;
-  InteractionView get interView => widget.interView;
+  InteractionMain get interView => widget.interView;
   var focusCheckbox = FocusNode();
   var focusTxt = FocusNode();
   late bool backupChecked;

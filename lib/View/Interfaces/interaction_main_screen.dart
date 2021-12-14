@@ -3,7 +3,7 @@ import '/Model/Elements/element.dart';
 import '/Model/cell.dart';
 import '/Model/sheet.dart';
 
-abstract class InteractionToMainScreen{
+abstract class InteractionMainScreen{
 
   void getDefaultCell();
 

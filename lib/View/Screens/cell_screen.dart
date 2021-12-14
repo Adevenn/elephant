@@ -6,11 +6,11 @@ import '/Model/CellComponents/book.dart';
 import '/Model/CellComponents/ranking.dart';
 import '/Model/CellComponents/to_do_list.dart';
 import '/Model/cell.dart';
-import '../Interfaces/interaction_to_main_screen.dart';
+import '../Interfaces/interaction_main_screen.dart';
 
 class CellScreen extends StatefulWidget{
 
-  final InteractionToMainScreen _interMain;
+  final InteractionMainScreen _interMain;
   final Cell _currentCell;
 
   const CellScreen(this._interMain, this._currentCell, {Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class CellScreen extends StatefulWidget{
 
 class _CellScreenState extends State<CellScreen>{
 
-  InteractionToMainScreen get interMain => widget._interMain;
+  InteractionMainScreen get interMain => widget._interMain;
   Cell get currentCell => widget._currentCell;
   final _controllerResearch = TextEditingController();
   var researchWord = '';

@@ -4,7 +4,7 @@ import '../../Model/Elements/text.dart' as text;
 import '../../Model/Elements/text_type.dart';
 
 class TextFieldCustom extends StatefulWidget{
-  final InteractionView interView;
+  final InteractionMain interView;
   final text.Text texts;
 
   const TextFieldCustom({required Key? key, required this.interView, required this.texts}) : super(key: key);
@@ -15,7 +15,7 @@ class TextFieldCustom extends StatefulWidget{
 
 class _TextFieldCustomState extends State<TextFieldCustom>{
 
-  InteractionView get interView => widget.interView;
+  InteractionMain get interView => widget.interView;
   text.Text get texts => widget.texts;
   final focus = FocusNode();
   late String backupText;

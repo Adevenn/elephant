@@ -23,7 +23,7 @@ void main() {
   controller.start();
 }
 
-class Controller implements InteractionView{
+class Controller implements InteractionMain{
   late Client _client;
   final Info _defaultCell = Info(title: 'MyNetia');
 
@@ -220,7 +220,7 @@ class Controller implements InteractionView{
 }
 
 class MyApp extends StatelessWidget{
-  final InteractionView interactionView;
+  final InteractionMain interactionView;
 
    const MyApp(this.interactionView, {Key? key}) : super(key: key);
 

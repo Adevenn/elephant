@@ -3,7 +3,7 @@ import '/Model/user_settings.dart';
 import '../Interfaces/interaction_view.dart';
 
 class LoginScreen extends StatefulWidget {
-  final InteractionView _interView;
+  final InteractionMain _interView;
   const LoginScreen(this._interView, {Key? key}) : super(key: key);
 
   @override
@@ -11,7 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginScreen>{
-  InteractionView get interView => widget._interView;
+  InteractionMain get interView => widget._interView;
   final _formKey = GlobalKey<FormState>();
   RegExp ipv4Reg = RegExp(r'^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$', caseSensitive: false, multiLine: false);
   final _ip = TextEditingController();

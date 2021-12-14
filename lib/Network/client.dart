@@ -70,6 +70,7 @@ class Client{
       await _socket.disconnect();
       return imageData;
     }
+    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
     catch(e){ throw Exception(e); }
   }
 

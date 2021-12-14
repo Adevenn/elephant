@@ -12,13 +12,13 @@ import '/Model/sheet.dart';
 import '../ScreenPart/element_screen.dart';
 import 'cell_screen.dart';
 import '../ScreenPart/floating_buttons.dart';
-import '../Interfaces/interaction_to_main_screen.dart';
+import '../Interfaces/interaction_main_screen.dart';
 import '../Interfaces/interaction_view.dart';
 import 'option_screen.dart';
 
 
 class MainScreen extends StatefulWidget{
-  final InteractionView _interView;
+  final InteractionMain _interView;
 
   const MainScreen(this._interView, {Key? key}) : super(key: key);
 
@@ -26,10 +26,10 @@ class MainScreen extends StatefulWidget{
   State<StatefulWidget> createState() => _MainState();
 }
 
-class _MainState extends State<MainScreen> implements InteractionToMainScreen{
+class _MainState extends State<MainScreen> implements InteractionMainScreen{
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  InteractionView get interView => widget._interView;
+  InteractionMain get interView => widget._interView;
   late Cell _currentCell;
   late Sheet _currentSheet;
   int _indexCurrentSheet = 0;
@@ -206,7 +206,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
 }
 
 class MainScreenException implements Exception{
-  InteractionView interView;
+  InteractionMain interView;
   BuildContext context;
 
   MainScreenException({required this.interView, required this.context, required Object error}){

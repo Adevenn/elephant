@@ -1,22 +1,20 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../Interfaces/interaction_view.dart';
+import 'package:my_netia_client/View/Interfaces/interaction_main_screen.dart';
+import '/Model/Elements/image.dart' as img;
+import '/View/Screens/image_screen.dart';
 
 class ImagePreview extends StatelessWidget{
 
-  final Uint8List data;
-  final InteractionView interView;
+  final img.Image image;
+  final InteractionMainScreen interMain;
 
-  const ImagePreview({required this.interView, required this.data, required Key? key}) : super(key: key);
+  const ImagePreview({required this.interMain, required this.image, required Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        constraints: const BoxConstraints(
-          maxWidth: 500,
-          maxHeight: 500
-        ),
-        child: Image.memory(data)
+    return InkWell(
+      child: Image.memory(image.imgPreview),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(idImage: image.id, interMain: interMain))),
     );
   }
 }
