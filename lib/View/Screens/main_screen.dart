@@ -157,7 +157,7 @@ class _MainState extends State<MainScreen> implements InteractionMainScreen{
   @override
   Future<void> addImage() async{
     try{
-      FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true, allowedExtensions: ['jpg, png, jpeg']);
+      FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false, allowedExtensions: ['pdf', 'jpeg', 'png'], withData: true);
       if(result != null){
         List<File> files = result.paths.map((path) => File(path!)).toList();
         for(var file in files) {

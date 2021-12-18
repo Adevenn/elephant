@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Interfaces/interaction_main_screen.dart';
+import '/View/Interfaces/interaction_main_screen.dart';
 import '/Model/Elements/image.dart' as img;
 import '/View/Screens/image_screen.dart';
 
