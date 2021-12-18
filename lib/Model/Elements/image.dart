@@ -9,6 +9,9 @@ class Image extends Element{
   Image({required int id, required int idParent, required this.imgPreview, required int idOrder})
     : super(id: id, idParent: idParent, idOrder: idOrder);
 
+  Image.full({required int id, required int idParent, required this.imgPreview, this.imgRaw, required int idOrder})
+      : super(id: id, idParent: idParent, idOrder: idOrder);
+
   @override
   Map<String, dynamic> toJson() => {
     'id' : id,

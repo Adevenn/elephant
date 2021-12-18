@@ -27,7 +27,7 @@ abstract class InteractionMain{
   Future<void> addCell(String title, String subtitle, String type);
   Future<void> addSheet(int idCell, String title, String subtitle);
   Future<void> addCheckbox(int idParent);
-  Future<void> addImage(int idParent, Uint8List data);
+  Future<void> addImage(int idParent, Uint8List previewImage, Uint8List rawImage);
   Future<void> addTexts(int idParent, int txtType);
   Future<void> deleteItem(String type, int index);
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
@@ -40,5 +40,5 @@ abstract class InteractionMain{
   ///Load the main screen
   void gotoMainScreen(BuildContext context);
 
-  Future<Uint8List?> getRawImage(int idImage);
+  Future<Uint8List> getRawImage(int idImage);
 }

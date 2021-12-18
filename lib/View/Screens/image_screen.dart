@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import '/View/Elements/image_raw.dart';
 import '/Model/Elements/image.dart' as img;
@@ -18,18 +20,19 @@ class ImageScreen extends StatelessWidget{
           appBar: AppBar(
             title: const Text('Image'),
           ),
-          body: FutureBuilder<img.Image>(
+          body: FutureBuilder<Uint8List>(
             future: interMain.selectRawImage(idImage),
-            builder: (BuildContext context, AsyncSnapshot<img.Image> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
               if(snapshot.hasData){
-                var image = snapshot.data!;
+                print('DATA ARRIVED !!');
+                var data = snapshot.data!;
                 return Center(
                   child: InteractiveViewer(
                     boundaryMargin: const EdgeInsets.all(20.0),
                     minScale: 0.1,
                     maxScale: 1.6,
                     child: Container(
-                      child: ImageRaw(data: image.imgRaw!),
+                      child: ImageRaw(data: data),
                     ),
                   ),
                 );

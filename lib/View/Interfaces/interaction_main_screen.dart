@@ -1,4 +1,5 @@
-import '/Model/Elements/image.dart';
+import 'dart:typed_data';
+
 import '/Model/Elements/element.dart';
 import '/Model/cell.dart';
 import '/Model/sheet.dart';
@@ -7,7 +8,7 @@ abstract class InteractionMainScreen{
 
   void getDefaultCell();
 
-  Future<Image> selectRawImage(int idImage);
+  Future<Uint8List> selectRawImage(int idImage);
   Future<void> selectCurrentCell(Cell cell);
   void setCurrentSheetIndex(int index);
 

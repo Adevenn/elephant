@@ -96,8 +96,12 @@ class Controller implements InteractionMain{
   }
 
   @override
-  Future<Uint8List?> getRawImage(int idImage) async{
-    try{ return jsonDecode(await _client.rawImage(idImage)); }
+  Future<Uint8List> getRawImage(int idImage) async{
+    try{
+      var json = jsonDecode(await _client.rawImage(idImage));
+      assert(json is Map<String, dynamic>);
+      return Uint8List.fromList(json['img_raw'].cast<int>());
+    }
     on ServerException catch(e) { throw ServerException('$e'); }
     on DatabaseTimeoutException catch(e) { throw DatabaseTimeoutException('$e'); }
     catch(e){ throw Exception(e); }
@@ -137,9 +141,9 @@ class Controller implements InteractionMain{
   }
 
   @override
-  Future<void> addImage(int idParent, Uint8List data) async{
+  Future<void> addImage(int idParent, Uint8List previewImage, Uint8List rawImage) async{
     try{
-      var json = jsonEncode(img.Image(id: -1, imgPreview: data, idParent: idParent, idOrder: -1));
+      var json = jsonEncode(img.Image.full(id: -1, imgPreview: previewImage, imgRaw: rawImage, idParent: idParent, idOrder: -1));
       await _client.addItem('Image', json);
     }
     on ServerException catch(e) { throw ServerException('$e'); }

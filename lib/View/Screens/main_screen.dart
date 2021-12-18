@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
 import '/Model/Elements/image.dart' as img_model;
@@ -77,16 +78,9 @@ class _MainState extends State<MainScreen> implements InteractionMainScreen{
   }
 
   @override
-  Future<img_model.Image> selectRawImage(int idImage) async{
-    for(var i = 0; i < _currentSheet.elemCount; i++){
-      if(_currentSheet.elements[i].id == idImage){
-        if((_currentSheet.elements[i] as img_model.Image).imgRaw == null){
-          (_currentSheet.elements[i] as img_model.Image).imgRaw = await interView.getRawImage(idImage);
-        }
-        return _currentSheet.elements[i] as img_model.Image;
-      }
-    }
-    throw Exception('Error with selectRawImage');
+  Future<Uint8List> selectRawImage(int idImage) async{
+    try{ return await interView.getRawImage(idImage); }
+    catch(e){ throw Exception(e); }
   }
 
   @override
@@ -168,9 +162,9 @@ class _MainState extends State<MainScreen> implements InteractionMainScreen{
         List<File> files = result.paths.map((path) => File(path!)).toList();
         for(var file in files) {
           var image = img.decodeImage(await file.readAsBytes())!;
-          var imgResize = img.encodePng(img.copyResize(image, height: 1080));
+          var imgResize = img.encodePng(img.copyResize(image, height: 500));
           var fileResize = File(basename(file.path))..writeAsBytes(imgResize);
-          await interView.addImage(_currentSheet.id, await fileResize.readAsBytes());
+          await interView.addImage(_currentSheet.id, await fileResize.readAsBytes(), await file.readAsBytes());
         }
       }
       setState(() {});
