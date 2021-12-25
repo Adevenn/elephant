@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '/View/Elements/image_raw.dart';
 import '/View/Interfaces/interaction_main_screen.dart';
@@ -21,9 +22,13 @@ class ImageScreen extends StatelessWidget{
           if(snapshot.hasData){
             var data = snapshot.data!;
             return Center(
-              child: InteractiveViewer(
-                boundaryMargin: const EdgeInsets.all(10.0),
-                child: ImageRaw(data: data),
+              child: SingleChildScrollView(
+                child: Center(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Center(child: ImageRaw(data: data)),
+                  ),
+                ),
               ),
             );
           }

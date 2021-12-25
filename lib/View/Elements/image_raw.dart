@@ -9,7 +9,7 @@ class ImageRaw extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return InteractiveViewer(
         child: Image.memory(data)
     );
   }
