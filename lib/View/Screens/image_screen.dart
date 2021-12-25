@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '/View/Elements/image_raw.dart';
 import '/View/Interfaces/interaction_main_screen.dart';
@@ -26,7 +25,7 @@ class ImageScreen extends StatelessWidget{
                 child: Center(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Center(child: ImageRaw(data: data)),
+                    child: ImageRaw(data: data),
                   ),
                 ),
               ),
