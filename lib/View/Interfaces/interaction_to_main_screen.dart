@@ -4,7 +4,7 @@ import '/Model/Elements/element.dart';
 import '/Model/cell.dart';
 import '/Model/sheet.dart';
 
-abstract class InteractionMainScreen{
+abstract class InteractionToMainScreen{
 
   void getDefaultCell();
 

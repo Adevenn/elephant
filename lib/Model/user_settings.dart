@@ -4,6 +4,16 @@ class UserSettings{
 
   static late SharedPreferences _prefs;
 
+  static Future<String> getDatabase() async{
+    _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString('database') ?? '';
+  }
+
+  static Future<void> setDatabase(String database) async{
+    _prefs = await SharedPreferences.getInstance();
+    _prefs.setString('database', database);
+  }
+
   static Future<String> getIp() async{
     _prefs = await SharedPreferences.getInstance();
     return _prefs.getString('ip') ?? '';
@@ -24,14 +34,24 @@ class UserSettings{
     _prefs.setInt('port', port);
   }
 
-  static Future<String> getDatabase() async{
+  static Future<bool> getReadOnly() async{
     _prefs = await SharedPreferences.getInstance();
-    return _prefs.getString('database') ?? '';
+    return _prefs.getBool('read_only') ?? false;
   }
 
-  static Future<void> setDatabase(String database) async{
+  static Future<void> setReadOnly(bool isReadOnly) async{
     _prefs = await SharedPreferences.getInstance();
-    _prefs.setString('database', database);
+    _prefs.setBool('read_only', isReadOnly);
+  }
+
+  static Future<bool> getTheme() async{
+    _prefs = await SharedPreferences.getInstance();
+    return _prefs.getBool('theme') ?? true;
+  }
+
+  static Future<void> setTheme(bool isDark) async{
+    _prefs = await SharedPreferences.getInstance();
+    _prefs.setBool('theme', isDark);
   }
 
   static Future<String> getUsername() async{

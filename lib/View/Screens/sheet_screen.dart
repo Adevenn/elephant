@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '/View/ScreenPart/add_sheet_dialog.dart';
 import '/View/ScreenPart/delete_sheet_dialog.dart';
 import '/Model/sheet.dart';
-import '../Interfaces/interaction_main_screen.dart';
+import '../Interfaces/interaction_to_main_screen.dart';
 
 class SheetScreen extends StatefulWidget{
 
-  final InteractionMainScreen interMain;
+  final InteractionToMainScreen interMain;
 
   const SheetScreen({Key? key, required this.interMain}) : super(key: key);
 
@@ -16,7 +16,7 @@ class SheetScreen extends StatefulWidget{
 
 class _SheetScreenState extends State<SheetScreen>{
 
-  InteractionMainScreen get interMain => widget.interMain;
+  InteractionToMainScreen get interMain => widget.interMain;
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_main_screen.dart';
+import '/View/Interfaces/interaction_to_main_screen.dart';
 import '/Model/Elements/image.dart' as img;
 import '/View/Screens/image_screen.dart';
 
 class ImagePreview extends StatelessWidget{
 
   final img.Image image;
-  final InteractionMainScreen interMain;
+  final InteractionToMainScreen interMain;
 
   const ImagePreview({required this.interMain, required this.image, required Key? key}) : super(key: key);
 

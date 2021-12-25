@@ -4,10 +4,10 @@ import '../Screens/sheet_screen.dart';
 import '/Model/cell.dart';
 import '/Model/CellComponents/book.dart';
 import '/Model/Elements/text_type.dart';
-import '../Interfaces/interaction_main_screen.dart';
+import '../Interfaces/interaction_to_main_screen.dart';
 
 class FloatingButtons extends StatelessWidget{
-  final InteractionMainScreen interMain;
+  final InteractionToMainScreen interMain;
   final Cell _currentCell;
 
   const FloatingButtons(this.interMain, this._currentCell, {Key? key}) : super(key: key);

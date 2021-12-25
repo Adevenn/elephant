@@ -14,7 +14,7 @@ import '/Model/cell.dart';
 import '/Model/CellComponents/info.dart';
 import '/Model/Elements/text.dart' as text;
 import '/Model/Elements/text_type.dart';
-import '/View/Interfaces/interaction_view.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 import '/View/Screens/login_screen.dart';
 import '/View/Screens/main_screen.dart';
 
@@ -23,7 +23,7 @@ void main() {
   controller.start();
 }
 
-class Controller implements InteractionMain{
+class Controller implements InteractionToController{
   late Client _client;
   final Info _defaultCell = Info(title: 'MyNetia');
 
@@ -224,7 +224,7 @@ class Controller implements InteractionMain{
 }
 
 class MyApp extends StatelessWidget{
-  final InteractionMain interactionView;
+  final InteractionToController interactionView;
 
    const MyApp(this.interactionView, {Key? key}) : super(key: key);
 

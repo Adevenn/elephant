@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/Interfaces/interaction_to_controller.dart';
+import '/Model/user_settings.dart';
 
 class OptionScreen extends StatefulWidget{
-  const OptionScreen({Key? key}) : super(key: key);
+
+  final InteractionToController interController;
+
+  const OptionScreen({Key? key, required this.interController}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _OptionState();
 }
 
 class _OptionState extends State<OptionScreen>{
-  static bool _themeIsDark = false;
-  static bool _isReadOnly = false;
+
+  late bool theme;
+  late bool isReadOnly;
+
+  @override
+  void initState() {
+    super.initState();
+    defaultValues();
+  }
+
+  Future<void> defaultValues() async{
+    theme = await UserSettings.getTheme();
+    isReadOnly = await UserSettings.getReadOnly();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +37,13 @@ class _OptionState extends State<OptionScreen>{
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Read only :"),
+            const Text('Read only :'),
             Switch(
-              value: _isReadOnly,
-              onChanged: (value) => setState(() => _isReadOnly = value)
+              value: isReadOnly,
+              onChanged: (value) async {
+                await UserSettings.setReadOnly(value);
+                setState(() => {});
+              },
             )
           ],
         ),
@@ -36,9 +57,10 @@ class _OptionState extends State<OptionScreen>{
           children: [
             const Icon(Icons.bedtime),
             Switch(
-              value: _themeIsDark,
-              onChanged: (value) {
-                setState(() => _themeIsDark = value);
+              value: theme,
+              onChanged: (value) async {
+                await UserSettings.setTheme(value);
+                setState(() => {});
               },
             ),
           ],
@@ -49,8 +71,8 @@ class _OptionState extends State<OptionScreen>{
           endIndent: 20,
         ),
         ElevatedButton(
-          onPressed: () { },
-          child: const Text("Change Server"),
+          onPressed: () => widget.interController.gotoLoginScreen(context),
+          child: const Text('Change Server'),
         ),
       ],
     );

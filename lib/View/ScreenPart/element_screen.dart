@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import '/View/Elements/image_preview.dart';
 import '../ScreenPart/delete_element_dialog.dart';
-import '../Interfaces/interaction_main_screen.dart';
+import '../Interfaces/interaction_to_main_screen.dart';
 import '/Model/Elements/checkbox.dart' as cb;
 import '/Model/Elements/image.dart' as img;
 import '/Model/Elements/text.dart' as text;
 import '../Elements/checkbox_custom.dart';
 import '../Elements/text_field_custom.dart';
-import '../Interfaces/interaction_view.dart';
+import '../Interfaces/interaction_to_controller.dart';
 import '../Elements/item_content_sheet.dart';
 import '/Model/Elements/element.dart' as elem;
 
 class ElementScreen extends StatefulWidget{
-  final InteractionMain interView;
-  final InteractionMainScreen interMain;
+  final InteractionToController interController;
+  final InteractionToMainScreen interMain;
 
-  const ElementScreen({Key? key, required this.interView, required this.interMain}) : super(key: key);
+  const ElementScreen({Key? key, required this.interController, required this.interMain}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ElementScreenState();
@@ -23,10 +23,10 @@ class ElementScreen extends StatefulWidget{
 
 class _ElementScreenState extends State<ElementScreen>{
 
-  InteractionMainScreen get interMain => widget.interMain;
-  InteractionMain get interView => widget.interView;
+  InteractionToMainScreen get interMain => widget.interMain;
+  InteractionToController get interView => widget.interController;
 
-  List<Widget> elementsToWidgets(List<Object> items, InteractionMain interView){
+  List<Widget> elementsToWidgets(List<Object> items, InteractionToController interView){
     List<Widget> _widgets = [];
     for(var element in items) {
       switch(element.runtimeType){

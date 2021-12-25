@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import '/Model/user_settings.dart';
-import '../Interfaces/interaction_view.dart';
+import '../Interfaces/interaction_to_controller.dart';
 
 class LoginScreen extends StatefulWidget {
-  final InteractionMain _interView;
-  const LoginScreen(this._interView, {Key? key}) : super(key: key);
+  final InteractionToController _interController;
+  const LoginScreen(this._interController, {Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<LoginScreen>{
-  InteractionMain get interView => widget._interView;
+  InteractionToController get interController => widget._interController;
   final _formKey = GlobalKey<FormState>();
-  RegExp ipv4Reg = RegExp(r'^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$', caseSensitive: false, multiLine: false);
+  final RegExp ipv4Reg = RegExp(r'^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$', caseSensitive: false, multiLine: false);
   final _ip = TextEditingController();
   final _port = TextEditingController();
   final _database = TextEditingController();
@@ -21,7 +21,7 @@ class _LoginState extends State<LoginScreen>{
   final _password = TextEditingController();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     defaultValues();
   }
@@ -140,8 +140,8 @@ class _LoginState extends State<LoginScreen>{
                           )
                         );
                         try{
-                          await interView.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
-                          interView.gotoMainScreen(context);
+                          await interController.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
+                          interController.gotoMainScreen(context);
                         }
                         catch(e) {
                           ScaffoldMessenger.of(context).showSnackBar(

@@ -6,7 +6,7 @@ import '/Model/sheet.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
 
-abstract class InteractionMain{
+abstract class InteractionToController{
 
   ///Return the default Cell
   Cell getDefaultCell();
