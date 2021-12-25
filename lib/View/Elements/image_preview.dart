@@ -12,9 +12,12 @@ class ImagePreview extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Image.memory(image.imgPreview),
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(idImage: image.id, interMain: interMain))),
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 500, maxHeight: 500),
+      child: InkWell(
+        child: Image.memory(image.imgPreview),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen(idImage: image.id, interMain: interMain))),
+      ),
     );
   }
 }
