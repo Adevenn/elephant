@@ -1,15 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '/Model/Elements/image.dart' as img;
 import '/Model/sheet.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
 
 abstract class InteractionToController{
-
-  ///Return the default Cell
-  Cell getDefaultCell();
 
   /* NETWORK */
 
@@ -35,6 +31,7 @@ abstract class InteractionToController{
   Future<void> updateElementOrder(List<elem.Element> elements);
 
   /* NAVIGATE */
+  
   ///Load the login screen
   void gotoLoginScreen(BuildContext context);
   ///Load the main screen

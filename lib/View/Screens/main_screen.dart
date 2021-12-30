@@ -1,9 +1,12 @@
+// ignore_for_file: slash_for_doc_comments
+
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:image_compression/image_compression.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import '/Model/CellComponents/info.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart' as elem;
 import '/Model/sheet.dart';
@@ -37,7 +40,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   @override
   initState(){
     super.initState();
-    getDefaultCell();
+    defaultCell();
   }
 
   @override
@@ -58,7 +61,7 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
       title: Text(_currentCell.title),
       actions: [
         IconButton(
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CellScreen(this, _currentCell))),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CellScreen(this))),
           icon: const Icon(Icons.sort)
         )
       ],
@@ -69,10 +72,9 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
   /* InteractionToMainScreen */
   /***************************/
 
-  @override
-  void getDefaultCell(){
-    _currentCell = interController.getDefaultCell();
-    _currentSheet = Sheet(-1, -1, 'my_netia', '', 0);
+  void defaultCell(){
+    _currentCell = Info(title: 'MyNetia');
+    _currentSheet = Sheet(-1, -1, '<- Options', 'Cells ->', 0);
   }
 
   @override
@@ -181,7 +183,12 @@ class _MainState extends State<MainScreen> implements InteractionToMainScreen{
 
   @override
   Future<void> deleteCell(int idCell) async{
-    try{ await interController.deleteItem('Cell', idCell); }
+    try{
+      if(_currentCell.id == idCell){
+        defaultCell();
+      }
+      await interController.deleteItem('Cell', idCell);
+    }
     catch(e){ throw MainScreenException(interView: interController, context: context, error: e); }
   }
 
@@ -208,6 +215,6 @@ class MainScreenException implements Exception{
         const SnackBar(content: Text('Connexion with server lost'))
     );
     print(error);
-    //TODO: Send error to server
+    //TODO: Send error by mail
   }
 }

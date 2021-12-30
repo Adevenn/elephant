@@ -6,8 +6,6 @@ import '/Model/sheet.dart';
 
 abstract class InteractionToMainScreen{
 
-  void getDefaultCell();
-
   Future<Uint8List> selectRawImage(int idImage);
   Future<void> selectCurrentCell(Cell cell);
   void setCurrentSheetIndex(int index);

@@ -26,16 +26,6 @@ class Sheet{
     'idOrder' : idOrder,
   };
 
-  void modifyTitle(String title) => this.title = title;
-
-  void modifySubtitle(String subtitle) => this.subtitle = subtitle;
-
-  void addElement(Element elem) => elements.add(elem);
-
-  Element removeAtElement(int index) => elements.removeAt(index);
-
-  void modifyElement(Element elem, int index) => elements[index] = elem;
-
   void swapElement(int originID, int destID){
     var element = elements[originID];
     elements[originID] = elements[destID];

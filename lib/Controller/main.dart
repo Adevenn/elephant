@@ -11,7 +11,6 @@ import '/Model/Elements/element.dart' as elem;
 import '/Model/sheet.dart';
 import '/Network/client.dart';
 import '/Model/cell.dart';
-import '/Model/CellComponents/info.dart';
 import '/Model/Elements/text.dart' as text;
 import '/Model/Elements/text_type.dart';
 import '/View/Interfaces/interaction_to_controller.dart';
@@ -25,7 +24,6 @@ void main() {
 
 class Controller implements InteractionToController{
   late Client _client;
-  final Info _defaultCell = Info(title: 'MyNetia');
 
   start() async{
     runApp(MyApp(this));
@@ -33,9 +31,6 @@ class Controller implements InteractionToController{
   }
 
   /// VIEW INTERACTION ///
-
-  @override
-  Cell getDefaultCell() => _defaultCell;
 
   @override
   Future<void> testConnection(String ip, int port, String database, String username, String password) async {

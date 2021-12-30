@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '/View/ScreenPart/add_cell_dialog.dart';
 import '/View/ScreenPart/delete_cell_dialog.dart';
@@ -11,9 +10,8 @@ import '../Interfaces/interaction_to_main_screen.dart';
 class CellScreen extends StatefulWidget{
 
   final InteractionToMainScreen _interMain;
-  final Cell _currentCell;
 
-  const CellScreen(this._interMain, this._currentCell, {Key? key}) : super(key: key);
+  const CellScreen(this._interMain, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CellScreenState();
@@ -22,7 +20,6 @@ class CellScreen extends StatefulWidget{
 class _CellScreenState extends State<CellScreen>{
 
   InteractionToMainScreen get interMain => widget._interMain;
-  Cell get currentCell => widget._currentCell;
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
@@ -114,9 +111,6 @@ class _CellScreenState extends State<CellScreen>{
                                   => DeleteCellDialog(cellTitle: cells[index].title)
                               );
                               if(result){
-                                if(currentCell.id == cells[index].id){
-                                  interMain.getDefaultCell();
-                                }
                                 await interMain.deleteCell(cells[index].id);
                               }
                               setState(() {});
