@@ -34,6 +34,28 @@ class _LoginState extends State<LoginScreen>{
     setState(() => {});
   }
 
+  Future<void> connect() async{
+    if(_formKey.currentState!.validate()) {
+      UserSettings.setIp(_ip.text);
+      UserSettings.setPort(int.parse(_port.text));
+      UserSettings.setDatabase(_database.text);
+      UserSettings.setUsername(_username.text);
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Connecting ...'),
+            duration: Duration(seconds: 1),
+          )
+      );
+      try{
+        await interController.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
+        interController.gotoMainScreen(context);
+      }
+      catch(e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -115,6 +137,7 @@ class _LoginState extends State<LoginScreen>{
                       controller: _password,
                       decoration: const InputDecoration(hintText: 'password'),
                       obscureText: true,
+                      onFieldSubmitted: (value) => connect(),
                       validator: (value){
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
@@ -126,30 +149,7 @@ class _LoginState extends State<LoginScreen>{
                   /* CONNECT */
                   OutlinedButton(
                     child: const Text('Connect'),
-                    onPressed: () async{
-                      if(_formKey.currentState!.validate()) {
-                        UserSettings.setIp(_ip.text);
-                        UserSettings.setPort(int.parse(_port.text));
-                        UserSettings.setDatabase(_database.text);
-                        UserSettings.setUsername(_username.text);
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Connecting ...'),
-                            duration: Duration(seconds: 1),
-                          )
-                        );
-                        try{
-                          await interController.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
-                          interController.gotoMainScreen(context);
-                        }
-                        catch(e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('$e'))
-                          );
-                        }
-                      }
-                    },
+                    onPressed: () => connect(),
                   ),
                 ],
               ),
