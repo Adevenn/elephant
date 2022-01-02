@@ -50,10 +50,6 @@ class AddSheetDialog extends StatelessWidget{
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
           onPressed: (){
             if(_formKey.currentState!.validate()){
               List<String> sheet = [_title.text, _subtitle.text];
@@ -62,6 +58,10 @@ class AddSheetDialog extends StatelessWidget{
           },
           child: const Text('Add'),
         ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        )
       ],
     );
   }

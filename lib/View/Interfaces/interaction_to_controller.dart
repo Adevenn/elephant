@@ -1,9 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import '/Model/sheet.dart';
 import '/Model/cell.dart';
-import '/Model/Elements/element.dart' as elem;
+import '/Model/Elements/element.dart';
 
 abstract class InteractionToController{
 
@@ -18,7 +17,7 @@ abstract class InteractionToController{
   ///Return sheets thant match with [idCell]
   Future<List<Sheet>> getSheets(int idCell);
   ///Return elements that match with [idSheet]
-  Future<List<elem.Element>> getElements(int idSheet);
+  Future<List<Element>> getElements(int idSheet);
 
   Future<void> addCell(String title, String subtitle, String type);
   Future<void> addSheet(int idCell, String title, String subtitle);
@@ -28,14 +27,6 @@ abstract class InteractionToController{
   Future<void> deleteItem(String type, int index);
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
   Future<void> updateSheetOrder(List<Sheet> sheets);
-  Future<void> updateElementOrder(List<elem.Element> elements);
-
-  /* NAVIGATE */
-  
-  ///Load the login screen
-  void gotoLoginScreen(BuildContext context);
-  ///Load the main screen
-  void gotoMainScreen(BuildContext context);
-
+  Future<void> updateElementOrder(List<Element> elements);
   Future<Uint8List> getRawImage(int idImage);
 }

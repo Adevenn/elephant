@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import '/View/ScreenPart/add_cell_dialog.dart';
-import '/View/ScreenPart/delete_cell_dialog.dart';
+import '/View/Options/option_screen.dart';
+import '../Elements/element_screen.dart';
+import 'add_cell_dialog.dart';
+import 'delete_cell_dialog.dart';
 import '/Model/CellComponents/book.dart';
 import '/Model/CellComponents/ranking.dart';
 import '/Model/CellComponents/to_do_list.dart';
 import '/Model/cell.dart';
-import '../Interfaces/interaction_to_main_screen.dart';
+import '../Interfaces/interaction_to_view_controller.dart';
 
 class CellScreen extends StatefulWidget{
 
-  final InteractionToMainScreen _interMain;
+  final InteractionToViewController _interView;
 
-  const CellScreen(this._interMain, {Key? key}) : super(key: key);
+  const CellScreen(this._interView, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CellScreenState();
@@ -19,7 +21,7 @@ class CellScreen extends StatefulWidget{
 
 class _CellScreenState extends State<CellScreen>{
 
-  InteractionToMainScreen get interMain => widget._interMain;
+  InteractionToViewController get interView => widget._interView;
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
@@ -48,10 +50,15 @@ class _CellScreenState extends State<CellScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => interView.gotoLoginScreen(context),
+          ),
           title: const Text('Cells')
       ),
+      endDrawer: Drawer(child: OptionScreen(interView: interView)),
       body: FutureBuilder<List<Cell>>(
-        future: interMain.updateCells(researchWord),
+        future: interView.updateCells(researchWord),
         builder: (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
           if (snapshot.hasData) {
             var cells = snapshot.data!;
@@ -97,9 +104,12 @@ class _CellScreenState extends State<CellScreen>{
                               leading: selectIconByCell(cells[index].runtimeType),
                               title: Text(cells[index].title),
                               subtitle: Text(cells[index].subtitle),
-                              onTap: (){
-                                Navigator.pop(context);
-                                interMain.selectCurrentCell(cells[index]);
+                              onTap: () async{
+                                await interView.selectCurrentCell(cells[index]);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ElementScreen(interView, cells[index]))
+                                );
                               },
                             ),
                             /* DELETE CELL*/
@@ -111,7 +121,7 @@ class _CellScreenState extends State<CellScreen>{
                                   => DeleteCellDialog(cellTitle: cells[index].title)
                               );
                               if(result){
-                                await interMain.deleteCell(cells[index].id);
+                                await interView.deleteCell(cells[index].id);
                               }
                               setState(() {});
                             },
@@ -134,7 +144,7 @@ class _CellScreenState extends State<CellScreen>{
                               builder: (context) => AddCellDialog(cells: cells),
                             );
                             if(list != null){
-                              await interMain.addCell(list[0], list[1], list[2]);
+                              await interView.addCell(list[0], list[1], list[2]);
                               setState(() {});
                             }
                           },

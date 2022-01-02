@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
-import '/View/Elements/image_preview.dart';
-import '../ScreenPart/delete_element_dialog.dart';
-import '../Interfaces/interaction_to_main_screen.dart';
+import '../Items/image_preview.dart';
+import 'delete_element_dialog.dart';
+import '../Interfaces/interaction_to_view_controller.dart';
 import '/Model/Elements/checkbox.dart' as cb;
 import '/Model/Elements/image.dart' as img;
 import '/Model/Elements/text.dart' as text;
-import '../Elements/checkbox_custom.dart';
-import '../Elements/text_field_custom.dart';
-import '../Interfaces/interaction_to_controller.dart';
-import '../Elements/item_content_sheet.dart';
+import '../Items/checkbox_custom.dart';
+import '../Items/text_field_custom.dart';
+import 'item_content_sheet.dart';
 import '/Model/Elements/element.dart' as elem;
 
-class ElementScreen extends StatefulWidget{
-  final InteractionToController interController;
-  final InteractionToMainScreen interMain;
+class ItemsScreen extends StatefulWidget{
+  final InteractionToViewController interView;
 
-  const ElementScreen({Key? key, required this.interController, required this.interMain}) : super(key: key);
+  const ItemsScreen({Key? key, required this.interView}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ElementScreenState();
+  State<StatefulWidget> createState() => _ItemsScreenState();
 }
 
-class _ElementScreenState extends State<ElementScreen>{
+class _ItemsScreenState extends State<ItemsScreen>{
 
-  InteractionToMainScreen get interMain => widget.interMain;
-  InteractionToController get interView => widget.interController;
+  InteractionToViewController get interView => widget.interView;
 
-  List<Widget> elementsToWidgets(List<Object> items, InteractionToController interView){
+  List<Widget> elementsToWidgets(List<Object> items, InteractionToViewController interView){
     List<Widget> _widgets = [];
     for(var element in items) {
       switch(element.runtimeType){
@@ -34,7 +31,7 @@ class _ElementScreenState extends State<ElementScreen>{
           _widgets.add(TextFieldCustom(interView: interView, key: UniqueKey(), texts: element as text.Text));
           break;
         case img.Image:
-          _widgets.add(ImagePreview(interMain: interMain, image: element as img.Image, key: UniqueKey()));
+          _widgets.add(ImagePreview(interView: interView, image: element as img.Image, key: UniqueKey()));
           break;
         case cb.Checkbox:
           _widgets.add(CheckboxCustom(interView: interView, key: UniqueKey(), checkbox: element as cb.Checkbox));
@@ -49,7 +46,7 @@ class _ElementScreenState extends State<ElementScreen>{
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<elem.Element>>(
-      future: interMain.updateElements(),
+      future: interView.updateElements(),
       builder: (BuildContext context, AsyncSnapshot<List<elem.Element>> snapshot){
         if(snapshot.hasData){
           var elements = snapshot.data!;
@@ -66,7 +63,7 @@ class _ElementScreenState extends State<ElementScreen>{
                     }
                     elem.Element item = elements.removeAt(oldIndex);
                     elements.insert(newIndex, item);
-                    await interMain.updateElementsOrder(elements);
+                    await interView.updateElementsOrder(elements);
                     setState(() {});
                   },
                   children: [
@@ -85,7 +82,7 @@ class _ElementScreenState extends State<ElementScreen>{
                               => DeleteElementDialog(elementType: elements[index].runtimeType.toString())
                           );
                           if(result){
-                            await interMain.deleteElement(elements[index].id);
+                            await interView.deleteElement(elements[index].id);
                           }
                           setState(() {});
                         },

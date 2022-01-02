@@ -69,10 +69,6 @@ class _AddCellDialogState extends State<AddCellDialog>{
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
           onPressed: (){
             if(_formKey.currentState!.validate()){
               List<String> list = [title.text, subtitle.text, type];
@@ -80,9 +76,12 @@ class _AddCellDialogState extends State<AddCellDialog>{
             }
           },
           child: const Text('Add'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
         )
       ],
     );
   }
-
 }

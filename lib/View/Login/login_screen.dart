@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import '/View/Interfaces/interaction_to_view_controller.dart';
 import '/Model/user_settings.dart';
-import '../Interfaces/interaction_to_controller.dart';
 
 class LoginScreen extends StatefulWidget {
-  final InteractionToController _interController;
-  const LoginScreen(this._interController, {Key? key}) : super(key: key);
+  final InteractionToViewController _interMain;
+  const LoginScreen(this._interMain, {Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<LoginScreen>{
-  InteractionToController get interController => widget._interController;
+  InteractionToViewController get interMain => widget._interMain;
   final _formKey = GlobalKey<FormState>();
   final RegExp ipv4Reg = RegExp(r'^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$', caseSensitive: false, multiLine: false);
   final _ip = TextEditingController();
@@ -47,8 +47,8 @@ class _LoginState extends State<LoginScreen>{
           )
       );
       try{
-        await interController.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
-        interController.gotoMainScreen(context);
+        await interMain.testConnection(_ip.text, int.parse(_port.text), _database.text, _username.text, _password.text);
+        interMain.gotoCellScreen(context);
       }
       catch(e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));

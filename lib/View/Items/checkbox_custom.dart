@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/Interfaces/interaction_to_view_controller.dart';
 import '../../Model/Elements/checkbox.dart' as cb;
 import '../Interfaces/interaction_to_controller.dart';
 
 class CheckboxCustom extends StatefulWidget{
-  final InteractionToController interView;
+  final InteractionToViewController interView;
   final cb.Checkbox checkbox;
 
   const CheckboxCustom({required Key key, required this.interView, required this.checkbox}) : super(key: key);
@@ -15,7 +16,7 @@ class CheckboxCustom extends StatefulWidget{
 class _CheckBoxState extends State<CheckboxCustom>{
 
   cb.Checkbox get checkbox => widget.checkbox;
-  InteractionToController get interView => widget.interView;
+  InteractionToViewController get interView => widget.interView;
   var focusCheckbox = FocusNode();
   var focusTxt = FocusNode();
   late bool backupChecked;

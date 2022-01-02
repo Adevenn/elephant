@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '/View/Elements/image_raw.dart';
-import '/View/Interfaces/interaction_to_main_screen.dart';
+import '../image_raw.dart';
+import '/View/Interfaces/interaction_to_view_controller.dart';
 
 class ImageScreen extends StatelessWidget{
 
-  final InteractionToMainScreen interMain;
+  final InteractionToViewController interMain;
   final int idImage;
 
   const ImageScreen({Key? key, required this.idImage, required this.interMain}) : super(key: key);

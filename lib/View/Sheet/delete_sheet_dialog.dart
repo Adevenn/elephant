@@ -13,13 +13,13 @@ class DeleteSheetDialog extends StatelessWidget{
       content: Text('Do you really want to delete $sheetTitle ?'),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
           onPressed: () => Navigator.pop(context, true),
           child: const Text('Yes'),
         ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancel'),
+        )
       ],
     );
   }

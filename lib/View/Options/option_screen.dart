@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_netia_client/View/Interfaces/interaction_to_controller.dart';
+import 'package:my_netia_client/View/Interfaces/interaction_to_view_controller.dart';
 import '/Model/user_settings.dart';
 
 class OptionScreen extends StatefulWidget{
 
-  final InteractionToController interController;
+  final InteractionToViewController interView;
 
-  const OptionScreen({Key? key, required this.interController}) : super(key: key);
+  const OptionScreen({Key? key, required this.interView}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _OptionState();
@@ -71,7 +72,7 @@ class _OptionState extends State<OptionScreen>{
           endIndent: 20,
         ),
         ElevatedButton(
-          onPressed: () => widget.interController.gotoLoginScreen(context),
+          onPressed: () => widget.interView.gotoLoginScreen(context),
           child: const Text('Change Server'),
         ),
       ],
