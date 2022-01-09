@@ -50,9 +50,8 @@ class ControllerView implements InteractionToViewController{
   }
 
   @override
-  Future<List<Cell>> updateCells([String matchWord = '']) async{
-    return await interController.getCells(matchWord);
-  }
+  Future<List<Cell>> updateCells([String matchWord = '']) async
+    => await interController.getCells(matchWord);
 
   @override
   Future<List<Sheet>> updateSheets() async{
@@ -62,9 +61,8 @@ class ControllerView implements InteractionToViewController{
   }
 
   @override
-  Future<List<elem.Element>> updateElements() async{
-    return await interController.getElements(_currentSheet.id);
-  }
+  Future<List<elem.Element>> updateElements() async
+    => await interController.getElements(_currentSheet.id);
 
   @override
   Future<void> updateSheetsOrder(List<Sheet> sheets) async{
@@ -77,29 +75,24 @@ class ControllerView implements InteractionToViewController{
   }
 
   @override
-  Future<void> updateElementsOrder(List<elem.Element> elements) async{
-    await interController.updateElementOrder(elements);
-  }
+  Future<void> updateElementsOrder(List<elem.Element> elements) async
+    => await interController.updateElementOrder(elements);
 
   @override
   Future<void> updateItem(String type, Map<String, dynamic> json) async
     => await interController.updateItem(type, json);
 
   @override
-  Future<void> addCell(String title, String subtitle, String type) async{
-    await interController.addCell(title, subtitle, type);
-  }
+  Future<void> addCell(String title, String subtitle, String type) async
+    => await interController.addCell(title, subtitle, type);
 
   @override
-  Future<void> addSheet(String title, String subtitle) async{
-    await interController.addSheet(_currentCell.id, title, subtitle);
-  }
+  Future<void> addSheet(String title, String subtitle) async
+    => await interController.addSheet(_currentCell.id, title, subtitle);
 
   @override
-  Future<void> addTexts(int type) async{
-    await interController.addTexts(_currentSheet.id, type);
-    //TODO : setState(() {});
-  }
+  Future<void> addTexts(int type) async
+    => await interController.addTexts(_currentSheet.id, type);
 
   @override
   Future<void> addImage() async{
@@ -114,29 +107,23 @@ class ControllerView implements InteractionToViewController{
         await interController.addImage(_currentSheet.id, output.rawBytes, await file.readAsBytes());
       }
     }
-    //TODO : setState(() {});
   }
 
   @override
-  Future<void> addCheckbox() async{
-    await interController.addCheckbox(_currentSheet.id);
-    //TODO : setState(() {});
-  }
+  Future<void> addCheckbox() async
+    => await interController.addCheckbox(_currentSheet.id);
 
   @override
-  Future<void> deleteCell(int idCell) async{
-    await interController.deleteItem('Cell', idCell);
-  }
+  Future<void> deleteCell(int idCell) async
+    => await interController.deleteItem('Cell', idCell);
 
   @override
-  Future<void> deleteSheet(int idSheet) async{
-    await interController.deleteItem('Sheet', idSheet);
-  }
+  Future<void> deleteSheet(int idSheet) async
+    => await interController.deleteItem('Sheet', idSheet);
 
   @override
-  Future<void> deleteElement(int index) async{
-    await interController.deleteItem('Element', index);
-  }
+  Future<void> deleteElement(int index) async
+    => await interController.deleteItem('Element', index);
 
   @override
   void gotoLoginScreen(BuildContext context) {
@@ -145,7 +132,7 @@ class ControllerView implements InteractionToViewController{
       MaterialPageRoute(
         builder: (BuildContext context) => LoginScreen(this),
       ),
-          (route) => false,
+      (route) => false,
     );
   }
 
