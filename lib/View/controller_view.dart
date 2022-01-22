@@ -28,8 +28,7 @@ class ControllerView implements InteractionToViewController{
   }
 
   @override
-  Future<void> testConnection(String ip, int port, String database, String username, String password) async
-    => await interController.testConnection(ip, port, database, username, password);
+  Future<void> testConnection(String ip, int port, String database, String username, String password) async => await interController.testConnection(ip, port, database, username, password);
 
   @override
   Future<Uint8List> selectRawImage(int idImage) async{
