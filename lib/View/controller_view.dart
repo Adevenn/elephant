@@ -108,11 +108,9 @@ class ControllerView implements InteractionToViewController {
       for (var file in files) {
         var img =
             ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
-        print(
-            'name: ${img.fileName}\nwidth : ${img.width}\nheight : ${img.height}\nweight : ${img.sizeInBytes}');
+        print('name: ${img.fileName}\nweight : ${img.sizeInBytes}');
         final output = compress(ImageFileConfiguration(input: img));
-        print(
-            'name:${output.fileName}\nwidth : ${output.width}\nheight : ${output.height}\nbytes: ${output.sizeInBytes}');
+        print('name:${output.fileName}\nbytes: ${output.sizeInBytes}');
         await interController.addImage(
             _currentSheet.id, output.rawBytes, await file.readAsBytes());
       }
