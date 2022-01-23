@@ -24,7 +24,6 @@ class ControllerView implements InteractionToViewController{
 
   start(){
     runApp(MyApp(this));
-    //TODO: Disable some actions when _readOnly = true (inside Options)
   }
 
   @override
