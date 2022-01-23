@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import '/Model/cell.dart';
 
-class AddCellDialog extends StatefulWidget{
-
+class AddCellDialog extends StatefulWidget {
   final List<Cell> cells;
 
   const AddCellDialog({Key? key, required this.cells}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _AddCellDialogState();
-
 }
 
-class _AddCellDialogState extends State<AddCellDialog>{
-
+class _AddCellDialogState extends State<AddCellDialog> {
   final _formKey = GlobalKey<FormState>();
   var title = TextEditingController();
   var subtitle = TextEditingController();
-  String type = "Book";
+  String type = 'Book';
 
-  bool isCellTitleValid(List<Cell> cells, String title){
-    for(int i = 0; i < cells.length; i++){
-      if(cells[i].title == title){
+  bool isCellTitleValid(List<Cell> cells, String title) {
+    for (int i = 0; i < cells.length; i++) {
+      if (cells[i].title == title) {
         return false;
       }
     }
@@ -38,28 +35,28 @@ class _AddCellDialogState extends State<AddCellDialog>{
         child: Column(
           children: [
             DropdownButton(
-              value: type,
-              icon: const Icon(Icons.keyboard_arrow_down_rounded),
-              items: <String>['Book', 'ToDoList', 'Ranking'].map<DropdownMenuItem<String>>((String value){
-                return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value)
-                );
-              }).toList(),
-              onChanged: (String? newValue) => (() => type = newValue!)
-            ),
+                value: type,
+                icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                items: <String>['Book', 'ToDoList', 'Ranking']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                      value: value, child: Text(value));
+                }).toList(),
+                onChanged: (String? newValue) {
+                  type = newValue!;
+                  setState(() {});
+                }),
             TextFormField(
-              controller: title,
-              decoration: const InputDecoration(hintText: 'Title'),
-              validator: (value){
-                if(value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                } else if (!isCellTitleValid(widget.cells, value)) {
-                  return 'Title already exist';
-                }
-                return null;
-              }
-            ),
+                controller: title,
+                decoration: const InputDecoration(hintText: 'Title'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  } else if (!isCellTitleValid(widget.cells, value)) {
+                    return 'Title already exist';
+                  }
+                  return null;
+                }),
             TextFormField(
               controller: subtitle,
               decoration: const InputDecoration(hintText: 'Subtitle'),
@@ -69,8 +66,8 @@ class _AddCellDialogState extends State<AddCellDialog>{
       ),
       actions: [
         TextButton(
-          onPressed: (){
-            if(_formKey.currentState!.validate()){
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
               List<String> list = [title.text, subtitle.text, type];
               Navigator.pop(context, list);
             }
