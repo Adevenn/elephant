@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
+import 'package:my_netia_client/Model/user_settings.dart';
 import '/Model/cell.dart';
 import '/Model/sheet.dart';
 import '/Model/Elements/element.dart' as elem;

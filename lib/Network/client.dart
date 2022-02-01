@@ -6,134 +6,182 @@ import '/Exception/server_exception.dart';
 
 import 'socket_custom.dart';
 
-class Client{
-
+class Client {
   late final SocketCustom _socket;
 
-  Client(String ipServer, int portServer, String database, String username, String password){
+  Client(String ipServer, int portServer, String database, String username,
+      String password) {
     _socket = SocketCustom(ipServer, portServer, database, username, password);
   }
 
   ///Try to connect to server and database
   ///
   ///If connection fails => Exception
-  Future<void> init() async{
-    try{ await _socket.init(); }
-    on ServerException { throw const ServerException('Connection failed : Wrong IP or PORT or server disconnected'); }
-    on DatabaseException { throw const DatabaseException('Connection failed : Wrong DATABASE, USERNAME or PASSWORD'); }
-    on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
-    catch(e) { throw Exception('(Client)init:\n$e'); }
+  Future<void> init() async {
+    try {
+      await _socket.init();
+    } on ServerException {
+      throw const ServerException(
+          'Connection failed : Wrong IP or PORT or server disconnected');
+    } on DatabaseException {
+      throw const DatabaseException(
+          'Connection failed : Wrong DATABASE, USERNAME or PASSWORD');
+    } on DatabaseTimeoutException {
+      throw const DatabaseTimeoutException('Database offline');
+    } catch (e) {
+      throw Exception('(Client)init:\n$e');
+    }
   }
 
-  Future<String> cells(String matchWord) async{
-    try{
+  Future<String> cells(String matchWord) async {
+    try {
       await _socket.setup('cells');
       //Asym because matchWord can be null ('') (Sym can't send empty string)
       await _socket.writeAsym(matchWord);
       var cellsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return cellsAsJson;
+    } catch (e) {
+      try {
+        await init();
+        return await cells(matchWord);
+      } catch (e) {
+        throw Exception('(Client)cells:\n$e');
+      }
     }
-    on SocketException{ throw const ServerException('Connection failed'); }
-    catch(e) { throw Exception ('(Client)cells:\n$e'); }
   }
 
-  Future<String> sheets(int idCell) async{
-    try{
+  Future<String> sheets(int idCell) async {
+    try {
       await _socket.setup('sheets');
       await _socket.writeSym(idCell.toString());
       var sheetsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return sheetsAsJson;
+    } catch (e) {
+      try {
+        await init();
+        return await sheets(idCell);
+      } catch (e) {
+        throw Exception('(Client)sheets:\n$e');
+      }
     }
-    on SocketException{ throw const ServerException('Connection failed'); }
-    catch(e) { throw Exception('(Client)sheets:\n$e'); }
   }
 
-  Future<String> elements(int idSheet) async{
-    try{
+  Future<String> elements(int idSheet) async {
+    try {
       await _socket.setup('elements');
       await _socket.writeSym(idSheet.toString());
       var elementsAsJson = await _socket.readBigString();
       await _socket.disconnect();
       return elementsAsJson;
+    } catch (e) {
+      try {
+        await init();
+        return await elements(idSheet);
+      } catch (e) {
+        throw Exception('(Client)elements:\n$e');
+      }
     }
-    on SocketException{ throw const ServerException('Connection failed'); }
-    catch(e) { throw Exception('(Client)elements:\n$e'); }
   }
 
-  Future<String> rawImage(int idImage) async{
-    try{
+  Future<String> rawImage(int idImage) async {
+    try {
       await _socket.setup('rawImage');
       await _socket.writeSym(idImage.toString());
       var imageData = await _socket.readBigString();
       await _socket.disconnect();
       return imageData;
+    } catch (e) {
+      try {
+        await init();
+        return await rawImage(idImage);
+      } catch (e) {
+        throw Exception('(Client)rawImage:\n$e');
+      }
     }
-    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
-    catch(e){ throw Exception(e); }
   }
 
-  Future<void> addCell(String jsonCell) async{
-    try{
+  Future<void> addCell(String jsonCell) async {
+    try {
       await _socket.setup('addCell');
       await _socket.writeSym(jsonCell);
       await _socket.disconnectWithResult();
+    } catch (e) {
+      try {
+        await init();
+        return await addCell(jsonCell);
+      } catch (e) {
+        throw Exception('(Client)addCell:\n$e');
+      }
     }
-    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
-    on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
-    catch(e) { throw Exception(e); }
   }
 
-  Future<void> addItem(String type, String json) async{
-    try{
+  Future<void> addItem(String type, String json) async {
+    try {
       await _socket.setup('addItem');
       await _socket.writeSym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
+    } catch (e) {
+      try {
+        await init();
+        return await addItem(type, json);
+      } catch (e) {
+        throw Exception('(Client)addItem:\n$e');
+      }
     }
-    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
-    on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
-    catch(e) { throw Exception(e); }
   }
 
-  Future<void> deleteItem(String type, int id) async{
-    try{
+  Future<void> deleteItem(String type, int id) async {
+    try {
       await _socket.setup('deleteItem');
       await _socket.writeSym(type);
       await _socket.synchronizeRead();
       await _socket.writeSym(id.toString());
       await _socket.disconnectWithResult();
+    } catch (e) {
+      try {
+        await init();
+        deleteItem(type, id);
+      } catch (e) {
+        throw Exception('(Client)deleteItem:\n$e');
+      }
     }
-    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
-    on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
-    catch(e) { throw Exception(e); }
   }
 
-  Future<void> updateItem(String type, String json) async{
-    try{
+  Future<void> updateItem(String type, String json) async {
+    try {
       await _socket.setup('updateItem');
       await _socket.writeSym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
+    } catch (e) {
+      try {
+        await init();
+        return await updateItem(type, json);
+      } catch (e) {
+        throw Exception('(Client)updateItem:\n$e');
+      }
     }
-    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
-    on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
-    catch(e) { throw Exception(e); }
   }
 
-  Future<void> updateOrder(String type, String json) async{
-    try{
+  Future<void> updateOrder(String type, String json) async {
+    try {
       await _socket.setup('updateOrder');
       await _socket.writeSym(type);
       await _socket.synchronizeRead();
       await _socket.writeBigString(json);
       await _socket.disconnectWithResult();
+    } catch (e) {
+      try {
+        await init();
+        return await updateOrder(type, json);
+      } catch (e) {
+        throw Exception('(Client)updateOrder:\n$e');
+      }
     }
-    on ServerException { throw const ServerException('Connection failed : Server disconnected'); }
-    on DatabaseTimeoutException { throw const DatabaseTimeoutException('Database offline'); }
-    catch(e) { throw Exception(e); }
   }
 }
