@@ -60,7 +60,12 @@ class _ElementState extends State<ElementScreen> {
         icon: const Icon(Icons.arrow_back),
         onPressed: () => Navigator.pop(context),
       ),
-      title: Text(cell.title),
+      title: Row(
+        children: [
+          Expanded(child: Text(cell.title), flex: 3),
+          Expanded(child: Text(cell.subtitle)),
+        ],
+      ),
     );
   }
 
