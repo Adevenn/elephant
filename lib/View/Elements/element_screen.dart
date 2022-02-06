@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '/Model/Elements/text_type.dart';
-import '/View/Sheet/sheet_screen.dart';
+import '/View/Cell/Book/Sheet/sheet_screen.dart';
 import '/Model/cell.dart';
 
 import 'items_screen.dart';
-import 'floating_buttons.dart';
+import '../floating_buttons.dart';
 import '../Interfaces/interaction_to_view_controller.dart';
 import '../Options/option_screen.dart';
 

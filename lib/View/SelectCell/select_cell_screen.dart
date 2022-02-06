@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
 import '../Elements/element_screen.dart';
 import 'add_cell_dialog.dart';
@@ -107,8 +108,9 @@ class _CellScreenState extends State<CellScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ElementScreen(
-                                                interView, cells[index])));
+                                            builder: (context) => CellView(
+                                                interView: interView,
+                                                cell: cells[index])));
                                   },
                                 ),
                                 /* DELETE CELL*/

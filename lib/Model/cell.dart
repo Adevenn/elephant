@@ -3,6 +3,14 @@ import '../Model/CellComponents/to_do_list.dart';
 
 import 'CellComponents/book.dart';
 
+///int id
+///
+///String title
+///
+///String subtitle
+///
+///String type
+///0 => Book, 1 => ToDoList, 2 => Rank
 abstract class Cell{
   final int id;
   String title;

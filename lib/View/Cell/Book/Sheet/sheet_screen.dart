@@ -3,7 +3,7 @@ import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
 import 'delete_sheet_dialog.dart';
 import '/Model/sheet.dart';
-import '../Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_to_view_controller.dart';
 
 class SheetScreen extends StatefulWidget{
 

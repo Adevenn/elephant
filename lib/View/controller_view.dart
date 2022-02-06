@@ -4,12 +4,17 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
-import 'package:my_netia_client/Model/user_settings.dart';
 import '/Model/cell.dart';
 import '/Model/sheet.dart';
 import '/Model/Elements/element.dart' as elem;
+import '/Model/Elements/checkbox.dart' as cb;
+import '/Model/Elements/image.dart' as img;
+import '/Model/Elements/text.dart' as text;
 
-import 'Cell/cell_screen.dart';
+import 'Items/checkbox_custom.dart';
+import 'Items/image_preview.dart';
+import 'Items/text_field_custom.dart';
+import 'SelectCell/select_cell_screen.dart';
 import 'Interfaces/interaction_to_controller.dart';
 import 'Interfaces/interaction_to_view_controller.dart';
 import 'Login/login_screen.dart';
@@ -24,6 +29,36 @@ class ControllerView implements InteractionToViewController {
 
   start() {
     runApp(MyApp(this));
+  }
+
+  List<Widget> elementsToWidgets(
+      List<Object> items, InteractionToViewController interView) {
+    List<Widget> _widgets = [];
+    for (var element in items) {
+      switch (element.runtimeType) {
+        case text.Text:
+          _widgets.add(TextFieldCustom(
+              interView: interView,
+              key: UniqueKey(),
+              texts: element as text.Text));
+          break;
+        case img.Image:
+          _widgets.add(ImagePreview(
+              interView: interView,
+              image: element as img.Image,
+              key: UniqueKey()));
+          break;
+        case cb.Checkbox:
+          _widgets.add(CheckboxCustom(
+              interView: interView,
+              key: UniqueKey(),
+              checkbox: element as cb.Checkbox));
+          break;
+        default:
+          throw Exception('Unknown element type');
+      }
+    }
+    return _widgets;
   }
 
   @override
