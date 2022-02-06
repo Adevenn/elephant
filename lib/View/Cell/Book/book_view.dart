@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_netia_client/View/Cell/Book/book_element_view.dart';
 import '/Model/cell.dart';
-import '/View/Elements/items_screen.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 import '/View/Cell/Book/book_floating_btn.dart';
 import 'Sheet/sheet_screen.dart';
@@ -28,7 +27,8 @@ class BookView extends StatelessWidget {
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SheetScreen(interView: interView)));
+                      builder: (context) =>
+                          SheetScreen(cell: cell, interView: interView)));
             },
             child: const Icon(Icons.text_snippet),
           ),

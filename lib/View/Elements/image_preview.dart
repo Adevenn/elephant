@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 import '/Model/Elements/image.dart' as img;
-import '../Items/ImageZoom/image_screen.dart';
+import '../Elements/ImageZoom/image_screen.dart';
 
 class ImagePreview extends StatelessWidget{
 

@@ -11,9 +11,9 @@ import '/Model/Elements/checkbox.dart' as cb;
 import '/Model/Elements/image.dart' as img;
 import '/Model/Elements/text.dart' as text;
 
-import 'Items/checkbox_custom.dart';
-import 'Items/image_preview.dart';
-import 'Items/text_field_custom.dart';
+import 'Elements/checkbox_custom.dart';
+import 'Elements/image_preview.dart';
+import 'Elements/text_field_custom.dart';
 import 'SelectCell/select_cell_screen.dart';
 import 'Interfaces/interaction_to_controller.dart';
 import 'Interfaces/interaction_to_view_controller.dart';
@@ -21,7 +21,8 @@ import 'Login/login_screen.dart';
 
 class ControllerView implements InteractionToViewController {
   final InteractionToController interController;
-  late Cell _currentCell;
+
+  //TODO: virer les variables et les remplacer par des paramètres
   late Sheet _currentSheet;
   int _indexCurrentSheet = 0;
 
@@ -78,14 +79,13 @@ class ControllerView implements InteractionToViewController {
 
   @override
   Future<void> selectCurrentCell(Cell cell) async {
-    _currentCell = cell;
-    await setCurrentSheetIndex(0);
+    await setCurrentSheetIndex(cell, 0);
   }
 
   @override
-  Future<void> setCurrentSheetIndex(int index) async {
+  Future<void> setCurrentSheetIndex(Cell cell, int index) async {
     _indexCurrentSheet = index;
-    await updateSheets();
+    await updateSheets(cell);
   }
 
   @override
@@ -93,8 +93,8 @@ class ControllerView implements InteractionToViewController {
       await interController.getCells(matchWord);
 
   @override
-  Future<List<Sheet>> updateSheets() async {
-    var sheets = await interController.getSheets(_currentCell.id);
+  Future<List<Sheet>> updateSheets(Cell cell) async {
+    var sheets = await interController.getSheets(cell.id);
     _currentSheet = sheets[_indexCurrentSheet];
     return sheets;
   }
@@ -126,8 +126,8 @@ class ControllerView implements InteractionToViewController {
       await interController.addCell(title, subtitle, type);
 
   @override
-  Future<void> addSheet(String title, String subtitle) async =>
-      await interController.addSheet(_currentCell.id, title, subtitle);
+  Future<void> addSheet(Cell cell, String title, String subtitle) async =>
+      await interController.addSheet(cell.id, title, subtitle);
 
   @override
   Future<void> addTexts(int type) async =>

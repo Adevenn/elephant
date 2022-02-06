@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_netia_client/View/Interfaces/interaction_to_view_controller.dart';
 import '../../Model/Elements/checkbox.dart' as cb;
-import '../Interfaces/interaction_to_controller.dart';
 
 class CheckboxCustom extends StatefulWidget{
   final InteractionToViewController interView;

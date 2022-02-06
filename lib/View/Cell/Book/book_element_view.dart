@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/View/Elements/delete_element_dialog.dart';
-import '/View/Elements/item_content_sheet.dart';
+import '../delete_element_dialog.dart';
+import '../element_template.dart';
 import '/Model/cell.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 import '/Model/Elements/element.dart' as elem;
@@ -47,7 +47,7 @@ class _StateBookElemView extends State<BookElemView> {
                       for (var index = 0; index < widgets.length; index++)
                         Dismissible(
                           key: UniqueKey(),
-                          child: ItemContentSheet(
+                          child: ElemTemplate(
                               key: UniqueKey(), widget: widgets[index]),
                           onDismissed: (direction) async {
                             bool result = await showDialog(
