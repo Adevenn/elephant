@@ -69,8 +69,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                   title: Text(sheets[index].title),
                                   subtitle: Text(sheets[index].subtitle),
                                   onTap: () {
-                                    Navigator.pop(context);
-                                    interView.setCurrentSheetIndex(cell, index);
+                                    Navigator.pop(context, index);
                                   }),
                               /* DELETE SHEET */
                               onDismissed: (direction) async {
@@ -104,7 +103,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                   AddSheetDialog(sheets: sheets),
                             );
                             if (list != null) {
-                              await interView.addSheet(list[0], list[1]);
+                              await interView.addSheet(cell, list[0], list[1]);
                               setState(() {});
                             }
                           },
