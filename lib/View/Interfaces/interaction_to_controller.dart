@@ -29,4 +29,5 @@ abstract class InteractionToController{
   Future<void> updateSheetOrder(List<Sheet> sheets);
   Future<void> updateElementOrder(List<Element> elements);
   Future<Uint8List> getRawImage(int idImage);
+  Future<Sheet> getSheet(int idCell, int sheetIndex);
 }

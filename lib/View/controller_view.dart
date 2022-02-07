@@ -22,10 +22,6 @@ import 'Login/login_screen.dart';
 class ControllerView implements InteractionToViewController {
   final InteractionToController interController;
 
-  //TODO: virer les variables et les remplacer par des paramètres
-  late Sheet _currentSheet;
-  int _indexCurrentSheet = 0;
-
   ControllerView(this.interController);
 
   start() {
@@ -69,39 +65,24 @@ class ControllerView implements InteractionToViewController {
           ip, port, database, username, password);
 
   @override
-  Future<Uint8List> selectRawImage(int idImage) async {
-    try {
-      return await interController.getRawImage(idImage);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  Future<Uint8List> selectRawImage(int idImage) async =>
+      await interController.getRawImage(idImage);
 
   @override
-  Future<void> selectCurrentCell(Cell cell) async {
-    await setCurrentSheetIndex(cell, 0);
-  }
-
-  @override
-  Future<void> setCurrentSheetIndex(Cell cell, int index) async {
-    _indexCurrentSheet = index;
-    await updateSheets(cell);
-  }
+  Future<Sheet> selectSheet(Cell cell, int sheetIndex) async =>
+      await interController.getSheet(cell.id, sheetIndex);
 
   @override
   Future<List<Cell>> updateCells([String matchWord = '']) async =>
       await interController.getCells(matchWord);
 
   @override
-  Future<List<Sheet>> updateSheets(Cell cell) async {
-    var sheets = await interController.getSheets(cell.id);
-    _currentSheet = sheets[_indexCurrentSheet];
-    return sheets;
-  }
+  Future<List<Sheet>> updateSheets(Cell cell) async =>
+      await interController.getSheets(cell.id);
 
   @override
-  Future<List<elem.Element>> updateElements() async =>
-      await interController.getElements(_currentSheet.id);
+  Future<List<elem.Element>> updateElements(Sheet sheet) async =>
+      await interController.getElements(sheet.id);
 
   @override
   Future<void> updateSheetsOrder(List<Sheet> sheets) async {
@@ -130,11 +111,11 @@ class ControllerView implements InteractionToViewController {
       await interController.addSheet(cell.id, title, subtitle);
 
   @override
-  Future<void> addTexts(int type) async =>
-      await interController.addTexts(_currentSheet.id, type);
+  Future<void> addTexts(Sheet sheet, int type) async =>
+      await interController.addTexts(sheet.id, type);
 
   @override
-  Future<void> addImage() async {
+  Future<void> addImage(Sheet sheet) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.image,
@@ -148,14 +129,14 @@ class ControllerView implements InteractionToViewController {
         final output = compress(ImageFileConfiguration(input: img));
         print('name:${output.fileName}\nbytes: ${output.sizeInBytes}');
         await interController.addImage(
-            _currentSheet.id, output.rawBytes, await file.readAsBytes());
+            sheet.id, output.rawBytes, await file.readAsBytes());
       }
     }
   }
 
   @override
-  Future<void> addCheckbox() async =>
-      await interController.addCheckbox(_currentSheet.id);
+  Future<void> addCheckbox(Sheet sheet) async =>
+      await interController.addCheckbox(sheet.id);
 
   @override
   Future<void> deleteCell(int idCell) async =>

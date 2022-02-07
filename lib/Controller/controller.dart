@@ -75,6 +75,16 @@ class Controller implements InteractionToController {
   }
 
   @override
+  Future<Sheet> getSheet(int idCell, int sheetIndex) async {
+    try {
+      var json = await _client.sheet(idCell, sheetIndex);
+      return Sheet.fromJson(jsonDecode(json));
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
   Future<List<Element>> getElements(int idSheet) async {
     var elements = <Element>[];
     try {

@@ -9,8 +9,13 @@ import '/View/Interfaces/interaction_to_view_controller.dart';
 class SheetScreen extends StatefulWidget {
   final InteractionToViewController interView;
   final Cell cell;
+  final int index;
 
-  const SheetScreen({Key? key, required this.interView, required this.cell})
+  const SheetScreen(
+      {Key? key,
+      required this.interView,
+      required this.cell,
+      required this.index})
       : super(key: key);
 
   @override
@@ -19,6 +24,7 @@ class SheetScreen extends StatefulWidget {
 
 class _SheetScreenState extends State<SheetScreen> {
   get interView => widget.interView;
+
   get cell => widget.cell;
 
   @override

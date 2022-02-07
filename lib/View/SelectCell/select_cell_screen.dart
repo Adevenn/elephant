@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Cell/cell_view.dart';
+import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
 import 'add_cell_dialog.dart';
 import 'delete_cell_dialog.dart';
@@ -101,9 +101,7 @@ class _CellScreenState extends State<CellScreen> {
                                       cells[index].runtimeType),
                                   title: Text(cells[index].title),
                                   subtitle: Text(cells[index].subtitle),
-                                  onTap: () async {
-                                    await interView
-                                        .selectCurrentCell(cells[index]);
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

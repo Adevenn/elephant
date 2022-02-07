@@ -66,6 +66,25 @@ class Client {
     }
   }
 
+  Future<String> sheet(int idCell, int sheetIndex) async {
+    try {
+      await _socket.setup('sheet');
+      await _socket.writeSym(idCell.toString());
+      await _socket.synchronizeRead();
+      await _socket.writeSym(sheetIndex.toString());
+      var jsonSheet = await _socket.readBigString();
+      await _socket.disconnect();
+      return jsonSheet;
+    } catch (e) {
+      try {
+        await init();
+        return await sheet(idCell, sheetIndex);
+      } catch (e) {
+        throw Exception('(Client)sheets:\n$e');
+      }
+    }
+  }
+
   Future<String> elements(int idSheet) async {
     try {
       await _socket.setup('elements');

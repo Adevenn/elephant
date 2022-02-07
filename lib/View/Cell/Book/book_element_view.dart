@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import '/Model/sheet.dart';
 import '../delete_element_dialog.dart';
 import '../element_template.dart';
-import '/Model/cell.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 import '/Model/Elements/element.dart' as elem;
 
 class BookElemView extends StatefulWidget {
   final InteractionToViewController interView;
-  final Cell cell;
+  final Sheet sheet;
 
-  const BookElemView({Key? key, required this.interView, required this.cell})
+  const BookElemView({Key? key, required this.interView, required this.sheet})
       : super(key: key);
 
   @override
@@ -19,10 +19,12 @@ class BookElemView extends StatefulWidget {
 class _StateBookElemView extends State<BookElemView> {
   get interView => widget.interView;
 
+  get sheet => widget.sheet;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<elem.Element>>(
-        future: interView.updateElements(),
+        future: interView.updateElements(sheet),
         builder:
             (BuildContext context, AsyncSnapshot<List<elem.Element>> snapshot) {
           if (snapshot.hasData) {
