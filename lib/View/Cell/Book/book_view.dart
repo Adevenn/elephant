@@ -18,9 +18,9 @@ class BookView extends StatefulWidget {
 }
 
 class _StateBookView extends State<BookView> {
-  get interView => widget.interView;
+  InteractionToViewController get interView => widget.interView;
 
-  get cell => widget.cell;
+  Cell get cell => widget.cell;
   Sheet? sheet;
   int sheetIndex = 0;
 

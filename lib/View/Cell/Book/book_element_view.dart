@@ -19,9 +19,9 @@ class BookElemView extends StatefulWidget {
 }
 
 class _StateBookElemView extends State<BookElemView> {
-  get interView => widget.interView;
+  InteractionToViewController get interView => widget.interView;
 
-  get sheet => widget.sheet;
+  Sheet get sheet => widget.sheet;
 
   @override
   Widget build(BuildContext context) {
