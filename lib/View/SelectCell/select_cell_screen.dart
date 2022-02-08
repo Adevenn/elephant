@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/View/loading_screen.dart';
 import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
 import 'add_cell_dialog.dart';
@@ -156,23 +157,7 @@ class _CellScreenState extends State<CellScreen> {
                   ),
                 );
               } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const <Widget>[
-                      SizedBox(
-                        child: CircularProgressIndicator(),
-                        width: 60,
-                        height: 60,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Text('Awaiting ...'),
-                      )
-                    ],
-                  ),
-                );
+                return const LoadingScreen();
               }
             }));
   }

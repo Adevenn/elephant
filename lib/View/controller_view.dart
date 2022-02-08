@@ -28,6 +28,7 @@ class ControllerView implements InteractionToViewController {
     runApp(MyApp(this));
   }
 
+  @override
   List<Widget> elementsToWidgets(
       List<Object> items, InteractionToViewController interView) {
     List<Widget> _widgets = [];

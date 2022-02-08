@@ -23,7 +23,7 @@ class CellView extends StatelessWidget {
           case 'Book':
             return BookView(interView: interView, cell: cell);
           case 'ToDoList':
-            return ToDoListView(interView: interView);
+            return ToDoListView(interView: interView, cell: cell);
           case 'Rank':
             return RankView(interView: interView);
         }
