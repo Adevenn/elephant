@@ -3,7 +3,6 @@ import '/Model/sheet.dart';
 import '/View/Cell/Book/book_element_view.dart';
 import '/Model/cell.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
-import '/View/Cell/Book/book_floating_btn.dart';
 import 'Sheet/sheet_screen.dart';
 
 class BookView extends StatefulWidget {
@@ -31,10 +30,8 @@ class _StateBookView extends State<BookView> {
         builder: (BuildContext context, AsyncSnapshot<Sheet> snapshot) {
           if (snapshot.hasData && sheet != snapshot.data) {
             sheet = snapshot.data;
-            print(sheet!.title);
             return Scaffold(
               body: BookElemView(interView: interView, sheet: sheet!),
-              floatingActionButton: BookFloatingBtn(interView: interView),
               bottomSheet: Container(
                 margin: const EdgeInsets.all(15),
                 child: Tooltip(

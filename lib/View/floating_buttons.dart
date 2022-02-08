@@ -72,29 +72,8 @@ class _ExpandableFabState extends State<ExpandableFab>
     );
   }
 
-  Widget _buildTapToCloseFab() {
-    return SizedBox(
-      width: 56.0,
-      height: 56.0,
-      child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          elevation: 4.0,
-          child: InkWell(
-            onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  Widget _buildTapToCloseFab() =>
+      IconButton(onPressed: _toggle, icon: const Icon(Icons.close));
 
   List<Widget> _buildExpandingActionButtons() {
     final children = <Widget>[];

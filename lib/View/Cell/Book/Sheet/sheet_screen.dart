@@ -45,7 +45,6 @@ class _SheetScreenState extends State<SheetScreen> {
               return Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(children: [
-                  /* SHEETS LIST */
                   Expanded(
                     child: ReorderableListView(
                       onReorder: (int oldIndex, int newIndex) async {
@@ -68,10 +67,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                       const Icon(Icons.text_snippet_rounded),
                                   title: Text(sheets[index].title),
                                   subtitle: Text(sheets[index].subtitle),
-                                  onTap: () {
-                                    Navigator.pop(context, index);
-                                  }),
-                              /* DELETE SHEET */
+                                  onTap: () => Navigator.pop(context, index)),
                               onDismissed: (direction) async {
                                 bool result = await showDialog(
                                     barrierDismissible: false,
@@ -87,7 +83,6 @@ class _SheetScreenState extends State<SheetScreen> {
                       ],
                     ),
                   ),
-                  /* ADD SHEET */
                   Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Column(

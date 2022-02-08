@@ -17,14 +17,15 @@ class _BookFloatingBtn extends State<BookFloatingBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpandableFab(distance: 150.0, children: [
+    return ExpandableFab(distance: 300.0, children: [
       IconButton(
         onPressed: () async {
           await interView.addTexts(TextType.title.index);
           setState(() {});
         },
         icon: const Icon(Icons.title_rounded),
-        iconSize: 45,
+        iconSize: 30,
+        tooltip: 'Text',
       ),
       IconButton(
         onPressed: () async {
@@ -32,7 +33,8 @@ class _BookFloatingBtn extends State<BookFloatingBtn> {
           setState(() {});
         },
         icon: const Icon(Icons.title_rounded),
-        iconSize: 40,
+        iconSize: 30,
+        tooltip: 'Subtitle',
       ),
       IconButton(
         onPressed: () async {
@@ -40,7 +42,8 @@ class _BookFloatingBtn extends State<BookFloatingBtn> {
           setState(() {});
         },
         icon: const Icon(Icons.text_fields_rounded),
-        iconSize: 45,
+        iconSize: 30,
+        tooltip: 'Title',
       ),
       IconButton(
         onPressed: () async {
@@ -49,7 +52,8 @@ class _BookFloatingBtn extends State<BookFloatingBtn> {
           setState(() {});
         },
         icon: const Icon(Icons.add_photo_alternate_outlined),
-        iconSize: 45,
+        iconSize: 30,
+        tooltip: 'Image',
       ),
       IconButton(
         onPressed: () async {
@@ -57,7 +61,8 @@ class _BookFloatingBtn extends State<BookFloatingBtn> {
           setState(() {});
         },
         icon: const Icon(Icons.check_box_rounded),
-        iconSize: 45,
+        iconSize: 30,
+        tooltip: 'Checkbox',
       ),
     ]);
   }
