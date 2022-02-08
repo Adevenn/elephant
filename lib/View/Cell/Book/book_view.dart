@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/loading_screen.dart';
+import '/View/loading_screen.dart';
 import '/Model/sheet.dart';
 import '/View/Cell/Book/book_element_view.dart';
 import '/Model/cell.dart';
