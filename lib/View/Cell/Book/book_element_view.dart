@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Cell/element_screen_template.dart';
-import 'package:my_netia_client/View/loading_screen.dart';
+import '/View/Cell/element_screen_template.dart';
+import '/View/loading_screen.dart';
 import '/Model/Elements/text_type.dart';
 import '../../floating_buttons.dart';
 import '/Model/sheet.dart';
-import '../delete_element_dialog.dart';
-import '../element_template.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 import '/Model/Elements/element.dart' as elem;
 
