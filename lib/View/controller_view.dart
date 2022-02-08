@@ -126,9 +126,9 @@ class ControllerView implements InteractionToViewController {
       for (var file in files) {
         var img =
             ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
-        print('name: ${img.fileName}\nweight : ${img.sizeInBytes}');
+        //print('name: ${img.fileName}\nbytes : ${img.sizeInBytes}');
         final output = compress(ImageFileConfiguration(input: img));
-        print('name:${output.fileName}\nbytes: ${output.sizeInBytes}');
+        //print('name:${output.fileName}\nbytes: ${output.sizeInBytes}');
         await interController.addImage(
             sheet.id, output.rawBytes, await file.readAsBytes());
       }
