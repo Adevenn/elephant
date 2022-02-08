@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/Model/sheet.dart';
-import 'package:my_netia_client/View/loading_screen.dart';
+import '/Model/sheet.dart';
+import '/View/loading_screen.dart';
 import '/Model/cell.dart';
 import '/View/Cell/ToDoList/to_do_list_element_view.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
