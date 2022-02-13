@@ -40,7 +40,9 @@ class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
                 newIndex -= 1;
               }
               elem.Element item = elements.removeAt(oldIndex);
+              Widget widget = widgets.removeAt(oldIndex);
               elements.insert(newIndex, item);
+              widgets.insert(newIndex, widget);
               await interView.updateElementsOrder(elements);
               setState(() {});
             },
