@@ -10,7 +10,7 @@ import '/Model/Elements/image.dart';
 import '/Model/Elements/text.dart';
 import '/Model/Elements/text_type.dart';
 import '/Model/cell.dart';
-import '../Model/Cells/Book/sheet.dart';
+import '/Model/Cells/Book/sheet.dart';
 import '/Network/client.dart';
 import '/View/Interfaces/interaction_to_controller.dart';
 
@@ -59,7 +59,8 @@ class Controller implements InteractionToController {
   Future<List<Sheet>> getSheets(int idCell) async {
     var sheets = <Sheet>[];
     try {
-      var jsonList = jsonDecode(await _client.sheets(idCell));
+      var jsonList =
+          jsonDecode(await _client.requestWithResult('sheets', [idCell]));
       jsonList.forEach((json) {
         var sheet = Sheet.fromJson(jsonDecode(json));
         sheets.add(sheet);
@@ -77,7 +78,10 @@ class Controller implements InteractionToController {
   @override
   Future<Sheet> getSheet(int idCell, int sheetIndex) async {
     try {
-      var json = await _client.sheet(idCell, sheetIndex);
+      List<Object> list = [];
+      list.add(idCell);
+      list.add(sheetIndex);
+      var json = await _client.requestWithResult('sheet', [idCell, sheetIndex]);
       return Sheet.fromJson(jsonDecode(json));
     } catch (e) {
       throw Exception(e);
@@ -88,7 +92,8 @@ class Controller implements InteractionToController {
   Future<List<Element>> getElements(int idSheet) async {
     var elements = <Element>[];
     try {
-      var jsonList = jsonDecode(await _client.elements(idSheet));
+      var jsonList =
+          jsonDecode(await _client.requestWithResult('elements', [idSheet]));
       jsonList.forEach((json) {
         var element = Element.fromJson(jsonDecode(json));
         elements.add(element);
@@ -106,7 +111,8 @@ class Controller implements InteractionToController {
   @override
   Future<Uint8List> getRawImage(int idImage) async {
     try {
-      var json = jsonDecode(await _client.rawImage(idImage));
+      var json =
+          jsonDecode(await _client.requestWithResult('rawImage', [idImage]));
       assert(json is Map<String, dynamic>);
       return Uint8List.fromList(json['img_raw'].cast<int>());
     } on ServerException catch (e) {

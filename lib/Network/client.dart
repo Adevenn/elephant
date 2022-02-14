@@ -31,6 +31,47 @@ class Client {
     }
   }
 
+  ///Send the request and parameters
+  ///
+  ///And wait for json as result
+  Future<String> requestWithResult(
+      String request, List<Object> parameters) async {
+    try {
+      //Send request
+      await _socket.setup(request);
+      //Send parameters
+      for (int i = 0; i < parameters.length; i++) {
+        switch (parameters[i].runtimeType.toString()) {
+          case 'String':
+            await _socket.writeBigString((parameters[i] as String));
+            break;
+          case 'int':
+            await _socket.writeSym((parameters[i] as int).toString());
+            break;
+          default:
+            throw Exception('Client.requestWithResult, request $request :\n'
+                'Parameter type not implemented\n'
+                'Key : ${parameters[i].runtimeType.toString()}, Value : ${parameters[i]}');
+        }
+        if (i < parameters.length - 1) {
+          await _socket.synchronizeRead();
+        }
+      }
+      //Wait for result
+      var json = await _socket.readBigString();
+      await _socket.disconnect();
+      return json;
+    } catch (e) {
+      try {
+        await init();
+        return await requestWithResult(request, parameters);
+      } catch (e) {
+        throw Exception('Client.requestWithResult, request $request :\n'
+            'Values : $parameters\$e');
+      }
+    }
+  }
+
   Future<String> cells(String matchWord) async {
     try {
       await _socket.setup('cells');
@@ -49,72 +90,36 @@ class Client {
     }
   }
 
-  Future<String> sheets(int idCell) async {
+  Future<void> requestWithoutResult(
+      String request, List<Object> parameters) async {
     try {
-      await _socket.setup('sheets');
-      await _socket.writeSym(idCell.toString());
-      var sheetsAsJson = await _socket.readBigString();
-      await _socket.disconnect();
-      return sheetsAsJson;
-    } catch (e) {
-      try {
-        await init();
-        return await sheets(idCell);
-      } catch (e) {
-        throw Exception('(Client)sheets:\n$e');
+      await _socket.setup(request);
+      for (int i = 0; i < parameters.length; i++) {
+        switch (parameters[i].runtimeType.toString()) {
+          case 'String':
+            await _socket.writeBigString((parameters[i] as String));
+            break;
+          case 'int':
+            await _socket.writeSym((parameters[i] as int).toString());
+            break;
+          default:
+            throw Exception('Client.requestWithResult, request $request :\n'
+                'Parameter type not implemented\n'
+                'Key : ${parameters[i].runtimeType.toString()}, Value : ${parameters[i]}');
+        }
+        if (i < parameters.length - 1) {
+          await _socket.synchronizeRead();
+        }
       }
-    }
-  }
-
-  Future<String> sheet(int idCell, int sheetIndex) async {
-    try {
-      await _socket.setup('sheet');
-      await _socket.writeSym(idCell.toString());
-      await _socket.synchronizeRead();
-      await _socket.writeSym(sheetIndex.toString());
-      var jsonSheet = await _socket.readBigString();
-      await _socket.disconnect();
-      return jsonSheet;
+      await _socket.disconnectWithResult();
     } catch (e) {
       try {
         await init();
-        return await sheet(idCell, sheetIndex);
+        return await requestWithoutResult(request, parameters);
       } catch (e) {
-        throw Exception('(Client)sheets:\n$e');
-      }
-    }
-  }
-
-  Future<String> elements(int idSheet) async {
-    try {
-      await _socket.setup('elements');
-      await _socket.writeSym(idSheet.toString());
-      var elementsAsJson = await _socket.readBigString();
-      await _socket.disconnect();
-      return elementsAsJson;
-    } catch (e) {
-      try {
-        await init();
-        return await elements(idSheet);
-      } catch (e) {
-        throw Exception('(Client)elements:\n$e');
-      }
-    }
-  }
-
-  Future<String> rawImage(int idImage) async {
-    try {
-      await _socket.setup('rawImage');
-      await _socket.writeSym(idImage.toString());
-      var imageData = await _socket.readBigString();
-      await _socket.disconnect();
-      return imageData;
-    } catch (e) {
-      try {
-        await init();
-        return await rawImage(idImage);
-      } catch (e) {
-        throw Exception('(Client)rawImage:\n$e');
+        throw Exception('Client.requestWithoutResult, request $request:\n'
+            'Values : $parameters\n'
+            '$e');
       }
     }
   }
