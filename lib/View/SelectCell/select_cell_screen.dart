@@ -4,7 +4,7 @@ import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
 import 'add_cell_dialog.dart';
 import 'delete_cell_dialog.dart';
-import '/Model/Cells/book.dart';
+import '/Model/Cells/Book/book.dart';
 import '/Model/Cells/ranking.dart';
 import '/Model/Cells/to_do_list.dart';
 import '/Model/cell.dart';

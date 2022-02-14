@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/View/Cell/element_screen_template.dart';
 import '/View/loading_screen.dart';
-import '/Model/sheet.dart';
+import '../../../Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 
 class ToDoListElemView extends StatefulWidget {

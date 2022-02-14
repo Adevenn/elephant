@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
 import '/Model/cell.dart';
-import '/Model/sheet.dart';
+import '../Model/Cells/Book/sheet.dart';
 import '/Model/Elements/element.dart' as elem;
 import '/Model/Elements/checkbox.dart' as cb;
 import '/Model/Elements/image.dart' as img;

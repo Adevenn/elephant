@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '/Model/Elements/element.dart' as elem;
 import '/Model/cell.dart';
-import '/Model/sheet.dart';
+import '../../Model/Cells/Book/sheet.dart';
 
 abstract class InteractionToViewController {
   Future<Uint8List> selectRawImage(int idImage);

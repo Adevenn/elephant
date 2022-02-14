@@ -10,7 +10,7 @@ import '/Model/Elements/image.dart';
 import '/Model/Elements/text.dart';
 import '/Model/Elements/text_type.dart';
 import '/Model/cell.dart';
-import '/Model/sheet.dart';
+import '../Model/Cells/Book/sheet.dart';
 import '/Network/client.dart';
 import '/View/Interfaces/interaction_to_controller.dart';
 

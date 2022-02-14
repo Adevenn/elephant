@@ -1,4 +1,4 @@
-import '../cell.dart';
+import '../../cell.dart';
 
 class Book extends Cell{
   int sheetSelect = 0;
