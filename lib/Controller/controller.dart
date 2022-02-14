@@ -60,7 +60,7 @@ class Controller implements InteractionToController {
     var sheets = <Sheet>[];
     try {
       var jsonList =
-          jsonDecode(await _client.requestWithResult('sheets', [idCell]));
+          jsonDecode(await _client.request('sheets', [idCell]));
       jsonList.forEach((json) {
         var sheet = Sheet.fromJson(jsonDecode(json));
         sheets.add(sheet);
@@ -81,7 +81,7 @@ class Controller implements InteractionToController {
       List<Object> list = [];
       list.add(idCell);
       list.add(sheetIndex);
-      var json = await _client.requestWithResult('sheet', [idCell, sheetIndex]);
+      var json = await _client.request('sheet', [idCell, sheetIndex]);
       return Sheet.fromJson(jsonDecode(json));
     } catch (e) {
       throw Exception(e);
@@ -93,7 +93,7 @@ class Controller implements InteractionToController {
     var elements = <Element>[];
     try {
       var jsonList =
-          jsonDecode(await _client.requestWithResult('elements', [idSheet]));
+          jsonDecode(await _client.request('elements', [idSheet]));
       jsonList.forEach((json) {
         var element = Element.fromJson(jsonDecode(json));
         elements.add(element);
@@ -112,7 +112,7 @@ class Controller implements InteractionToController {
   Future<Uint8List> getRawImage(int idImage) async {
     try {
       var json =
-          jsonDecode(await _client.requestWithResult('rawImage', [idImage]));
+          jsonDecode(await _client.request('rawImage', [idImage]));
       assert(json is Map<String, dynamic>);
       return Uint8List.fromList(json['img_raw'].cast<int>());
     } on ServerException catch (e) {
@@ -129,7 +129,8 @@ class Controller implements InteractionToController {
     try {
       var cell =
           Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
-      await _client.addCell(jsonEncode(cell));
+      var result = await _client.request('addCell', [jsonEncode(cell)]);
+      print(result);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {

@@ -34,11 +34,11 @@ class Client {
   ///Send the request and parameters
   ///
   ///And wait for json as result
-  Future<String> requestWithResult(
-      String request, List<Object> parameters) async {
+  Future<String> request(
+      String requestName, List<Object> parameters) async {
     try {
       //Send request
-      await _socket.setup(request);
+      await _socket.setup(requestName);
       //Send parameters
       for (int i = 0; i < parameters.length; i++) {
         switch (parameters[i].runtimeType.toString()) {
@@ -49,7 +49,7 @@ class Client {
             await _socket.writeSym((parameters[i] as int).toString());
             break;
           default:
-            throw Exception('Client.requestWithResult, request $request :\n'
+            throw Exception('Client.requestWithResult, request $requestName :\n'
                 'Parameter type not implemented\n'
                 'Key : ${parameters[i].runtimeType.toString()}, Value : ${parameters[i]}');
         }
@@ -58,15 +58,15 @@ class Client {
         }
       }
       //Wait for result
-      var json = await _socket.readBigString();
+      var result = await _socket.readBigString();
       await _socket.disconnect();
-      return json;
+      return result;
     } catch (e) {
       try {
         await init();
-        return await requestWithResult(request, parameters);
+        return await request(requestName, parameters);
       } catch (e) {
-        throw Exception('Client.requestWithResult, request $request :\n'
+        throw Exception('Client.requestWithResult, request $requestName :\n'
             'Values : $parameters\$e');
       }
     }
@@ -90,45 +90,13 @@ class Client {
     }
   }
 
-  Future<void> requestWithoutResult(
-      String request, List<Object> parameters) async {
-    try {
-      await _socket.setup(request);
-      for (int i = 0; i < parameters.length; i++) {
-        switch (parameters[i].runtimeType.toString()) {
-          case 'String':
-            await _socket.writeBigString((parameters[i] as String));
-            break;
-          case 'int':
-            await _socket.writeSym((parameters[i] as int).toString());
-            break;
-          default:
-            throw Exception('Client.requestWithResult, request $request :\n'
-                'Parameter type not implemented\n'
-                'Key : ${parameters[i].runtimeType.toString()}, Value : ${parameters[i]}');
-        }
-        if (i < parameters.length - 1) {
-          await _socket.synchronizeRead();
-        }
-      }
-      await _socket.disconnectWithResult();
-    } catch (e) {
-      try {
-        await init();
-        return await requestWithoutResult(request, parameters);
-      } catch (e) {
-        throw Exception('Client.requestWithoutResult, request $request:\n'
-            'Values : $parameters\n'
-            '$e');
-      }
-    }
-  }
-
-  Future<void> addCell(String jsonCell) async {
+  Future<String> addCell(String jsonCell) async {
     try {
       await _socket.setup('addCell');
       await _socket.writeSym(jsonCell);
-      await _socket.disconnectWithResult();
+      var result = await _socket.readBigString();
+      await _socket.disconnect();
+      return result;
     } catch (e) {
       try {
         await init();
