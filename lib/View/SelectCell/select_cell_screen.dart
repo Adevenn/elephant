@@ -4,9 +4,9 @@ import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
 import 'add_cell_dialog.dart';
 import 'delete_cell_dialog.dart';
-import '/Model/CellComponents/book.dart';
-import '/Model/CellComponents/ranking.dart';
-import '/Model/CellComponents/to_do_list.dart';
+import '/Model/Cells/book.dart';
+import '/Model/Cells/ranking.dart';
+import '/Model/Cells/to_do_list.dart';
 import '/Model/cell.dart';
 import '../Interfaces/interaction_to_view_controller.dart';
 

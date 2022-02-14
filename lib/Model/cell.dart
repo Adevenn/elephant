@@ -1,7 +1,7 @@
-import '../Model/CellComponents/ranking.dart';
-import '../Model/CellComponents/to_do_list.dart';
+import '../Model/Cells/ranking.dart';
+import '../Model/Cells/to_do_list.dart';
 
-import 'CellComponents/book.dart';
+import 'Cells/book.dart';
 
 ///int id
 ///
