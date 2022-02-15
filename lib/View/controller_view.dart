@@ -86,18 +86,8 @@ class ControllerView implements InteractionToViewController {
       await interController.getElements(sheet.id);
 
   @override
-  Future<void> updateSheetsOrder(List<Sheet> sheets) async {
-    for (var i = 0; i < sheets.length; i++) {
-      if (sheets[i].idOrder != i) {
-        sheets[i].idOrder = i;
-      }
-    }
-    await interController.updateSheetOrder(sheets);
-  }
-
-  @override
-  Future<void> updateElementsOrder(List<elem.Element> elements) async =>
-      await interController.updateElementOrder(elements);
+  Future<void> updateOrder(String type, List<Object> list) async =>
+      await interController.updateOrder(type, list);
 
   @override
   Future<void> updateItem(String type, Map<String, dynamic> json) async =>

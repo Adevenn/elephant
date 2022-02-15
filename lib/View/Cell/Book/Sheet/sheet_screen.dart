@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/loading_screen.dart';
 import '/Model/cell.dart';
 import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
@@ -55,7 +56,7 @@ class _SheetScreenState extends State<SheetScreen> {
                         }
                         Sheet item = sheets.removeAt(oldIndex);
                         sheets.insert(newIndex, item);
-                        await interView.updateSheetsOrder(sheets);
+                        await interView.updateOrder('Sheet', sheets);
                         setState(() {});
                       },
                       children: [
@@ -111,23 +112,7 @@ class _SheetScreenState extends State<SheetScreen> {
                 ]),
               );
             } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const <Widget>[
-                    SizedBox(
-                      child: CircularProgressIndicator(),
-                      width: 60,
-                      height: 60,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Awaiting ...'),
-                    )
-                  ],
-                ),
-              );
+              return const LoadingScreen();
             }
           }),
     );

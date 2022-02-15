@@ -210,7 +210,7 @@ class Controller implements InteractionToController {
   @override
   Future<void> deleteItem(String type, int id) async {
     try {
-      await _client.deleteItem(type, id);
+      await _client.request('deleteItem', [type, id]);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
@@ -223,11 +223,34 @@ class Controller implements InteractionToController {
   @override
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues) async {
     try {
-      await _client.updateItem(type, jsonEncode(jsonValues));
+      await _client.request('updateItem', [type, jsonEncode(jsonValues)]);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
       throw DatabaseTimeoutException('$e');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> updateOrder(String type, List<Object> list) async{
+    try {
+      var jsonList = <String>[];
+      switch(type){
+        case 'Sheet':
+          list = list as List<Sheet>;
+          break;
+        case 'Element':
+          list = list as List<Element>;
+          break;
+        default:
+          throw Exception('Type not implemented\nType : $type');
+      }
+      for (var i = 0; i < list.length; i++) {
+        jsonList.add(jsonEncode(list[i]));
+      }
+      await _client.request('updateOrder', [type, jsonEncode(jsonList)]);
     } catch (e) {
       throw Exception(e);
     }
@@ -240,7 +263,7 @@ class Controller implements InteractionToController {
       for (var i = 0; i < sheets.length; i++) {
         jsonList.add(jsonEncode(sheets[i]));
       }
-      await _client.updateOrder('Sheet', jsonEncode(jsonList));
+      await _client.request('updateOrder', ['Sheet', jsonEncode(jsonList)]);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
@@ -252,10 +275,18 @@ class Controller implements InteractionToController {
 
   @override
   Future<void> updateElementOrder(List<Element> elements) async {
-    var jsonList = <String>[];
-    for (var i = 0; i < elements.length; i++) {
-      jsonList.add(jsonEncode(elements[i]));
+    try {
+      var jsonList = <String>[];
+      for (var i = 0; i < elements.length; i++) {
+        jsonList.add(jsonEncode(elements[i]));
+      }
+      await _client.request('updateOrder', ['Element', jsonEncode(jsonList)]);
+    } on ServerException catch (e) {
+      throw ServerException('$e');
+    } on DatabaseTimeoutException catch (e) {
+      throw DatabaseTimeoutException('$e');
+    } catch (e) {
+      throw Exception(e);
     }
-    await _client.updateOrder('Element', jsonEncode(jsonList));
   }
 }

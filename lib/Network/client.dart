@@ -34,8 +34,7 @@ class Client {
   ///Send request and parameters
   ///
   ///And wait for result
-  Future<String> request(
-      String requestName, List<Object> parameters) async {
+  Future<String> request(String requestName, List<Object> parameters) async {
     try {
       //Send request
       await _socket.setup(requestName);
@@ -86,57 +85,6 @@ class Client {
         return await cells(matchWord);
       } catch (e) {
         throw Exception('(Client)cells:\n$e');
-      }
-    }
-  }
-
-  Future<void> deleteItem(String type, int id) async {
-    try {
-      await _socket.setup('deleteItem');
-      await _socket.writeSym(type);
-      await _socket.synchronizeRead();
-      await _socket.writeSym(id.toString());
-      await _socket.disconnectWithResult();
-    } catch (e) {
-      try {
-        await init();
-        deleteItem(type, id);
-      } catch (e) {
-        throw Exception('(Client)deleteItem:\n$e');
-      }
-    }
-  }
-
-  Future<void> updateItem(String type, String json) async {
-    try {
-      await _socket.setup('updateItem');
-      await _socket.writeSym(type);
-      await _socket.synchronizeRead();
-      await _socket.writeBigString(json);
-      await _socket.disconnectWithResult();
-    } catch (e) {
-      try {
-        await init();
-        return await updateItem(type, json);
-      } catch (e) {
-        throw Exception('(Client)updateItem:\n$e');
-      }
-    }
-  }
-
-  Future<void> updateOrder(String type, String json) async {
-    try {
-      await _socket.setup('updateOrder');
-      await _socket.writeSym(type);
-      await _socket.synchronizeRead();
-      await _socket.writeBigString(json);
-      await _socket.disconnectWithResult();
-    } catch (e) {
-      try {
-        await init();
-        return await updateOrder(type, json);
-      } catch (e) {
-        throw Exception('(Client)updateOrder:\n$e');
       }
     }
   }
