@@ -31,7 +31,7 @@ class Client {
     }
   }
 
-  ///Send the request and parameters
+  ///Send request and parameters
   ///
   ///And wait for result
   Future<String> request(
