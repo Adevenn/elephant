@@ -3,7 +3,7 @@ import '/Model/cell.dart';
 import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
 import 'delete_sheet_dialog.dart';
-import '../../../../Model/Cells/Book/sheet.dart';
+import '/Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 
 class SheetScreen extends StatefulWidget {
@@ -23,9 +23,11 @@ class SheetScreen extends StatefulWidget {
 }
 
 class _SheetScreenState extends State<SheetScreen> {
-  get interView => widget.interView;
+  InteractionToViewController get interView => widget.interView;
 
-  get cell => widget.cell;
+  Cell get cell => widget.cell;
+
+  int get index => widget.index;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class _SheetScreenState extends State<SheetScreen> {
       appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context, index),
           ),
           title: const Text('Sheets')),
       endDrawer: Drawer(child: OptionScreen(interView: interView)),

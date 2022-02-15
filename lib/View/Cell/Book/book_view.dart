@@ -40,14 +40,17 @@ class _StateBookView extends State<BookView> {
                   child: FloatingActionButton(
                     heroTag: 'sheetsBtn',
                     onPressed: () async {
-                      sheetIndex = await Navigator.push(
+                      var result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SheetScreen(
                                   cell: cell,
                                   interView: interView,
                                   index: sheetIndex)));
-                      setState(() {});
+                      if(sheetIndex != result){
+                        sheetIndex = result;
+                        setState(() {});
+                      }
                     },
                     child: const Icon(Icons.text_snippet),
                   ),

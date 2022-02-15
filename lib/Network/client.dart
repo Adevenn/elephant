@@ -33,7 +33,7 @@ class Client {
 
   ///Send the request and parameters
   ///
-  ///And wait for json as result
+  ///And wait for result
   Future<String> request(
       String requestName, List<Object> parameters) async {
     try {
