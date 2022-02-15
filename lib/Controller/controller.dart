@@ -59,8 +59,7 @@ class Controller implements InteractionToController {
   Future<List<Sheet>> getSheets(int idCell) async {
     var sheets = <Sheet>[];
     try {
-      var jsonList =
-          jsonDecode(await _client.request('sheets', [idCell]));
+      var jsonList = jsonDecode(await _client.request('sheets', [idCell]));
       jsonList.forEach((json) {
         var sheet = Sheet.fromJson(jsonDecode(json));
         sheets.add(sheet);
@@ -92,8 +91,7 @@ class Controller implements InteractionToController {
   Future<List<Element>> getElements(int idSheet) async {
     var elements = <Element>[];
     try {
-      var jsonList =
-          jsonDecode(await _client.request('elements', [idSheet]));
+      var jsonList = jsonDecode(await _client.request('elements', [idSheet]));
       jsonList.forEach((json) {
         var element = Element.fromJson(jsonDecode(json));
         elements.add(element);
@@ -111,8 +109,7 @@ class Controller implements InteractionToController {
   @override
   Future<Uint8List> getRawImage(int idImage) async {
     try {
-      var json =
-          jsonDecode(await _client.request('rawImage', [idImage]));
+      var json = jsonDecode(await _client.request('rawImage', [idImage]));
       assert(json is Map<String, dynamic>);
       return Uint8List.fromList(json['img_raw'].cast<int>());
     } on ServerException catch (e) {
@@ -130,7 +127,9 @@ class Controller implements InteractionToController {
       var cell =
           Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
       var result = await _client.request('addCell', [jsonEncode(cell)]);
-      print(result);
+      if (result == 'failed') {
+        throw const ServerException('Result : failed');
+      }
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
@@ -144,7 +143,7 @@ class Controller implements InteractionToController {
   Future<void> addSheet(int idCell, String title, String subtitle) async {
     try {
       var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1));
-      await _client.addItem('Sheet', json);
+      await _client.request('addItem', ['Sheet', json]);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
@@ -159,7 +158,7 @@ class Controller implements InteractionToController {
     try {
       var json = jsonEncode(
           Checkbox(id: -1, idParent: idParent, text: '', idOrder: -1));
-      await _client.addItem('Checkbox', json);
+      await _client.request('addItem', ['Checkbox', json]);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
@@ -179,7 +178,7 @@ class Controller implements InteractionToController {
           imgRaw: rawImage,
           idParent: idParent,
           idOrder: -1));
-      await _client.addItem('Image', json);
+      await _client.request('addItem', ['Image', json]);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
@@ -198,7 +197,7 @@ class Controller implements InteractionToController {
           txtType: TextType.values[txtType],
           id: -1,
           idOrder: -1));
-      await _client.addItem('Text', json);
+      await _client.request('addItem', ['Text', json]);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {

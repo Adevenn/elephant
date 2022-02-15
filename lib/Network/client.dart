@@ -41,11 +41,11 @@ class Client {
       await _socket.setup(requestName);
       //Send parameters
       for (int i = 0; i < parameters.length; i++) {
-        switch (parameters[i].runtimeType.toString()) {
-          case 'String':
+        switch (parameters[i].runtimeType) {
+          case String:
             await _socket.writeBigString((parameters[i] as String));
             break;
-          case 'int':
+          case int:
             await _socket.writeSym((parameters[i] as int).toString());
             break;
           default:
@@ -86,40 +86,6 @@ class Client {
         return await cells(matchWord);
       } catch (e) {
         throw Exception('(Client)cells:\n$e');
-      }
-    }
-  }
-
-  Future<String> addCell(String jsonCell) async {
-    try {
-      await _socket.setup('addCell');
-      await _socket.writeSym(jsonCell);
-      var result = await _socket.readBigString();
-      await _socket.disconnect();
-      return result;
-    } catch (e) {
-      try {
-        await init();
-        return await addCell(jsonCell);
-      } catch (e) {
-        throw Exception('(Client)addCell:\n$e');
-      }
-    }
-  }
-
-  Future<void> addItem(String type, String json) async {
-    try {
-      await _socket.setup('addItem');
-      await _socket.writeSym(type);
-      await _socket.synchronizeRead();
-      await _socket.writeBigString(json);
-      await _socket.disconnectWithResult();
-    } catch (e) {
-      try {
-        await init();
-        return await addItem(type, json);
-      } catch (e) {
-        throw Exception('(Client)addItem:\n$e');
       }
     }
   }
