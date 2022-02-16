@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_to_controller.dart';
+import '/View/Interfaces/interaction_main.dart';
 import '/Model/Elements/element.dart' as elem;
 import 'delete_element_dialog.dart';
 import 'element_template.dart';
 
 class ElemScreenTemplate extends StatefulWidget {
-  final InteractionToController inter;
+  final InteractionMain inter;
   final List<elem.Element> elements;
   final List<Widget> widgets;
 
@@ -21,7 +21,7 @@ class ElemScreenTemplate extends StatefulWidget {
 }
 
 class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
-  InteractionToController get interaction => widget.inter;
+  InteractionMain get interaction => widget.inter;
 
   List<elem.Element> get elements => widget.elements;
 

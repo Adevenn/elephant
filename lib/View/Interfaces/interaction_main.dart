@@ -5,7 +5,7 @@ import '/Model/Cells/Book/sheet.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart';
 
-abstract class InteractionToController{
+abstract class InteractionMain{
 
   ///Try to connect to server and [database]
   ///

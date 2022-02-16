@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../Interfaces/interaction_to_controller.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '../Interfaces/interaction_main.dart';
+import '/View/Interfaces/interaction_view.dart';
 import '/Model/user_settings.dart';
 
 class LoginScreen extends StatefulWidget {
-  final InteractionToController interMain;
-  final InteractionToViewController interView;
+  final InteractionMain interMain;
+  final InteractionView interView;
 
   const LoginScreen(
       {required this.interMain, required this.interView, Key? key})
@@ -16,9 +16,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginScreen> {
-  InteractionToController get interMain => widget.interMain;
+  InteractionMain get interMain => widget.interMain;
 
-  InteractionToViewController get interView => widget.interView;
+  InteractionView get interView => widget.interView;
   final _formKey = GlobalKey<FormState>();
   final RegExp ipv4Reg = RegExp(
       r'^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$',

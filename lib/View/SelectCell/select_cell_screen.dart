@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Interfaces/interaction_to_controller.dart';
+import '../Interfaces/interaction_main.dart';
 import '/View/loading_screen.dart';
 import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
@@ -9,11 +9,11 @@ import '/Model/Cells/Book/book.dart';
 import '/Model/Cells/ranking.dart';
 import '/Model/Cells/to_do_list.dart';
 import '/Model/cell.dart';
-import '../Interfaces/interaction_to_view_controller.dart';
+import '../Interfaces/interaction_view.dart';
 
 class CellScreen extends StatefulWidget {
-  final InteractionToController interMain;
-  final InteractionToViewController interView;
+  final InteractionMain interMain;
+  final InteractionView interView;
 
   const CellScreen({required this.interMain, required this.interView, Key? key})
       : super(key: key);
@@ -23,9 +23,9 @@ class CellScreen extends StatefulWidget {
 }
 
 class _CellScreenState extends State<CellScreen> {
-  InteractionToController get interMain => widget.interMain;
+  InteractionMain get interMain => widget.interMain;
 
-  InteractionToViewController get interView => widget.interView;
+  InteractionView get interView => widget.interView;
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 

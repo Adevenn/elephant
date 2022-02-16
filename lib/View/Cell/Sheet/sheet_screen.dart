@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_view.dart';
 import '/View/loading_screen.dart';
 import '/Model/cell.dart';
 import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
 import 'delete_sheet_dialog.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/View/Interfaces/interaction_to_controller.dart';
+import '/View/Interfaces/interaction_main.dart';
 
 class SheetScreen extends StatefulWidget {
-  final InteractionToController interMain;
-  final InteractionToViewController interView;
+  final InteractionMain interMain;
+  final InteractionView interView;
   final Cell cell;
   final int index;
 
@@ -27,9 +27,9 @@ class SheetScreen extends StatefulWidget {
 }
 
 class _SheetScreenState extends State<SheetScreen> {
-  InteractionToController get interMain => widget.interMain;
+  InteractionMain get interMain => widget.interMain;
 
-  InteractionToViewController get interView => widget.interView;
+  InteractionView get interView => widget.interView;
 
   Cell get cell => widget.cell;
 

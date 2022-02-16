@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/Model/Elements/image.dart' as img;
 
-abstract class InteractionToViewController {
+abstract class InteractionView {
   void gotoLoginScreen(BuildContext context);
 
   void gotoCellScreen(BuildContext context);
@@ -10,5 +10,5 @@ abstract class InteractionToViewController {
   Future<List<img.Image>> pickImage(Sheet sheet);
 
   List<Widget> elementsToWidgets(
-      List<Object> items, InteractionToViewController interView);
+      List<Object> items, InteractionView interView);
 }

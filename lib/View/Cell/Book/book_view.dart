@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_to_controller.dart';
+import '/View/Interfaces/interaction_main.dart';
 import '/View/loading_screen.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/View/Cell/Book/book_element_view.dart';
 import '/Model/cell.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_view.dart';
 import '../Sheet/sheet_screen.dart';
 
 class BookView extends StatefulWidget {
-  final InteractionToController interMain;
-  final InteractionToViewController interView;
+  final InteractionMain interMain;
+  final InteractionView interView;
   final Cell cell;
 
   const BookView(
@@ -24,9 +24,9 @@ class BookView extends StatefulWidget {
 }
 
 class _StateBookView extends State<BookView> {
-  InteractionToViewController get interView => widget.interView;
+  InteractionView get interView => widget.interView;
 
-  InteractionToController get interMain => widget.interMain;
+  InteractionMain get interMain => widget.interMain;
 
   Cell get cell => widget.cell;
   Sheet? sheet;
