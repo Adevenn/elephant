@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_to_controller.dart';
+import '/View/Interfaces/interaction_main.dart';
 import '/View/Cell/element_screen_template.dart';
 import '/View/loading_screen.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_view.dart';
 
 class ToDoListElemView extends StatefulWidget {
-  final InteractionToController interMain;
-  final InteractionToViewController interView;
+  final InteractionMain interMain;
+  final InteractionView interView;
   final Sheet sheet;
 
   const ToDoListElemView(
@@ -22,9 +22,9 @@ class ToDoListElemView extends StatefulWidget {
 }
 
 class _StateToDoListElemView extends State<ToDoListElemView> {
-  InteractionToController get interMain => widget.interMain;
+  InteractionMain get interMain => widget.interMain;
 
-  InteractionToViewController get interView => widget.interView;
+  InteractionView get interView => widget.interView;
 
   Sheet get sheet => widget.sheet;
 

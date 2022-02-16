@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_view.dart';
 import '/Model/user_settings.dart';
 
 class OptionScreen extends StatefulWidget {
-  final InteractionToViewController interView;
+  final InteractionView interView;
 
   const OptionScreen({Key? key, required this.interView}) : super(key: key);
 
@@ -13,7 +13,7 @@ class OptionScreen extends StatefulWidget {
 
 class _OptionState extends State<OptionScreen> {
 
-  InteractionToViewController get interView => widget.interView;
+  InteractionView get interView => widget.interView;
 
   @override
   Widget build(BuildContext context) {

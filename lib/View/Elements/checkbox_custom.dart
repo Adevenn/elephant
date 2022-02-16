@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '/Model/Elements/checkbox.dart' as cb;
-import '../Interfaces/interaction_to_controller.dart';
+import '../Interfaces/interaction_main.dart';
 
 class CheckboxCustom extends StatefulWidget{
-  final InteractionToController interMain;
+  final InteractionMain interMain;
   final cb.Checkbox checkbox;
 
   const CheckboxCustom({required Key key, required this.interMain, required this.checkbox}) : super(key: key);
@@ -15,7 +15,7 @@ class CheckboxCustom extends StatefulWidget{
 class _CheckBoxState extends State<CheckboxCustom>{
 
   cb.Checkbox get checkbox => widget.checkbox;
-  InteractionToController get interMain => widget.interMain;
+  InteractionMain get interMain => widget.interMain;
   var focusCheckbox = FocusNode();
   var focusTxt = FocusNode();
   late bool backupChecked;

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_to_controller.dart';
+import '/View/Interfaces/interaction_main.dart';
 import '/View/Options/option_screen.dart';
 import '/View/Cell/Book/book_view.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_view.dart';
 import '/Model/cell.dart';
 import 'Rank/rank_view.dart';
 import 'ToDoList/to_do_list_view.dart';
 
 class CellView extends StatelessWidget {
   final Cell cell;
-  final InteractionToViewController interView;
-  final InteractionToController interMain;
+  final InteractionView interView;
+  final InteractionMain interMain;
 
   const CellView(
       {Key? key,

@@ -12,13 +12,13 @@ import 'Elements/checkbox_custom.dart';
 import 'Elements/image_preview.dart';
 import 'Elements/text_field_custom.dart';
 import 'SelectCell/select_cell_screen.dart';
-import 'Interfaces/interaction_to_controller.dart';
-import 'Interfaces/interaction_to_view_controller.dart';
+import 'Interfaces/interaction_main.dart';
+import 'Interfaces/interaction_view.dart';
 import 'Login/login_screen.dart';
 
 ///Functions in common for all classes in View
-class ControllerView implements InteractionToViewController {
-  final InteractionToController interMain;
+class ControllerView implements InteractionView {
+  final InteractionMain interMain;
 
   ControllerView(this.interMain);
 
@@ -28,7 +28,7 @@ class ControllerView implements InteractionToViewController {
 
   @override
   List<Widget> elementsToWidgets(
-      List<Object> items, InteractionToViewController interView) {
+      List<Object> items, InteractionView interView) {
     List<Widget> _widgets = [];
     for (var element in items) {
       switch (element.runtimeType) {
@@ -110,8 +110,8 @@ class ControllerView implements InteractionToViewController {
 }
 
 class MyApp extends StatelessWidget {
-  final InteractionToViewController interView;
-  final InteractionToController interMain;
+  final InteractionView interView;
+  final InteractionMain interMain;
 
   const MyApp({required this.interMain, required this.interView, Key? key})
       : super(key: key);
@@ -131,7 +131,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MainScreenException implements Exception {
-  InteractionToViewController interView;
+  InteractionView interView;
   BuildContext context;
 
   MainScreenException(

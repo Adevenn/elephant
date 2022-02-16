@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../Interfaces/interaction_to_controller.dart';
+import '../Interfaces/interaction_main.dart';
 import '/Model/Elements/text.dart' as text;
 import '/Model/Elements/text_type.dart';
 
 class TextFieldCustom extends StatefulWidget{
-  final InteractionToController interMain;
+  final InteractionMain interMain;
   final text.Text texts;
 
   const TextFieldCustom({required Key? key, required this.interMain, required this.texts}) : super(key: key);
@@ -15,7 +15,7 @@ class TextFieldCustom extends StatefulWidget{
 
 class _TextFieldCustomState extends State<TextFieldCustom>{
 
-  InteractionToController get interMain => widget.interMain;
+  InteractionMain get interMain => widget.interMain;
   text.Text get texts => widget.texts;
   final focus = FocusNode();
   late String backupText;

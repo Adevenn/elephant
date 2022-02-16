@@ -12,9 +12,9 @@ import '/Model/Elements/text_type.dart';
 import '/Model/cell.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/Network/client.dart';
-import '/View/Interfaces/interaction_to_controller.dart';
+import '/View/Interfaces/interaction_main.dart';
 
-class Controller implements InteractionToController {
+class Controller implements InteractionMain {
   late Client _client;
 
   /// VIEW INTERACTION ///
