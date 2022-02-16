@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/loading_screen.dart';
+import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/loading_screen.dart';
 import '/Model/cell.dart';
 import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
 import 'delete_sheet_dialog.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 
 class SheetScreen extends StatefulWidget {
+  final InteractionToController interMain;
   final InteractionToViewController interView;
   final Cell cell;
   final int index;
 
   const SheetScreen(
       {Key? key,
+      required this.interMain,
       required this.interView,
       required this.cell,
       required this.index})
@@ -24,6 +27,8 @@ class SheetScreen extends StatefulWidget {
 }
 
 class _SheetScreenState extends State<SheetScreen> {
+  InteractionToController get interMain => widget.interMain;
+
   InteractionToViewController get interView => widget.interView;
 
   Cell get cell => widget.cell;
@@ -41,7 +46,7 @@ class _SheetScreenState extends State<SheetScreen> {
           title: const Text('Sheets')),
       endDrawer: Drawer(child: OptionScreen(interView: interView)),
       body: FutureBuilder<List<Sheet>>(
-          future: interView.updateSheets(cell),
+          future: interMain.getSheets(cell.id),
           builder: (BuildContext context, AsyncSnapshot<List<Sheet>> snapshot) {
             if (snapshot.hasData) {
               var sheets = snapshot.data!;
@@ -56,7 +61,7 @@ class _SheetScreenState extends State<SheetScreen> {
                         }
                         Sheet item = sheets.removeAt(oldIndex);
                         sheets.insert(newIndex, item);
-                        await interView.updateOrder('Sheet', sheets);
+                        await interMain.updateOrder('Sheet', sheets);
                         setState(() {});
                       },
                       children: [
@@ -79,7 +84,8 @@ class _SheetScreenState extends State<SheetScreen> {
                                         DeleteSheetDialog(
                                             sheetTitle: sheets[index].title));
                                 if (result) {
-                                  await interView.deleteSheet(sheets[index].id);
+                                  await interMain.deleteItem(
+                                      'Sheet', sheets[index].id);
                                 }
                                 setState(() {});
                               })
@@ -101,7 +107,8 @@ class _SheetScreenState extends State<SheetScreen> {
                                   AddSheetDialog(sheets: sheets),
                             );
                             if (list != null) {
-                              await interView.addSheet(cell, list[0], list[1]);
+                              await interMain.addSheet(
+                                  cell.id, list[0], list[1]);
                               setState(() {});
                             }
                           },

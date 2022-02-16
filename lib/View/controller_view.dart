@@ -1,12 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
-import '/Model/cell.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/Model/Elements/element.dart' as elem;
 import '/Model/Elements/checkbox.dart' as cb;
 import '/Model/Elements/image.dart' as img;
 import '/Model/Elements/text.dart' as text;
@@ -19,13 +16,14 @@ import 'Interfaces/interaction_to_controller.dart';
 import 'Interfaces/interaction_to_view_controller.dart';
 import 'Login/login_screen.dart';
 
+///Functions in common for all classes in View
 class ControllerView implements InteractionToViewController {
-  final InteractionToController interController;
+  final InteractionToController interMain;
 
-  ControllerView(this.interController);
+  ControllerView(this.interMain);
 
   start() {
-    runApp(MyApp(this));
+    runApp(MyApp(interMain: interMain, interView: this));
   }
 
   @override
@@ -36,19 +34,19 @@ class ControllerView implements InteractionToViewController {
       switch (element.runtimeType) {
         case text.Text:
           _widgets.add(TextFieldCustom(
-              interView: interView,
+              interMain: interMain,
               key: UniqueKey(),
               texts: element as text.Text));
           break;
         case img.Image:
           _widgets.add(ImagePreview(
-              interView: interView,
+              interMain: interMain,
               image: element as img.Image,
               key: UniqueKey()));
           break;
         case cb.Checkbox:
           _widgets.add(CheckboxCustom(
-              interView: interView,
+              interMain: interMain,
               key: UniqueKey(),
               checkbox: element as cb.Checkbox));
           break;
@@ -60,53 +58,8 @@ class ControllerView implements InteractionToViewController {
   }
 
   @override
-  Future<void> testConnection(String ip, int port, String database,
-          String username, String password) async =>
-      await interController.testConnection(
-          ip, port, database, username, password);
-
-  @override
-  Future<Uint8List> selectRawImage(int idImage) async =>
-      await interController.getRawImage(idImage);
-
-  @override
-  Future<Sheet> selectSheet(Cell cell, int sheetIndex) async =>
-      await interController.getSheet(cell.id, sheetIndex);
-
-  @override
-  Future<List<Cell>> updateCells([String matchWord = '']) async =>
-      await interController.getCells(matchWord);
-
-  @override
-  Future<List<Sheet>> updateSheets(Cell cell) async =>
-      await interController.getSheets(cell.id);
-
-  @override
-  Future<List<elem.Element>> updateElements(Sheet sheet) async =>
-      await interController.getElements(sheet.id);
-
-  @override
-  Future<void> updateOrder(String type, List<Object> list) async =>
-      await interController.updateOrder(type, list);
-
-  @override
-  Future<void> updateItem(String type, Map<String, dynamic> json) async =>
-      await interController.updateItem(type, json);
-
-  @override
-  Future<void> addCell(String title, String subtitle, String type) async =>
-      await interController.addCell(title, subtitle, type);
-
-  @override
-  Future<void> addSheet(Cell cell, String title, String subtitle) async =>
-      await interController.addSheet(cell.id, title, subtitle);
-
-  @override
-  Future<void> addTexts(Sheet sheet, int type) async =>
-      await interController.addTexts(sheet.id, type);
-
-  @override
-  Future<void> addImage(Sheet sheet) async {
+  Future<List<img.Image>> pickImage(Sheet sheet) async {
+    var images = <img.Image>[];
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.image,
@@ -114,39 +67,27 @@ class ControllerView implements InteractionToViewController {
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
       for (var file in files) {
-        var img =
+        var image =
             ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
-        //print('name: ${img.fileName}\nbytes : ${img.sizeInBytes}');
-        final output = compress(ImageFileConfiguration(input: img));
-        //print('name:${output.fileName}\nbytes: ${output.sizeInBytes}');
-        await interController.addImage(
-            sheet.id, output.rawBytes, await file.readAsBytes());
+        var imageCompressed = compress(ImageFileConfiguration(input: image));
+        images.add(img.Image.full(
+            id: -1,
+            imgPreview: imageCompressed.rawBytes,
+            imgRaw: image.rawBytes,
+            idParent: sheet.id,
+            idOrder: -1));
       }
     }
+    return images;
   }
-
-  @override
-  Future<void> addCheckbox(Sheet sheet) async =>
-      await interController.addCheckbox(sheet.id);
-
-  @override
-  Future<void> deleteCell(int idCell) async =>
-      await interController.deleteItem('Cell', idCell);
-
-  @override
-  Future<void> deleteSheet(int idSheet) async =>
-      await interController.deleteItem('Sheet', idSheet);
-
-  @override
-  Future<void> deleteElement(int index) async =>
-      await interController.deleteItem('Element', index);
 
   @override
   void gotoLoginScreen(BuildContext context) {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => LoginScreen(this),
+        builder: (BuildContext context) =>
+            LoginScreen(interMain: interMain, interView: this),
       ),
       (route) => false,
     );
@@ -157,16 +98,19 @@ class ControllerView implements InteractionToViewController {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => CellScreen(this),
+        builder: (BuildContext context) =>
+            CellScreen(interMain: interMain, interView: this),
       ),
     );
   }
 }
 
 class MyApp extends StatelessWidget {
-  final InteractionToViewController interactionMain;
+  final InteractionToViewController interView;
+  final InteractionToController interMain;
 
-  const MyApp(this.interactionMain, {Key? key}) : super(key: key);
+  const MyApp({required this.interMain, required this.interView, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +121,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),*/
       theme: ThemeData.dark(),
-      home: LoginScreen(interactionMain),
+      home: LoginScreen(interMain: interMain, interView: interView),
     );
   }
 }

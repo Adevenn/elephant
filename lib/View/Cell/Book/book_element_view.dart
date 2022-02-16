@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 import '/View/Cell/element_screen_template.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/text_type.dart';
-import '../../floating_buttons.dart';
-import '../../../Model/Cells/Book/sheet.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
+import '/View/floating_buttons.dart';
+import '/Model/Cells/Book/sheet.dart';
 import '/Model/Elements/element.dart' as elem;
 
 class BookElemView extends StatefulWidget {
+  final InteractionToController interMain;
   final InteractionToViewController interView;
   final Sheet sheet;
 
-  const BookElemView({Key? key, required this.interView, required this.sheet})
+  const BookElemView(
+      {Key? key,
+      required this.interMain,
+      required this.interView,
+      required this.sheet})
       : super(key: key);
 
   @override
@@ -19,6 +25,7 @@ class BookElemView extends StatefulWidget {
 }
 
 class _StateBookElemView extends State<BookElemView> {
+  InteractionToController get interMain => widget.interMain;
   InteractionToViewController get interView => widget.interView;
 
   Sheet get sheet => widget.sheet;
@@ -26,7 +33,7 @@ class _StateBookElemView extends State<BookElemView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<elem.Element>>(
-        future: interView.updateElements(sheet),
+        future: interMain.getElements(sheet.id),
         builder:
             (BuildContext context, AsyncSnapshot<List<elem.Element>> snapshot) {
           if (snapshot.hasData) {
@@ -35,7 +42,9 @@ class _StateBookElemView extends State<BookElemView> {
 
             return Scaffold(
                 body: ElemScreenTemplate(
-                    interView: interView, elements: elements, widgets: widgets),
+                    inter: interMain,
+                    elements: elements,
+                    widgets: widgets),
                 floatingActionButton: floatingBtn());
           } else {
             return const LoadingScreen();
@@ -46,7 +55,7 @@ class _StateBookElemView extends State<BookElemView> {
   Widget floatingBtn() => ExpandableFab(distance: 150.0, children: [
         IconButton(
           onPressed: () async {
-            await interView.addTexts(sheet, TextType.text.index);
+            await interMain.addTexts(sheet.id, TextType.text.index);
             setState(() {});
           },
           icon: const Icon(Icons.title_rounded),
@@ -55,7 +64,7 @@ class _StateBookElemView extends State<BookElemView> {
         ),
         IconButton(
           onPressed: () async {
-            await interView.addTexts(sheet, TextType.subtitle.index);
+            await interMain.addTexts(sheet.id, TextType.subtitle.index);
             setState(() {});
           },
           icon: const Icon(Icons.text_fields_rounded),
@@ -64,7 +73,7 @@ class _StateBookElemView extends State<BookElemView> {
         ),
         IconButton(
           onPressed: () async {
-            await interView.addTexts(sheet, TextType.title.index);
+            await interMain.addTexts(sheet.id, TextType.title.index);
             setState(() {});
           },
           icon: const Icon(Icons.text_fields_rounded),
@@ -73,9 +82,11 @@ class _StateBookElemView extends State<BookElemView> {
         ),
         IconButton(
           onPressed: () async {
-            //TODO: If cancel => no setState
-            await interView.addImage(sheet);
-            setState(() {});
+            var list = await interView.pickImage(sheet);
+            if(list.isNotEmpty){
+              await interMain.addImage(list);
+              setState(() {});
+            }
           },
           icon: const Icon(Icons.add_photo_alternate_outlined),
           iconSize: 35,
@@ -83,7 +94,7 @@ class _StateBookElemView extends State<BookElemView> {
         ),
         IconButton(
           onPressed: () async {
-            await interView.addCheckbox(sheet);
+            await interMain.addCheckbox(sheet.id);
             setState(() {});
           },
           icon: const Icon(Icons.check_box_rounded),

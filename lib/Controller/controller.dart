@@ -169,16 +169,11 @@ class Controller implements InteractionToController {
   }
 
   @override
-  Future<void> addImage(
-      int idParent, Uint8List previewImage, Uint8List rawImage) async {
+  Future<void> addImage(List<Image> images) async {
     try {
-      var json = jsonEncode(Image.full(
-          id: -1,
-          imgPreview: previewImage,
-          imgRaw: rawImage,
-          idParent: idParent,
-          idOrder: -1));
-      await _client.request('addItem', ['Image', json]);
+      for (var image in images) {
+        await _client.request('addItem', ['Image', jsonEncode(image)]);
+      }
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseTimeoutException catch (e) {
@@ -251,40 +246,6 @@ class Controller implements InteractionToController {
         jsonList.add(jsonEncode(list[i]));
       }
       await _client.request('updateOrder', [type, jsonEncode(jsonList)]);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
-  Future<void> updateSheetOrder(List<Sheet> sheets) async {
-    try {
-      var jsonList = <String>[];
-      for (var i = 0; i < sheets.length; i++) {
-        jsonList.add(jsonEncode(sheets[i]));
-      }
-      await _client.request('updateOrder', ['Sheet', jsonEncode(jsonList)]);
-    } on ServerException catch (e) {
-      throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
-  Future<void> updateElementOrder(List<Element> elements) async {
-    try {
-      var jsonList = <String>[];
-      for (var i = 0; i < elements.length; i++) {
-        jsonList.add(jsonEncode(elements[i]));
-      }
-      await _client.request('updateOrder', ['Element', jsonEncode(jsonList)]);
-    } on ServerException catch (e) {
-      throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }

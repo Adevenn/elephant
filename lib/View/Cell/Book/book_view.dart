@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 import '/View/loading_screen.dart';
-import '../../../Model/Cells/Book/sheet.dart';
+import '/Model/Cells/Book/sheet.dart';
 import '/View/Cell/Book/book_element_view.dart';
 import '/Model/cell.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
-import 'Sheet/sheet_screen.dart';
+import '../Sheet/sheet_screen.dart';
 
 class BookView extends StatefulWidget {
+  final InteractionToController interMain;
   final InteractionToViewController interView;
   final Cell cell;
 
-  const BookView({Key? key, required this.interView, required this.cell})
+  const BookView(
+      {Key? key,
+      required this.interMain,
+      required this.interView,
+      required this.cell})
       : super(key: key);
 
   @override
@@ -20,6 +26,8 @@ class BookView extends StatefulWidget {
 class _StateBookView extends State<BookView> {
   InteractionToViewController get interView => widget.interView;
 
+  InteractionToController get interMain => widget.interMain;
+
   Cell get cell => widget.cell;
   Sheet? sheet;
   int sheetIndex = 0;
@@ -27,12 +35,13 @@ class _StateBookView extends State<BookView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: interView.selectSheet(cell, sheetIndex),
+        future: interMain.getSheet(cell.id, sheetIndex),
         builder: (BuildContext context, AsyncSnapshot<Sheet> snapshot) {
           if (snapshot.hasData && sheet != snapshot.data) {
             sheet = snapshot.data;
             return Scaffold(
-              body: BookElemView(interView: interView, sheet: sheet!),
+              body: BookElemView(
+                  interMain: interMain, interView: interView, sheet: sheet!),
               bottomSheet: Container(
                 margin: const EdgeInsets.all(15),
                 child: Tooltip(
@@ -45,9 +54,10 @@ class _StateBookView extends State<BookView> {
                           MaterialPageRoute(
                               builder: (context) => SheetScreen(
                                   cell: cell,
+                                  interMain: interMain,
                                   interView: interView,
                                   index: sheetIndex)));
-                      if(sheetIndex != result){
+                      if (sheetIndex != result) {
                         sheetIndex = result;
                         setState(() {});
                       }

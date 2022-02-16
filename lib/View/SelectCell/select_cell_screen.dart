@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Interfaces/interaction_to_controller.dart';
 import '/View/loading_screen.dart';
 import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
@@ -11,16 +12,20 @@ import '/Model/cell.dart';
 import '../Interfaces/interaction_to_view_controller.dart';
 
 class CellScreen extends StatefulWidget {
-  final InteractionToViewController _interView;
+  final InteractionToController interMain;
+  final InteractionToViewController interView;
 
-  const CellScreen(this._interView, {Key? key}) : super(key: key);
+  const CellScreen({required this.interMain, required this.interView, Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CellScreenState();
 }
 
 class _CellScreenState extends State<CellScreen> {
-  InteractionToViewController get interView => widget._interView;
+  InteractionToController get interMain => widget.interMain;
+
+  InteractionToViewController get interView => widget.interView;
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
@@ -55,7 +60,7 @@ class _CellScreenState extends State<CellScreen> {
             title: const Text('Cells')),
         endDrawer: Drawer(child: OptionScreen(interView: interView)),
         body: FutureBuilder<List<Cell>>(
-            future: interView.updateCells(researchWord),
+            future: interMain.getCells(researchWord),
             builder:
                 (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
               if (snapshot.hasData) {
@@ -107,6 +112,7 @@ class _CellScreenState extends State<CellScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => CellView(
+                                                interMain: interMain,
                                                 interView: interView,
                                                 cell: cells[index])));
                                   },
@@ -120,7 +126,8 @@ class _CellScreenState extends State<CellScreen> {
                                           DeleteCellDialog(
                                               cellTitle: cells[index].title));
                                   if (result) {
-                                    await interView.deleteCell(cells[index].id);
+                                    await interMain.deleteItem(
+                                        'Cell', cells[index].id);
                                   }
                                   setState(() {});
                                 },
@@ -144,7 +151,7 @@ class _CellScreenState extends State<CellScreen> {
                                       AddCellDialog(cells: cells),
                                 );
                                 if (list != null) {
-                                  await interView.addCell(
+                                  await interMain.addCell(
                                       list[0], list[1], list[2]);
                                   setState(() {});
                                 }

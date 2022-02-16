@@ -1,12 +1,11 @@
 import 'dart:typed_data';
 
-import '../../Model/Cells/Book/sheet.dart';
+import '/Model/Elements/image.dart';
+import '/Model/Cells/Book/sheet.dart';
 import '/Model/cell.dart';
 import '/Model/Elements/element.dart';
 
 abstract class InteractionToController{
-
-  /* NETWORK */
 
   ///Try to connect to server and [database]
   ///
@@ -22,7 +21,7 @@ abstract class InteractionToController{
   Future<void> addCell(String title, String subtitle, String type);
   Future<void> addSheet(int idCell, String title, String subtitle);
   Future<void> addCheckbox(int idParent);
-  Future<void> addImage(int idParent, Uint8List previewImage, Uint8List rawImage);
+  Future<void> addImage(List<Image> images);
   Future<void> addTexts(int idParent, int txtType);
   Future<void> deleteItem(String type, int index);
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);

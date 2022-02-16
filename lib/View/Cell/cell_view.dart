@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 import '/View/Options/option_screen.dart';
 import '/View/Cell/Book/book_view.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
@@ -9,8 +10,13 @@ import 'ToDoList/to_do_list_view.dart';
 class CellView extends StatelessWidget {
   final Cell cell;
   final InteractionToViewController interView;
+  final InteractionToController interMain;
 
-  const CellView({Key? key, required this.cell, required this.interView})
+  const CellView(
+      {Key? key,
+      required this.cell,
+      required this.interMain,
+      required this.interView})
       : super(key: key);
 
   @override
@@ -21,9 +27,11 @@ class CellView extends StatelessWidget {
       body: (() {
         switch (cell.type) {
           case 'Book':
-            return BookView(interView: interView, cell: cell);
+            return BookView(
+                interMain: interMain, interView: interView, cell: cell);
           case 'ToDoList':
-            return ToDoListView(interView: interView, cell: cell);
+            return ToDoListView(
+                interMain: interMain, interView: interView, cell: cell);
           case 'Rank':
             return RankView(interView: interView);
         }

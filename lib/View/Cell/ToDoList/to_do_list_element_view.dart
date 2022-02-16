@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 import '/View/Cell/element_screen_template.dart';
 import '/View/loading_screen.dart';
-import '../../../Model/Cells/Book/sheet.dart';
+import '/Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_to_view_controller.dart';
 
 class ToDoListElemView extends StatefulWidget {
+  final InteractionToController interMain;
   final InteractionToViewController interView;
   final Sheet sheet;
 
   const ToDoListElemView(
-      {Key? key, required this.interView, required this.sheet})
+      {Key? key,
+      required this.interMain,
+      required this.interView,
+      required this.sheet})
       : super(key: key);
 
   @override
@@ -17,6 +22,8 @@ class ToDoListElemView extends StatefulWidget {
 }
 
 class _StateToDoListElemView extends State<ToDoListElemView> {
+  InteractionToController get interMain => widget.interMain;
+
   InteractionToViewController get interView => widget.interView;
 
   Sheet get sheet => widget.sheet;
@@ -24,7 +31,7 @@ class _StateToDoListElemView extends State<ToDoListElemView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: interView.updateElements(sheet),
+      future: interMain.getElements(sheet.id),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           var elements = snapshot.data!;
@@ -32,10 +39,10 @@ class _StateToDoListElemView extends State<ToDoListElemView> {
 
           return Scaffold(
             body: ElemScreenTemplate(
-                interView: interView, elements: elements, widgets: widgets),
+                inter: interMain, elements: elements, widgets: widgets),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                await interView.addCheckbox(sheet);
+                await interMain.addCheckbox(sheet.id);
                 setState(() {});
               },
               child: const Icon(Icons.add_rounded),

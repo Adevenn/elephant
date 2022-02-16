@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 import '../image_raw.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
 
 class ImageScreen extends StatelessWidget{
 
-  final InteractionToViewController interMain;
+  final InteractionToController interMain;
   final int idImage;
 
   const ImageScreen({Key? key, required this.idImage, required this.interMain}) : super(key: key);
@@ -16,7 +16,7 @@ class ImageScreen extends StatelessWidget{
 
     return Scaffold(
       body: FutureBuilder<Uint8List>(
-        future: interMain.selectRawImage(idImage),
+        future: interMain.getRawImage(idImage),
         builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
           if(snapshot.hasData){
             var data = snapshot.data!;

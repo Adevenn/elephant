@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import '/View/Interfaces/interaction_to_controller.dart';
 import '/Model/Elements/element.dart' as elem;
-import '/View/Interfaces/interaction_to_view_controller.dart';
 import 'delete_element_dialog.dart';
 import 'element_template.dart';
 
 class ElemScreenTemplate extends StatefulWidget {
-  final InteractionToViewController interView;
+  final InteractionToController inter;
   final List<elem.Element> elements;
   final List<Widget> widgets;
 
   const ElemScreenTemplate(
       {Key? key,
-      required this.interView,
+      required this.inter,
       required this.elements,
       required this.widgets})
       : super(key: key);
@@ -21,7 +21,7 @@ class ElemScreenTemplate extends StatefulWidget {
 }
 
 class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
-  InteractionToViewController get interView => widget.interView;
+  InteractionToController get interaction => widget.inter;
 
   List<elem.Element> get elements => widget.elements;
 
@@ -43,7 +43,7 @@ class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
               Widget widget = widgets.removeAt(oldIndex);
               elements.insert(newIndex, item);
               widgets.insert(newIndex, widget);
-              await interView.updateOrder('Element', elements);
+              await interaction.updateOrder('Element', elements);
               setState(() {});
             },
             children: [
@@ -59,7 +59,8 @@ class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
                             elementType:
                                 elements[index].runtimeType.toString()));
                     if (result) {
-                      await interView.deleteElement(elements[index].id);
+                      await interaction.deleteItem(
+                          'Element', elements[index].id);
                       elements.removeAt(index);
                       widgets.removeAt(index);
                     }

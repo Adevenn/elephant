@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_to_view_controller.dart';
-import '../../Model/Elements/text.dart' as text;
-import '../../Model/Elements/text_type.dart';
+import '../Interfaces/interaction_to_controller.dart';
+import '/Model/Elements/text.dart' as text;
+import '/Model/Elements/text_type.dart';
 
 class TextFieldCustom extends StatefulWidget{
-  final InteractionToViewController interView;
+  final InteractionToController interMain;
   final text.Text texts;
 
-  const TextFieldCustom({required Key? key, required this.interView, required this.texts}) : super(key: key);
+  const TextFieldCustom({required Key? key, required this.interMain, required this.texts}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TextFieldCustomState();
@@ -15,7 +15,7 @@ class TextFieldCustom extends StatefulWidget{
 
 class _TextFieldCustomState extends State<TextFieldCustom>{
 
-  InteractionToViewController get interView => widget.interView;
+  InteractionToController get interMain => widget.interMain;
   text.Text get texts => widget.texts;
   final focus = FocusNode();
   late String backupText;
@@ -36,7 +36,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
 
   void _updateTexts() {
     if(backupText != texts.text){
-      interView.updateItem('Text', texts.toJson());
+      interMain.updateItem('Text', texts.toJson());
     }
   }
 
