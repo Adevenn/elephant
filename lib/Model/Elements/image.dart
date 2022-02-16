@@ -4,20 +4,13 @@ import 'element.dart';
 
 class Image extends Element {
   Uint8List imgPreview;
-  Uint8List? imgRaw;
+  Uint8List imgRaw;
 
   Image(
       {required int id,
       required int idParent,
       required this.imgPreview,
-      required int idOrder})
-      : super(id: id, idParent: idParent, idOrder: idOrder);
-
-  Image.full(
-      {required int id,
-      required int idParent,
-      required this.imgPreview,
-      this.imgRaw,
+      required this.imgRaw,
       required int idOrder})
       : super(id: id, idParent: idParent, idOrder: idOrder);
 

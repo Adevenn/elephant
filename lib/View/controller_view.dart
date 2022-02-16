@@ -74,9 +74,7 @@ class ControllerView implements InteractionToViewController {
             config: const Configuration(
                 pngCompression: PngCompression.bestCompression,
                 jpgQuality: 25)));
-        print(image.sizeInBytes);
-        print(imageCompressed.sizeInBytes);
-        images.add(img.Image.full(
+        images.add(img.Image(
             id: -1,
             imgPreview: imageCompressed.rawBytes,
             imgRaw: image.rawBytes,
