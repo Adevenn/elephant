@@ -1,91 +1,47 @@
-import '/Exception/database_timeout_exception.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
+
 import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
 
-import 'socket_custom.dart';
-
 class Client {
-  late final SocketCustom _socket;
+  final String _ip;
+  final int _port;
+  final String _database;
+  final String _username;
+  final String _password;
 
-  Client(String ipServer, int portServer, String database, String username,
-      String password) {
-    _socket = SocketCustom(ipServer, portServer, database, username, password);
-  }
+  var client = HttpClient();
 
-  ///Try to connect to server and database
-  ///
-  ///If connection fails => Exception
-  Future<void> init() async {
-    try {
-      await _socket.init();
-    } on ServerException {
-      throw const ServerException(
-          'Connection failed : Wrong IP or PORT or server disconnected');
-    } on DatabaseException {
-      throw const DatabaseException(
-          'Connection failed : Wrong DATABASE, USERNAME or PASSWORD');
-    } on DatabaseTimeoutException {
-      throw const DatabaseTimeoutException('Database offline');
-    } catch (e) {
-      throw Exception('(Client)init:\n$e');
-    }
-  }
+  Client(this._ip, this._port, this._database, this._username, this._password);
 
-  ///Send request and parameters
-  ///
-  ///And wait for result
-  Future<String> request(String requestName, List<Object> parameters) async {
-    try {
-      //Send request
-      await _socket.setup(requestName);
-      //Send parameters
-      for (int i = 0; i < parameters.length; i++) {
-        switch (parameters[i].runtimeType) {
-          case String:
-            await _socket.writeBigString((parameters[i] as String));
-            break;
-          case int:
-            await _socket.writeSym((parameters[i] as int).toString());
-            break;
-          default:
-            throw Exception('Client.requestWithResult, request $requestName :\n'
-                'Parameter type not implemented\n'
-                'Key : ${parameters[i].runtimeType.toString()}, Value : ${parameters[i]}');
-        }
-        if (i < parameters.length - 1) {
-          await _socket.synchronizeRead();
-        }
-      }
-      //Wait for result
-      var result = await _socket.readBigString();
-      await _socket.disconnect();
-      return result;
-    } catch (e) {
-      try {
-        await init();
-        return await request(requestName, parameters);
-      } catch (e) {
-        throw Exception('Client.requestWithResult, request $requestName :\n'
-            'Values : $parameters\$e');
-      }
-    }
-  }
+  Future<String> request(String request, json) async {
+    http.Response response = await http.post(
+      Uri.parse('http://$_ip:$_port/$request'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'database': _database,
+        'username': _username,
+        'password': _password,
+        'json': json
+      }),
+    );
 
-  Future<String> cells(String matchWord) async {
-    try {
-      await _socket.setup('cells');
-      //Asym because matchWord can be null ('') (Sym can't send empty string)
-      await _socket.writeAsym(matchWord);
-      var cellsAsJson = await _socket.readBigString();
-      await _socket.disconnect();
-      return cellsAsJson;
-    } catch (e) {
-      try {
-        await init();
-        return await cells(matchWord);
-      } catch (e) {
-        throw Exception('(Client)cells:\n$e');
-      }
+    switch(response.statusCode){
+      case HttpStatus.ok:
+        return response.body;
+      case HttpStatus.notFound:
+        throw Exception(response.body);
+      case HttpStatus.serviceUnavailable:
+        throw DatabaseException(response.body);
+      case HttpStatus.internalServerError:
+        throw ServerException(response.body);
+      default:
+        throw Exception('Not handled error code : ${response.statusCode}'
+            '\n${response.body}');
     }
   }
 }

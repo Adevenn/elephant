@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import '/Exception/database_exception.dart';
-import '/Exception/database_timeout_exception.dart';
 import '/Exception/server_exception.dart';
 import '/Model/Elements/checkbox.dart';
 import '/Model/Elements/element.dart';
@@ -24,15 +23,13 @@ class Controller implements InteractionMain {
       String username, String password) async {
     _client = Client(ip, port, database, username, password);
     try {
-      await _client.init();
+      _client.request('init', '{}');
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseException catch (e) {
       throw DatabaseException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
-      throw Exception(e);
+      throw Exception('Controller.testConnection :\n$e');
     }
   }
 
@@ -45,10 +42,11 @@ class Controller implements InteractionMain {
         var cell = Cell.fromJson(jsonDecode(json));
         cells.add(cell);
       });
+      for(int i = 0; i < 2; i++){
+        getSheet(30, 0);
+      }
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -59,15 +57,13 @@ class Controller implements InteractionMain {
   Future<List<Sheet>> getSheets(int idCell) async {
     var sheets = <Sheet>[];
     try {
-      var jsonList = jsonDecode(await _client.request('sheets', [idCell]));
+      var jsonList = jsonDecode(await networkManager.execRequest('sheets', [idCell]));
       jsonList.forEach((json) {
         var sheet = Sheet.fromJson(jsonDecode(json));
         sheets.add(sheet);
       });
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -80,7 +76,7 @@ class Controller implements InteractionMain {
       List<Object> list = [];
       list.add(idCell);
       list.add(sheetIndex);
-      var json = await _client.request('sheet', [idCell, sheetIndex]);
+      var json = await networkManager.execRequest('sheet', [idCell, sheetIndex]);
       return Sheet.fromJson(jsonDecode(json));
     } catch (e) {
       throw Exception(e);
@@ -91,15 +87,13 @@ class Controller implements InteractionMain {
   Future<List<Element>> getElements(int idSheet) async {
     var elements = <Element>[];
     try {
-      var jsonList = jsonDecode(await _client.request('elements', [idSheet]));
+      var jsonList = jsonDecode(await networkManager.execRequest('elements', [idSheet]));
       jsonList.forEach((json) {
         var element = Element.fromJson(jsonDecode(json));
         elements.add(element);
       });
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -109,13 +103,11 @@ class Controller implements InteractionMain {
   @override
   Future<Uint8List> getRawImage(int idImage) async {
     try {
-      var json = jsonDecode(await _client.request('rawImage', [idImage]));
+      var json = jsonDecode(await networkManager.execRequest('rawImage', [idImage]));
       assert(json is Map<String, dynamic>);
       return Uint8List.fromList(json['img_raw'].cast<int>());
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -126,14 +118,12 @@ class Controller implements InteractionMain {
     try {
       var cell =
           Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
-      var result = await _client.request('addCell', [jsonEncode(cell)]);
+      var result = await networkManager.execRequest('addCell', [jsonEncode(cell)]);
       if (result == 'failed') {
         throw const ServerException('Result : failed');
       }
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -143,11 +133,9 @@ class Controller implements InteractionMain {
   Future<void> addSheet(int idCell, String title, String subtitle) async {
     try {
       var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1));
-      await _client.request('addItem', ['Sheet', json]);
+      await networkManager.execRequest('addItem', ['Sheet', json]);
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -158,11 +146,9 @@ class Controller implements InteractionMain {
     try {
       var json = jsonEncode(
           Checkbox(id: -1, idParent: idParent, text: '', idOrder: -1));
-      await _client.request('addItem', ['Checkbox', json]);
+      await networkManager.execRequest('addItem', ['Checkbox', json]);
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -172,12 +158,10 @@ class Controller implements InteractionMain {
   Future<void> addImage(List<Image> images) async {
     try {
       for (var image in images) {
-        await _client.request('addItem', ['Image', jsonEncode(image)]);
+        await networkManager.execRequest('addItem', ['Image', jsonEncode(image)]);
       }
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -192,11 +176,9 @@ class Controller implements InteractionMain {
           txtType: TextType.values[txtType],
           id: -1,
           idOrder: -1));
-      await _client.request('addItem', ['Text', json]);
+      await networkManager.execRequest('addItem', ['Text', json]);
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -205,11 +187,9 @@ class Controller implements InteractionMain {
   @override
   Future<void> deleteItem(String type, int id) async {
     try {
-      await _client.request('deleteItem', [type, id]);
+      await networkManager.execRequest('deleteItem', [type, id]);
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -218,21 +198,19 @@ class Controller implements InteractionMain {
   @override
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues) async {
     try {
-      await _client.request('updateItem', [type, jsonEncode(jsonValues)]);
+      await networkManager.execRequest('updateItem', [type, jsonEncode(jsonValues)]);
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseTimeoutException catch (e) {
-      throw DatabaseTimeoutException('$e');
     } catch (e) {
       throw Exception(e);
     }
   }
 
   @override
-  Future<void> updateOrder(String type, List<Object> list) async{
+  Future<void> updateOrder(String type, List<Object> list) async {
     try {
       var jsonList = <String>[];
-      switch(type){
+      switch (type) {
         case 'Sheet':
           list = list as List<Sheet>;
           break;
@@ -245,7 +223,7 @@ class Controller implements InteractionMain {
       for (var i = 0; i < list.length; i++) {
         jsonList.add(jsonEncode(list[i]));
       }
-      await _client.request('updateOrder', [type, jsonEncode(jsonList)]);
+      await networkManager.execRequest('updateOrder', [type, jsonEncode(jsonList)]);
     } catch (e) {
       throw Exception(e);
     }
