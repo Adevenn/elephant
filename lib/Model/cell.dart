@@ -1,16 +1,8 @@
-import '../Model/Cells/ranking.dart';
-import '../Model/Cells/to_do_list.dart';
+import '/Model/Cells/ranking.dart';
+import '/Model/Cells/to_do_list.dart';
 
 import 'Cells/Book/book.dart';
 
-///int id
-///
-///String title
-///
-///String subtitle
-///
-///String type
-///0 => Book, 1 => ToDoList, 2 => Rank
 abstract class Cell{
   final int id;
   String title;
@@ -46,7 +38,7 @@ abstract class Cell{
   }
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
+    'id_cell' : id,
     'title' : title,
     'subtitle' : subtitle,
     'type' : type,

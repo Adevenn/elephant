@@ -52,9 +52,9 @@ class Controller implements InteractionMain {
   Future<List<Sheet>> getSheets(int idCell) async {
     var sheets = <Sheet>[];
     try {
-      var json = {'id_cell': idCell};
-      var l = jsonDecode(await _client.request('sheets', json));
-      sheets = List<Sheet>.from(l.map((model) => Sheet.fromJson(model)));
+      var json = jsonEncode({'id_cell': idCell});
+      var result = jsonDecode(await _client.request('sheets', json));
+      sheets = List<Sheet>.from(result.map((model) => Sheet.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DbException catch (e) {
@@ -68,7 +68,7 @@ class Controller implements InteractionMain {
   @override
   Future<Sheet> getSheet(int idCell, int sheetIndex) async {
     try {
-      var json = {'id_cell': idCell, 'sheet_index': sheetIndex};
+      var json = jsonEncode({'id_cell': idCell, 'sheet_index': sheetIndex});
       var result = await _client.request('sheet', json);
       return Sheet.fromJson(jsonDecode(result));
     } catch (e) {
@@ -80,9 +80,9 @@ class Controller implements InteractionMain {
   Future<List<Element>> getElements(int idSheet) async {
     var elements = <Element>[];
     try {
-      var json = {'id_sheet': idSheet};
-      var l = jsonDecode(await _client.request('elements', json));
-      elements = List<Element>.from(l.map((model) => Element.fromJson(model)));
+      var json = jsonEncode({'id_sheet': idSheet});
+      var result = jsonDecode(await _client.request('elements', json));
+      elements = List<Element>.from(result.map((model) => Element.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {

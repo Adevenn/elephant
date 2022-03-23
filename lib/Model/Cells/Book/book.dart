@@ -7,5 +7,6 @@ class Book extends Cell{
       : super(id: id, title: title, subtitle: subtitle, type: (Book).toString());
 
   Book.fromJson(Map<String, dynamic> json)
-      : super(id: json['id'], title: json['title'], subtitle: json['subtitle'], type: (Book).toString());
+      : super(id: json['id_cell'], title: json['title'], subtitle:
+  json['subtitle'], type: (Book).toString());
 }
