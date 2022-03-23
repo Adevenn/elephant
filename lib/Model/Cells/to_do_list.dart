@@ -10,7 +10,7 @@ class ToDoList extends Cell {
 
   ToDoList.fromJson(Map<String, dynamic> json)
       : super(
-            id: json['id'],
+            id: json['id_cell'],
             title: json['title'],
             subtitle: json['subtitle'],
             type: (ToDoList).toString());
