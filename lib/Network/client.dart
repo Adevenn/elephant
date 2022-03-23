@@ -17,6 +17,7 @@ class Client {
   Client(this._ip, this._port, this._database, this._username, this._password);
 
   Future<String> request(String request, json) async {
+    print('/* NEW REQUEST : $request */');
     http.Response response = await http.post(
       Uri.parse('http://$_ip:$_port/$request'),
       headers: <String, String>{
@@ -30,7 +31,11 @@ class Client {
       }),
     );
 
-    switch(response.statusCode){
+    print('Status Code : ${response.statusCode}\n'
+        'body : ${response.body}\n'
+        '/* END REQUEST : $request */');
+
+    switch (response.statusCode) {
       case HttpStatus.ok:
         return response.body;
       case HttpStatus.notFound:

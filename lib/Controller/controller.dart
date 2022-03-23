@@ -23,7 +23,7 @@ class Controller implements InteractionMain {
       String username, String password) async {
     _client = Client(ip, port, database, username, password);
     try {
-      _client.request('init', '{}');
+      await _client.request('init', '{}');
     } on ServerException catch (e) {
       throw ServerException('$e');
     } on DatabaseException catch (e) {
@@ -37,16 +37,16 @@ class Controller implements InteractionMain {
   Future<List<Cell>> getCells([String research = '']) async {
     var cells = <Cell>[];
     try {
-      var jsonList = jsonDecode(await _client.cells(research));
+      var json = jsonEncode({'match_word': research});
+      var jsonList = jsonDecode(await _client.request('cells', json));
       jsonList.forEach((json) {
         var cell = Cell.fromJson(jsonDecode(json));
         cells.add(cell);
       });
-      for(int i = 0; i < 2; i++){
-        getSheet(30, 0);
-      }
     } on ServerException catch (e) {
       throw ServerException('$e');
+    } on DatabaseException catch (e) {
+      throw DatabaseException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -57,13 +57,13 @@ class Controller implements InteractionMain {
   Future<List<Sheet>> getSheets(int idCell) async {
     var sheets = <Sheet>[];
     try {
-      var jsonList = jsonDecode(await networkManager.execRequest('sheets', [idCell]));
-      jsonList.forEach((json) {
-        var sheet = Sheet.fromJson(jsonDecode(json));
-        sheets.add(sheet);
-      });
+      var json = {'id_cell': idCell};
+      var l = jsonDecode(await _client.request('sheets', json));
+      sheets = List<Sheet>.from(l.map((model) => Sheet.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
+    } on DatabaseException catch (e) {
+      throw DatabaseException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -73,11 +73,9 @@ class Controller implements InteractionMain {
   @override
   Future<Sheet> getSheet(int idCell, int sheetIndex) async {
     try {
-      List<Object> list = [];
-      list.add(idCell);
-      list.add(sheetIndex);
-      var json = await networkManager.execRequest('sheet', [idCell, sheetIndex]);
-      return Sheet.fromJson(jsonDecode(json));
+      var json = {'id_cell': idCell, 'sheet_index': sheetIndex};
+      var result = await _client.request('sheet', json);
+      return Sheet.fromJson(jsonDecode(result));
     } catch (e) {
       throw Exception(e);
     }
@@ -87,11 +85,9 @@ class Controller implements InteractionMain {
   Future<List<Element>> getElements(int idSheet) async {
     var elements = <Element>[];
     try {
-      var jsonList = jsonDecode(await networkManager.execRequest('elements', [idSheet]));
-      jsonList.forEach((json) {
-        var element = Element.fromJson(jsonDecode(json));
-        elements.add(element);
-      });
+      var json = {'id_sheet': idSheet};
+      var l = jsonDecode(await _client.request('elements', json));
+      elements = List<Element>.from(l.map((model) => Element.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -103,9 +99,9 @@ class Controller implements InteractionMain {
   @override
   Future<Uint8List> getRawImage(int idImage) async {
     try {
-      var json = jsonDecode(await networkManager.execRequest('rawImage', [idImage]));
-      assert(json is Map<String, dynamic>);
-      return Uint8List.fromList(json['img_raw'].cast<int>());
+      var json = {'id_img': idImage};
+      var result = jsonDecode(await _client.request('rawImage', json));
+      return Uint8List.fromList(result['img_raw'].cast<int>());
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -116,12 +112,8 @@ class Controller implements InteractionMain {
   @override
   Future<void> addCell(String title, String subtitle, String type) async {
     try {
-      var cell =
-          Cell.factory(id: -1, title: title, subtitle: subtitle, type: type);
-      var result = await networkManager.execRequest('addCell', [jsonEncode(cell)]);
-      if (result == 'failed') {
-        throw const ServerException('Result : failed');
-      }
+      var json = {'title': title, 'subtitle': subtitle, 'type': type};
+      await _client.request('addCell', json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -132,8 +124,8 @@ class Controller implements InteractionMain {
   @override
   Future<void> addSheet(int idCell, String title, String subtitle) async {
     try {
-      var json = jsonEncode(Sheet(-1, idCell, title, subtitle, -1));
-      await networkManager.execRequest('addItem', ['Sheet', json]);
+      var json = {'id_cell': idCell, 'title': title, 'subtitle': subtitle};
+      await _client.request('addItem', json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -142,11 +134,10 @@ class Controller implements InteractionMain {
   }
 
   @override
-  Future<void> addCheckbox(int idParent) async {
+  Future<void> addCheckbox(int idSheet) async {
     try {
-      var json = jsonEncode(
-          Checkbox(id: -1, idParent: idParent, text: '', idOrder: -1));
-      await networkManager.execRequest('addItem', ['Checkbox', json]);
+      var json = {'id_sheet': idSheet};
+      await _client.request('addItem', json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -158,7 +149,12 @@ class Controller implements InteractionMain {
   Future<void> addImage(List<Image> images) async {
     try {
       for (var image in images) {
-        await networkManager.execRequest('addItem', ['Image', jsonEncode(image)]);
+        var json = {
+          'id_sheet': image.idParent,
+          'img_preview': image.imgPreview,
+          'img_raw': image.imgRaw
+        };
+        await _client.request('addItem', json);
       }
     } on ServerException catch (e) {
       throw ServerException('$e');
@@ -170,13 +166,8 @@ class Controller implements InteractionMain {
   @override
   Future<void> addTexts(int idParent, int txtType) async {
     try {
-      var json = jsonEncode(Text(
-          text: '',
-          idParent: idParent,
-          txtType: TextType.values[txtType],
-          id: -1,
-          idOrder: -1));
-      await networkManager.execRequest('addItem', ['Text', json]);
+      var json = {'id_sheet': idParent, 'txt_type': txtType};
+      await _client.request('addItem', json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -185,9 +176,10 @@ class Controller implements InteractionMain {
   }
 
   @override
-  Future<void> deleteItem(String type, int id) async {
+  Future<void> deleteItem(String request, int id) async {
     try {
-      await networkManager.execRequest('deleteItem', [type, id]);
+      var json = {'id': id};
+      await _client.request(request, json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -196,9 +188,9 @@ class Controller implements InteractionMain {
   }
 
   @override
-  Future<void> updateItem(String type, Map<String, dynamic> jsonValues) async {
+  Future<void> updateItem(String request, Map<String, dynamic> json) async {
     try {
-      await networkManager.execRequest('updateItem', [type, jsonEncode(jsonValues)]);
+      await _client.request(request, json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -223,7 +215,7 @@ class Controller implements InteractionMain {
       for (var i = 0; i < list.length; i++) {
         jsonList.add(jsonEncode(list[i]));
       }
-      await networkManager.execRequest('updateOrder', [type, jsonEncode(jsonList)]);
+      await _client.request('updateOrder', [type, jsonEncode(jsonList)]);
     } catch (e) {
       throw Exception(e);
     }

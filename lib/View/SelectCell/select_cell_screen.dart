@@ -11,25 +11,25 @@ import '/Model/Cells/to_do_list.dart';
 import '/Model/cell.dart';
 import '../Interfaces/interaction_view.dart';
 
-class CellScreen extends StatefulWidget {
+class SelectCellScreen extends StatefulWidget {
   final InteractionMain interMain;
   final InteractionView interView;
 
-  const CellScreen({required this.interMain, required this.interView, Key? key})
+  const SelectCellScreen({required this.interMain, required this.interView, Key? key})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CellScreenState();
+  State<StatefulWidget> createState() => _SelectCellScreenState();
 }
 
-class _CellScreenState extends State<CellScreen> {
+class _SelectCellScreenState extends State<SelectCellScreen> {
   InteractionMain get interMain => widget.interMain;
 
   InteractionView get interView => widget.interView;
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
-  _CellScreenState();
+  _SelectCellScreenState();
 
   void applyResearch([String newWord = '']) {
     researchWord = newWord;

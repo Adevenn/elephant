@@ -23,7 +23,7 @@ abstract class InteractionMain{
   Future<void> addCheckbox(int idParent);
   Future<void> addImage(List<Image> images);
   Future<void> addTexts(int idParent, int txtType);
-  Future<void> deleteItem(String type, int index);
+  Future<void> deleteItem(String request, int index);
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
   Future<void> updateOrder(String type, List<Object> list);
   Future<Uint8List> getRawImage(int idImage);

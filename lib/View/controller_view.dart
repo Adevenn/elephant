@@ -103,7 +103,7 @@ class ControllerView implements InteractionView {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) =>
-            CellScreen(interMain: interMain, interView: this),
+            SelectCellScreen(interMain: interMain, interView: this),
       ),
     );
   }
