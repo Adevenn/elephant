@@ -41,7 +41,7 @@ class Client {
       case HttpStatus.notFound:
         throw Exception(response.body);
       case HttpStatus.serviceUnavailable:
-        throw DatabaseException(response.body);
+        throw DbException(response.body);
       case HttpStatus.internalServerError:
         throw ServerException(response.body);
       default:

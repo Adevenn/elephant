@@ -1,7 +1,7 @@
-class DatabaseException implements Exception{
+class DbException implements Exception{
   final String message;
 
-  const DatabaseException([this.message = 'Connection to database failed, please reconnect']);
+  const DbException([this.message = 'Connection to database failed, please reconnect']);
 
   @override
   String toString() => message;

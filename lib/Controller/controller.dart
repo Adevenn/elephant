@@ -24,31 +24,26 @@ class Controller implements InteractionMain {
     _client = Client(ip, port, database, username, password);
     try {
       await _client.request('init', '{}');
-    } on ServerException catch (e) {
-      throw ServerException('$e');
-    } on DatabaseException catch (e) {
-      throw DatabaseException('$e');
+    } on DbException {
+      throw const DbException('Authentication failed, verify your entries');
     } catch (e) {
-      throw Exception('Controller.testConnection :\n$e');
+      throw const ServerException('404 Not Found');
     }
   }
 
   @override
-  Future<List<Cell>> getCells([String research = '']) async {
+  Future<List<Cell>> getCells([String matchWord = '']) async {
     var cells = <Cell>[];
     try {
-      var json = jsonEncode({'match_word': research});
-      var jsonList = jsonDecode(await _client.request('cells', json));
-      jsonList.forEach((json) {
-        var cell = Cell.fromJson(jsonDecode(json));
-        cells.add(cell);
-      });
+      var json = jsonEncode({'match_word': matchWord});
+      var result = jsonDecode(await _client.request('cells', json));
+      cells = List<Cell>.from(result.map((model) => Cell.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseException catch (e) {
-      throw DatabaseException('$e');
+    } on DbException catch (e) {
+      throw DbException('$e');
     } catch (e) {
-      throw Exception(e);
+      throw ServerException('$e');
     }
     return cells;
   }
@@ -62,8 +57,8 @@ class Controller implements InteractionMain {
       sheets = List<Sheet>.from(l.map((model) => Sheet.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
-    } on DatabaseException catch (e) {
-      throw DatabaseException('$e');
+    } on DbException catch (e) {
+      throw DbException('$e');
     } catch (e) {
       throw Exception(e);
     }
