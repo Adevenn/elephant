@@ -60,7 +60,7 @@ class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
                                 elements[index].runtimeType.toString()));
                     if (result) {
                       await interaction.deleteItem(
-                          'Element', elements[index].id);
+                          'deleteElement', elements[index].id);
                       elements.removeAt(index);
                       widgets.removeAt(index);
                     }

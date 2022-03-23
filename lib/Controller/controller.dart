@@ -3,11 +3,8 @@ import 'dart:typed_data';
 
 import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
-import '/Model/Elements/checkbox.dart';
 import '/Model/Elements/element.dart';
 import '/Model/Elements/image.dart';
-import '/Model/Elements/text.dart';
-import '/Model/Elements/text_type.dart';
 import '/Model/cell.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/Network/client.dart';
@@ -97,12 +94,11 @@ class Controller implements InteractionMain {
     try {
       var json = jsonEncode({'id_img': idImage});
       var result = jsonDecode(await _client.request('rawImage', json));
-      print(result);
-      return Uint8List.fromList(jsonDecode(result['img_raw']).cast<int>());
+      var imgRaw = jsonDecode(result);
+      return Uint8List.fromList(imgRaw['img_raw'].cast<int>());
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
-      print(e);
       throw Exception(e);
     }
   }
@@ -167,7 +163,7 @@ class Controller implements InteractionMain {
   Future<void> addTexts(int idParent, int txtType) async {
     try {
       var json = jsonEncode({'id_sheet': idParent, 'txt_type': txtType});
-      await _client.request('addTexts', json);
+      await _client.request('addText', json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {

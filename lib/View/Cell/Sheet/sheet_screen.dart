@@ -85,7 +85,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                             sheetTitle: sheets[index].title));
                                 if (result) {
                                   await interMain.deleteItem(
-                                      'Sheet', sheets[index].id);
+                                      'deleteSheet', sheets[index].id);
                                 }
                                 setState(() {});
                               })

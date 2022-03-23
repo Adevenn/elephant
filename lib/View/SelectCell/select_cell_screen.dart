@@ -127,7 +127,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                               cellTitle: cells[index].title));
                                   if (result) {
                                     await interMain.deleteItem(
-                                        'Cell', cells[index].id);
+                                        'deleteCell', cells[index].id);
                                   }
                                   setState(() {});
                                 },
