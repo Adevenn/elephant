@@ -10,10 +10,10 @@ class Checkbox extends Element{
   @override
   Map<String, dynamic> toJson() => {
     'id' : id,
-    'id_parent' : idParent,
+    'id_sheet' : idParent,
     'is_checked' : isChecked,
     'text' : text,
-    'id_order' : idOrder,
+    'elem_order' : idOrder,
     'type' : runtimeType.toString(),
   };
 }
