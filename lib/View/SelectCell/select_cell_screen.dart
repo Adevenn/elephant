@@ -107,7 +107,21 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                   leading: selectIconByCell(
                                       cells[index].runtimeType),
                                   title: Text(cells[index].title),
-                                  subtitle: Text(cells[index].subtitle),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(cells[index].subtitle),
+                                      Text(cells[index].isPublic == false
+                                          ? 'private'
+                                          : 'public'),
+                                    ],
+                                  ),
+                                  isThreeLine: true,
+                                  trailing: IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () {},
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -152,8 +166,8 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                       AddCellDialog(cells: cells),
                                 );
                                 if (list != null) {
-                                  await interMain.addCell(list[0], list[1],
-                                      list[2], list[3]);
+                                  await interMain.addCell(
+                                      list[0], list[1], list[2], list[3]);
                                   setState(() {});
                                 }
                               },
