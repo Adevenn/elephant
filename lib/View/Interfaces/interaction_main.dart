@@ -22,7 +22,7 @@ abstract class InteractionMain {
   Future<List<Element>> getElements(int idSheet);
 
   Future<void> addCell(
-      String title, String subtitle, String type, bool isPublic);
+      String title, String subtitle, String type, String visibility);
 
   Future<void> addSheet(int idCell, String title, String subtitle);
 

@@ -6,8 +6,8 @@ import '/View/Options/option_screen.dart';
 import 'add_cell_dialog.dart';
 import 'delete_cell_dialog.dart';
 import '/Model/Cells/Book/book.dart';
-import '/Model/Cells/ranking.dart';
-import '/Model/Cells/to_do_list.dart';
+import '../../Model/Cells/Ranking/ranking.dart';
+import '../../Model/Cells/ToDoList/to_do_list.dart';
 import '/Model/cell.dart';
 import '../Interfaces/interaction_view.dart';
 
@@ -153,7 +153,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                 );
                                 if (list != null) {
                                   await interMain.addCell(list[0], list[1],
-                                      list[2], list[3].toLowerCase() == 'true');
+                                      list[2], list[3]);
                                   setState(() {});
                                 }
                               },

@@ -15,6 +15,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
   var title = TextEditingController();
   var subtitle = TextEditingController();
   String type = 'Book';
+  String visibility = 'private';
 
   bool isCellTitleValid(List<Cell> cells, String title) {
     for (int i = 0; i < cells.length; i++) {
@@ -34,18 +35,36 @@ class _AddCellDialogState extends State<AddCellDialog> {
         key: _formKey,
         child: Column(
           children: [
-            DropdownButton(
-                value: type,
-                icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                items: <String>['Book', 'ToDoList', 'Ranking']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                      value: value, child: Text(value));
-                }).toList(),
-                onChanged: (String? newValue) {
-                  type = newValue!;
-                  setState(() {});
-                }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                DropdownButton(
+                    alignment: AlignmentDirectional.center,
+                    value: type,
+                    icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    items: <String>['Book', 'ToDoList', 'Ranking']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                          value: value, child: Text(value));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      type = newValue!;
+                      setState(() {});
+                    }),
+                DropdownButton(
+                    alignment: AlignmentDirectional.center,
+                    value: visibility,
+                    items: <String>['public', 'private']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                          value: value, child: Text(value));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      visibility = newValue!;
+                      setState(() {});
+                    })
+              ],
+            ),
             TextFormField(
                 controller: title,
                 decoration: const InputDecoration(hintText: 'Title'),
@@ -68,7 +87,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
         TextButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              List<String> list = [title.text, subtitle.text, type, true.toString()];
+              List<String> list = [title.text, subtitle.text, type, visibility];
               Navigator.pop(context, list);
             }
           },

@@ -1,7 +1,7 @@
-import '../cell.dart';
+import '../../cell.dart';
 
-class ToDoList extends Cell {
-  ToDoList(
+class Ranking extends Cell {
+  Ranking(
       {required int id,
       required String title,
       String subtitle = '',
@@ -11,16 +11,16 @@ class ToDoList extends Cell {
             id: id,
             title: title,
             subtitle: subtitle,
-            type: (ToDoList).toString(),
+            type: (Ranking).toString(),
             author: author,
             isPublic: isPublic);
 
-  ToDoList.fromJson(Map<String, dynamic> json)
+  Ranking.fromJson(Map<String, dynamic> json)
       : super(
             id: json['id_cell'],
             title: json['title'],
             subtitle: json['subtitle'],
-            type: (ToDoList).toString(),
+            type: (Ranking).toString(),
             author: json['author'],
             isPublic: json['is_public']);
 }

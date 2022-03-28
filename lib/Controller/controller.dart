@@ -105,8 +105,12 @@ class Controller implements InteractionMain {
 
   @override
   Future<void> addCell(
-      String title, String subtitle, String type, bool isPublic) async {
+      String title, String subtitle, String type, String visibility) async {
     try {
+      bool isPublic = false;
+      if(visibility == 'public'){
+        isPublic = true;
+      }
       var json = jsonEncode({
         'title': title,
         'subtitle': subtitle,
