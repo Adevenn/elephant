@@ -25,7 +25,8 @@ abstract class InteractionMain{
   Future<void> addTexts(int idParent, int txtType);
   Future<void> deleteItem(String request, int index);
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
-  Future<void> updateOrder(String type, List<Object> list);
+  Future<void> updateSheetOrder(List<Sheet> list);
+  Future<void> updateElemOrder(List<Element> list);
   Future<Uint8List> getRawImage(int idImage);
   Future<Sheet> getSheet(int idCell, int sheetIndex);
 }

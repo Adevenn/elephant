@@ -47,7 +47,7 @@ class _CheckBoxState extends State<CheckboxCustom>{
           || backupText != checkbox.text){
         backupChecked = checkbox.isChecked;
         backupText = checkbox.text;
-        interMain.updateItem('Checkbox', checkbox.toJson());
+        interMain.updateItem('updateCheckbox', checkbox.toJson());
       }
     }
   }

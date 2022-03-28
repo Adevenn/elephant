@@ -61,7 +61,7 @@ class _SheetScreenState extends State<SheetScreen> {
                         }
                         Sheet item = sheets.removeAt(oldIndex);
                         sheets.insert(newIndex, item);
-                        await interMain.updateOrder('Sheet', sheets);
+                        await interMain.updateSheetOrder(sheets);
                         setState(() {});
                       },
                       children: [

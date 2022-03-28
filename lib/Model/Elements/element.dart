@@ -7,17 +7,17 @@ import 'text_type.dart';
 
 abstract class Element {
   final int id;
-  final int idParent;
+  final int idSheet;
   int idOrder;
 
-  Element({required this.id, required this.idParent, required this.idOrder});
+  Element({required this.id, required this.idSheet, required this.idOrder});
 
   factory Element.fromJson(Map<String, dynamic> json) {
     switch (json['type'] as String) {
       case 'Checkbox':
         return Checkbox(
             id: json['id'],
-            idParent: json['id_sheet'],
+            idSheet: json['id_sheet'],
             isChecked: json['is_checked'],
             text: json['text'],
             idOrder: json['elem_order']);

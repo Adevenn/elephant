@@ -119,8 +119,8 @@ class Controller implements InteractionMain {
   @override
   Future<void> addSheet(int idCell, String title, String subtitle) async {
     try {
-      var json = jsonEncode({'id_cell': idCell, 'title': title, 'subtitle':
-      subtitle});
+      var json =
+          jsonEncode({'id_cell': idCell, 'title': title, 'subtitle': subtitle});
       await _client.request('addSheet', json);
     } on ServerException catch (e) {
       throw ServerException('$e');
@@ -146,7 +146,7 @@ class Controller implements InteractionMain {
     try {
       for (var image in images) {
         var json = jsonEncode({
-          'id_sheet': image.idParent,
+          'id_sheet': image.idSheet,
           'img_preview': image.imgPreview,
           'img_raw': image.imgRaw
         });
@@ -186,7 +186,7 @@ class Controller implements InteractionMain {
   @override
   Future<void> updateItem(String request, Map<String, dynamic> json) async {
     try {
-      await _client.request(request, json);
+      await _client.request(request, jsonEncode(json));
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
@@ -195,25 +195,20 @@ class Controller implements InteractionMain {
   }
 
   @override
-  Future<void> updateOrder(String type, List<Object> list) async {
-    try {
-      var jsonList = <String>[];
-      switch (type) {
-        case 'Sheet':
-          list = list as List<Sheet>;
-          break;
-        case 'Element':
-          list = list as List<Element>;
-          break;
-        default:
-          throw Exception('Type not implemented\nType : $type');
-      }
-      for (var i = 0; i < list.length; i++) {
-        jsonList.add(jsonEncode(list[i]));
-      }
-      await _client.request('updateOrder', [type, jsonEncode(jsonList)]);
-    } catch (e) {
-      throw Exception(e);
+  Future<void> updateSheetOrder(List<Sheet> list) async {
+    var jsonList = <String>[];
+    for (var i = 0; i < list.length; i++) {
+      jsonList.add(jsonEncode(list[i]));
     }
+    await _client.request('updateSheetOrder', jsonEncode(jsonList));
+  }
+
+  @override
+  Future<void> updateElemOrder(List<Element> list) async {
+    var jsonList = <String>[];
+    for (var i = 0; i < list.length; i++) {
+      jsonList.add(jsonEncode(list[i]));
+    }
+    await _client.request('updateElementOrder', jsonEncode(jsonList));
   }
 }

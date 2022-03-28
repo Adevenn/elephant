@@ -43,7 +43,7 @@ class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
               Widget widget = widgets.removeAt(oldIndex);
               elements.insert(newIndex, item);
               widgets.insert(newIndex, widget);
-              await interaction.updateOrder('Element', elements);
+              await interaction.updateElemOrder(elements);
               setState(() {});
             },
             children: [

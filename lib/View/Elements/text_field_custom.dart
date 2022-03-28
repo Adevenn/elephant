@@ -36,7 +36,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
 
   void _updateTexts() {
     if(backupText != texts.text){
-      interMain.updateItem('Text', texts.toJson());
+      interMain.updateItem('updateText', texts.toJson());
     }
   }
 
