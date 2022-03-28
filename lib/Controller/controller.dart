@@ -104,10 +104,16 @@ class Controller implements InteractionMain {
   }
 
   @override
-  Future<void> addCell(String title, String subtitle, String type) async {
+  Future<void> addCell(
+      String title, String subtitle, String type, bool isPublic) async {
     try {
-      var json =
-          jsonEncode({'title': title, 'subtitle': subtitle, 'type': type});
+      var json = jsonEncode({
+        'title': title,
+        'subtitle': subtitle,
+        'type': type,
+        'author': _client.username,
+        'is_public': isPublic
+      });
       await _client.request('addCell', json);
     } on ServerException catch (e) {
       throw ServerException('$e');

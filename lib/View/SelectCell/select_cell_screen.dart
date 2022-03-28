@@ -15,7 +15,8 @@ class SelectCellScreen extends StatefulWidget {
   final InteractionMain interMain;
   final InteractionView interView;
 
-  const SelectCellScreen({required this.interMain, required this.interView, Key? key})
+  const SelectCellScreen(
+      {required this.interMain, required this.interView, Key? key})
       : super(key: key);
 
   @override
@@ -151,8 +152,8 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                       AddCellDialog(cells: cells),
                                 );
                                 if (list != null) {
-                                  await interMain.addCell(
-                                      list[0], list[1], list[2]);
+                                  await interMain.addCell(list[0], list[1],
+                                      list[2], list[3].toLowerCase() == 'true');
                                   setState(() {});
                                 }
                               },

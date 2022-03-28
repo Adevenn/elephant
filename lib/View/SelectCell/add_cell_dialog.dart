@@ -68,7 +68,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
         TextButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              List<String> list = [title.text, subtitle.text, type];
+              List<String> list = [title.text, subtitle.text, type, true.toString()];
               Navigator.pop(context, list);
             }
           },
