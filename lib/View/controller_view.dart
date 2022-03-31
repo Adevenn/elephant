@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
+
 import '/Model/Cells/Book/sheet.dart';
 import '/Model/Elements/checkbox.dart' as cb;
 import '/Model/Elements/image.dart' as img;
 import '/Model/Elements/text.dart' as text;
-
 import 'Elements/checkbox_custom.dart';
 import 'Elements/image_preview.dart';
 import 'Elements/text_field_custom.dart';
@@ -139,7 +139,6 @@ class MainScreenException implements Exception {
     interView.gotoLoginScreen(context);
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Connexion with server lost')));
-    print(error);
     //TODO: Send error by mail
   }
 }

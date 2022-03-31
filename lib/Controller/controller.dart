@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:my_netia_client/Model/constants.dart';
-import 'package:my_netia_client/Model/user_settings.dart';
-
+import '/Model/constants.dart';
 import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
 import '/Model/Elements/element.dart';
