@@ -21,8 +21,7 @@ abstract class InteractionMain {
   ///Return elements that match with [idSheet]
   Future<List<Element>> getElements(int idSheet);
 
-  Future<void> addCell(
-      String title, String subtitle, String type, String visibility);
+  Future<void> addCell(String request, Map<String, dynamic> jsonValues);
 
   Future<void> addSheet(int idCell, String title, String subtitle);
 

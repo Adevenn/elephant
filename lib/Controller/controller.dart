@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:my_netia_client/Model/constants.dart';
+import 'package:my_netia_client/Model/user_settings.dart';
+
 import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
 import '/Model/Elements/element.dart';
@@ -18,6 +21,7 @@ class Controller implements InteractionMain {
   @override
   Future<void> testConnection(String ip, int port, String database,
       String username, String password) async {
+    Constants.username = username;
     _client = Client(ip, port, database, username, password);
     try {
       await _client.request('init', '{}');
@@ -104,21 +108,10 @@ class Controller implements InteractionMain {
   }
 
   @override
-  Future<void> addCell(
-      String title, String subtitle, String type, String visibility) async {
+  Future<void> addCell(String request, Map<String, dynamic> jsonValues) async {
     try {
-      bool isPublic = false;
-      if(visibility == 'public'){
-        isPublic = true;
-      }
-      var json = jsonEncode({
-        'title': title,
-        'subtitle': subtitle,
-        'type': type,
-        'author': _client.username,
-        'is_public': isPublic
-      });
-      await _client.request('addCell', json);
+      var json = jsonEncode(jsonValues);
+      await _client.request(request, json);
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {

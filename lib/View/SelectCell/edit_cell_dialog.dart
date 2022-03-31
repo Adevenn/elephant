@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
 import '/Model/cell.dart';
 
-class AddCellDialog extends StatefulWidget {
+class EditCellDialog extends StatefulWidget {
   final List<Cell> cells;
-  final String author;
+  final String title, subtitle, type, author, visibility;
+  final int id;
 
-  const AddCellDialog({Key? key, required this.cells, required this.author})
+  const EditCellDialog(
+      {Key? key,
+      required this.cells,
+      required this.id,
+      required this.title,
+      required this.subtitle,
+      required this.type,
+      required this.author,
+      required this.visibility})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _AddCellDialogState();
+  State<StatefulWidget> createState() => _EditCellDialogState();
 }
 
-class _AddCellDialogState extends State<AddCellDialog> {
+class _EditCellDialogState extends State<EditCellDialog> {
   final _formKey = GlobalKey<FormState>();
-  var title = TextEditingController(),
-      subtitle = TextEditingController(),
-      type = 'Book',
-      visibility = 'private';
+  late TextEditingController title, subtitle;
+  late String type, visibility;
 
   bool isCellTitleValid(List<Cell> cells, String title) {
     for (int i = 0; i < cells.length; i++) {
-      if (cells[i].title == title) {
+      if (cells[i].title == title && title != widget.title) {
         return false;
       }
     }
@@ -29,14 +36,18 @@ class _AddCellDialogState extends State<AddCellDialog> {
   }
 
   @override
-  initState() {
+  void initState() {
+    title = TextEditingController(text: widget.title);
+    subtitle = TextEditingController(text: widget.subtitle);
+    type = widget.type;
+    visibility = widget.visibility;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add cell'),
+      title: const Text('Cell edit'),
       scrollable: true,
       content: Form(
         key: _formKey,
@@ -45,20 +56,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                DropdownButton(
-                    alignment: AlignmentDirectional.center,
-                    value: type,
-                    icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    items: <String>['Book', 'ToDoList', 'Ranking']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                          value: value, child: Text(value));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        type = newValue!;
-                      });
-                    }),
+                Text(type),
                 DropdownButton(
                     alignment: AlignmentDirectional.center,
                     value: visibility,
@@ -99,7 +97,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
               Navigator.pop(
                   context,
                   Cell.factory(
-                      id: -1,
+                      id: widget.id,
                       title: title.text,
                       subtitle: subtitle.text,
                       type: type,
@@ -107,7 +105,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
                       isPublic: visibility == 'public' ? true : false));
             }
           },
-          child: const Text('Add'),
+          child: const Text('Edit'),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context),

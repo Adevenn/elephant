@@ -3,4 +3,6 @@ class Constants{
   static const appName = 'my_netia';
   static const info = '';
   static const licence = '';
+
+  static late String username;
 }

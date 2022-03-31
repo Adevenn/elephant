@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/Model/constants.dart';
 import '../Interfaces/interaction_main.dart';
 import '/View/loading_screen.dart';
 import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
 import 'add_cell_dialog.dart';
+import 'edit_cell_dialog.dart';
 import 'delete_cell_dialog.dart';
 import '/Model/Cells/Book/book.dart';
-import '../../Model/Cells/Ranking/ranking.dart';
-import '../../Model/Cells/ToDoList/to_do_list.dart';
+import '/Model/Cells/Ranking/ranking.dart';
+import '/Model/Cells/ToDoList/to_do_list.dart';
 import '/Model/cell.dart';
 import '../Interfaces/interaction_view.dart';
 
@@ -112,15 +114,36 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(cells[index].subtitle),
-                                      Text(cells[index].isPublic == false
-                                          ? 'private'
-                                          : 'public'),
+                                      Icon(cells[index].isPublic == false
+                                          ? Icons.lock_rounded
+                                          : Icons.public_rounded)
                                     ],
                                   ),
-                                  isThreeLine: true,
                                   trailing: IconButton(
                                     icon: const Icon(Icons.edit),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      var cell = await showDialog<Cell?>(
+                                          context: context,
+                                          builder: (context) {
+                                            var cell = cells[index];
+                                            return EditCellDialog(
+                                                cells: cells,
+                                                id: cell.id,
+                                                title: cell.title,
+                                                subtitle: cell.subtitle,
+                                                type: cell.type,
+                                                author: cell.author,
+                                                visibility:
+                                                    cell.isPublic == true
+                                                        ? 'public'
+                                                        : 'private');
+                                          });
+                                      if (cell != null) {
+                                        await interMain.updateItem(
+                                            'updateCell', cell.toJson());
+                                        setState(() {});
+                                      }
+                                    },
                                   ),
                                   onTap: () {
                                     Navigator.push(
@@ -160,14 +183,14 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                               leading: const Icon(Icons.add_rounded),
                               title: const Text('Add cell'),
                               onTap: () async {
-                                var list = await showDialog<List<String>?>(
+                                var cell = await showDialog<Cell?>(
                                   context: context,
-                                  builder: (context) =>
-                                      AddCellDialog(cells: cells),
+                                  builder: (context) => AddCellDialog(
+                                      cells: cells, author: Constants.username),
                                 );
-                                if (list != null) {
+                                if (cell != null) {
                                   await interMain.addCell(
-                                      list[0], list[1], list[2], list[3]);
+                                      'addCell', cell.toJson());
                                   setState(() {});
                                 }
                               },
