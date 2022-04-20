@@ -19,30 +19,12 @@ class _OptionState extends State<OptionScreen> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<bool>>(
         future:
-            Future.wait([UserSettings.getReadOnly(), UserSettings.getTheme()]),
+            Future.wait([UserSettings.getTheme()]),
         builder: (BuildContext context, AsyncSnapshot<List<bool>> snapshot) {
           if (snapshot.hasData) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Read only :'),
-                    Switch(
-                      value: snapshot.data![0],
-                      onChanged: (value) {
-                        UserSettings.setReadOnly(value);
-                        setState(() => {});
-                      },
-                    )
-                  ],
-                ),
-                const Divider(
-                  thickness: 2,
-                  indent: 20,
-                  endIndent: 20,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

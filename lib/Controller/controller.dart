@@ -17,14 +17,25 @@ class Controller implements InteractionMain {
   /// VIEW INTERACTION ///
 
   @override
-  Future<void> testConnection(String ip, int port, String database,
-      String username, String password) async {
+  Future<void> trySignIn(String username, String password) async {
     Constants.username = username;
-    _client = Client(ip, port, database, username, password);
+    _client = Client(username, password);
     try {
-      await _client.request('init', '{}');
+      await _client.request('sign_in', '{}');
     } on DbException {
-      throw const DbException('Authentication failed, verify your entries');
+      throw const DbException('Incorrect identifiers');
+    } catch (e) {
+      throw const ServerException('404 Not Found');
+    }
+  }
+
+  @override
+  Future<void> tryAddAccount(String username, String password) async{
+    _client = Client(username, password);
+    try {
+      await _client.request('add_account', '{}');
+    } on DbException {
+      throw const DbException('Username already used');
     } catch (e) {
       throw const ServerException('404 Not Found');
     }

@@ -14,7 +14,7 @@ import 'Elements/text_field_custom.dart';
 import 'SelectCell/select_cell_screen.dart';
 import 'Interfaces/interaction_main.dart';
 import 'Interfaces/interaction_view.dart';
-import 'Login/login_screen.dart';
+import 'SignIn/sign_in_screen.dart';
 
 ///Functions in common for all classes in View
 class ControllerView implements InteractionView {
@@ -91,7 +91,7 @@ class ControllerView implements InteractionView {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) =>
-            LoginScreen(interMain: interMain, interView: this),
+            SignInScreen(interMain: interMain, interView: this),
       ),
       (route) => false,
     );
@@ -125,7 +125,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),*/
       theme: ThemeData.dark(),
-      home: LoginScreen(interMain: interMain, interView: interView),
+      home: SignInScreen(interMain: interMain, interView: interView),
     );
   }
 }

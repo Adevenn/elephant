@@ -6,11 +6,15 @@ import '/Model/cell.dart';
 import '/Model/Elements/element.dart';
 
 abstract class InteractionMain {
-  ///Try to connect to server and [database]
+  ///Try to login
   ///
   ///If connection fails => Exception
-  Future<void> testConnection(
-      String ip, int port, String database, String userName, String password);
+  Future<void> trySignIn(String username, String password);
+
+  ///Try to sign in a new user
+  ///
+  ///If connection fails => Exception
+  Future<void> tryAddAccount(String username, String password);
 
   ///Return cells that match with the [research] word
   Future<List<Cell>> getCells([String research = '']);
