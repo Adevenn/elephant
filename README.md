@@ -1,5 +1,6 @@
 # Welcome to *my_netia* !
 
+
 This application is a personnal encyclopedia. Everything you want to remember can be saved in *MyNetia*. Notes, summaries, quick reminders, ToDo list, etc ..
 
 Have fun using MyNetia, I hope this will be useful for you :D
@@ -10,6 +11,9 @@ To report any bugs, questions, anything.. Please create an issue or send a mail 
 
 PS: look at the wiki to learn how to install the app, server and database
 
-![Login](https://user-images.githubusercontent.com/33542661/150660713-4980b0de-85cb-49d7-b468-6e42174f6d06.png)
-![FlutterNetiaMainScreen](https://user-images.githubusercontent.com/33542661/137604642-880c47bc-1880-4595-8a00-02ca51a025c2.png)
-![FlutterNetiaBook1](https://user-images.githubusercontent.com/33542661/137604696-f92dd0a2-cd7d-40ec-90d0-93601c1b654b.png)
+
+![SignInNetia](https://user-images.githubusercontent.com/33542661/166166034-ed0c678d-9729-4158-a1b6-8288322e3151.png)
+![CellsScreenNetia](https://user-images.githubusercontent.com/33542661/166167849-af49699d-92d7-43a0-b944-d8129dfdd336.png)
+![SheetScreen](https://user-images.githubusercontent.com/33542661/166167901-95a45bf9-3220-4e5b-832f-3d79ed6d257b.png)
+![SheetScreenBook](https://user-images.githubusercontent.com/33542661/166167994-b1867938-091e-4f44-b24b-50a7ebac09d2.png)
+![LogoElephant](https://user-images.githubusercontent.com/33542661/166165987-d94830a1-26af-4217-b803-d5e0c7f52c55.png)
