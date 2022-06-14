@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '/View/Interfaces/interaction_main.dart';
 import '/Model/Elements/element.dart' as elem;
-import 'delete_element_dialog.dart';
-import 'element_template.dart';
+import '../delete_element_dialog.dart';
+import 'vertical_list_element.dart';
 
-class ElemScreenTemplate extends StatefulWidget {
+class VerticalList extends StatefulWidget {
   final InteractionMain inter;
   final List<elem.Element> elements;
   final List<Widget> widgets;
 
-  const ElemScreenTemplate(
+  const VerticalList(
       {Key? key,
       required this.inter,
       required this.elements,
@@ -20,7 +20,7 @@ class ElemScreenTemplate extends StatefulWidget {
   State<StatefulWidget> createState() => _StateElemScreenTemplate();
 }
 
-class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
+class _StateElemScreenTemplate extends State<VerticalList> {
   InteractionMain get interaction => widget.inter;
 
   List<elem.Element> get elements => widget.elements;
@@ -50,7 +50,8 @@ class _StateElemScreenTemplate extends State<ElemScreenTemplate> {
               for (var index = 0; index < widgets.length; index++)
                 Dismissible(
                   key: UniqueKey(),
-                  child: ElemTemplate(key: UniqueKey(), widget: widgets[index]),
+                  child: VerticalListElem(
+                      key: UniqueKey(), widget: widgets[index]),
                   onDismissed: (direction) async {
                     bool result = await showDialog(
                         barrierDismissible: false,

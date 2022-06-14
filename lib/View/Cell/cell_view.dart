@@ -33,7 +33,8 @@ class CellView extends StatelessWidget {
             return ToDoListView(
                 interMain: interMain, interView: interView, cell: cell);
           case 'Rank':
-            return RankView(interView: interView);
+            return RankView(
+                interMain: interMain, interView: interView, cell: cell);
         }
       }()),
     );

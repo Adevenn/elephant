@@ -124,7 +124,8 @@ class Controller implements InteractionMain {
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
-      throw Exception(e);
+      throw Exception('Controller.addCell :\n$e\nrequest : $request\njson : '
+          '$jsonValues');
     }
   }
 

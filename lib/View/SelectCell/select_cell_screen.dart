@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/Model/constants.dart';
+import '/Model/constants.dart';
 import '../Interfaces/interaction_main.dart';
 import '/View/loading_screen.dart';
 import '/View/Cell/cell_view.dart';

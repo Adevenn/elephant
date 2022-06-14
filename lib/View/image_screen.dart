@@ -2,23 +2,22 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import '/View/Interfaces/interaction_main.dart';
-import '../image_raw.dart';
+import 'Elements/image_raw.dart';
 
-class ImageScreen extends StatelessWidget{
-
+class ImageScreen extends StatelessWidget {
   final InteractionMain interMain;
   final int idImage;
 
-  const ImageScreen({Key? key, required this.idImage, required this.interMain}) : super(key: key);
+  const ImageScreen({Key? key, required this.idImage, required this.interMain})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: FutureBuilder<Uint8List>(
         future: interMain.getRawImage(idImage),
         builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-          if(snapshot.hasData){
+          if (snapshot.hasData) {
             var data = snapshot.data!;
             return Center(
               child: SingleChildScrollView(
@@ -30,8 +29,7 @@ class ImageScreen extends StatelessWidget{
                 ),
               ),
             );
-          }
-          else {
+          } else {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

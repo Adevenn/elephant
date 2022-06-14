@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ElemTemplate extends StatelessWidget {
+class VerticalListElem extends StatelessWidget {
   final Widget widget;
 
-  const ElemTemplate({required Key key, required this.widget})
+  const VerticalListElem({required Key key, required this.widget})
       : super(key: key);
 
   @override

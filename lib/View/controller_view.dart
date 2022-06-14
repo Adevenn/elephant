@@ -120,7 +120,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'MyNetia',
+      title: 'Netia',
       /*theme: ThemeData.(
         primarySwatch: Colors.blue,
       ),*/

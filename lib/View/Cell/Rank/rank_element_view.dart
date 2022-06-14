@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_main.dart';
-import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
+
 import '/View/loading_screen.dart';
+import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
 import '/Model/Cells/Book/sheet.dart';
+import '/View/Interfaces/interaction_main.dart';
 import '/View/Interfaces/interaction_view.dart';
 
-class ToDoListElemView extends StatefulWidget {
+class RankElemView extends StatefulWidget {
   final InteractionMain interMain;
   final InteractionView interView;
   final Sheet sheet;
 
-  const ToDoListElemView(
+  const RankElemView(
       {Key? key,
       required this.interMain,
       required this.interView,
@@ -18,10 +19,10 @@ class ToDoListElemView extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _StateToDoListElemView();
+  State<StatefulWidget> createState() => _StateRankElementView();
 }
 
-class _StateToDoListElemView extends State<ToDoListElemView> {
+class _StateRankElementView extends State<RankElemView> {
   InteractionMain get interMain => widget.interMain;
 
   InteractionView get interView => widget.interView;
