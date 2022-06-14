@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:my_netia_client/Model/Elements/rank.dart';
+
 import 'checkbox.dart';
 import 'image.dart';
 import 'text.dart';
@@ -34,6 +36,14 @@ abstract class Element {
             idParent: json['id_sheet'],
             text: json['text'],
             txtType: TextType.values[json['txt_type']],
+            idOrder: json['elem_order']);
+      case 'Rank':
+        return Rank(
+            id: json['id'],
+            idParent: json['id_sheet'],
+            title: json['title'],
+            description: json['description'],
+            image: Uint8List.fromList(json['img'].cast<int>()),
             idOrder: json['elem_order']);
       default:
         throw Exception('Json with wrong element type');

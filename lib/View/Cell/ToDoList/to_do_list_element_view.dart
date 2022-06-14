@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '/View/Interfaces/interaction_main.dart';
-import '/View/Cell/element_screen_template.dart';
+import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_view.dart';
@@ -38,7 +38,7 @@ class _StateToDoListElemView extends State<ToDoListElemView> {
           var widgets = interView.elementsToWidgets(elements, interView);
 
           return Scaffold(
-            body: ElemScreenTemplate(
+            body: VerticalList(
                 inter: interMain, elements: elements, widgets: widgets),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {

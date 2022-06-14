@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '/View/Interfaces/interaction_main.dart';
-import '/View/Cell/element_screen_template.dart';
+import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/text_type.dart';
 import '/View/floating_buttons.dart';
@@ -26,6 +26,7 @@ class BookElemView extends StatefulWidget {
 
 class _StateBookElemView extends State<BookElemView> {
   InteractionMain get interMain => widget.interMain;
+
   InteractionView get interView => widget.interView;
 
   Sheet get sheet => widget.sheet;
@@ -41,10 +42,44 @@ class _StateBookElemView extends State<BookElemView> {
             var widgets = interView.elementsToWidgets(elements, interView);
 
             return Scaffold(
-                body: ElemScreenTemplate(
-                    inter: interMain,
-                    elements: elements,
-                    widgets: widgets),
+                body: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                                child: Column(
+                              children: [
+                                Text(
+                                  sheet.title,
+                                  style: const TextStyle(
+                                      fontSize: 30,
+                                      fontStyle: FontStyle.normal),
+                                ),
+                                Text(
+                                  sheet.subtitle,
+                                  style: const TextStyle(
+                                      fontSize: 25,
+                                      fontStyle: FontStyle.italic),
+                                )
+                              ],
+                            ))
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: VerticalList(
+                            inter: interMain,
+                            elements: elements,
+                            widgets: widgets),
+                      )
+                    ],
+                  ),
+                ),
                 floatingActionButton: floatingBtn());
           } else {
             return const LoadingScreen();
@@ -83,7 +118,7 @@ class _StateBookElemView extends State<BookElemView> {
         IconButton(
           onPressed: () async {
             var list = await interView.pickImage(sheet);
-            if(list.isNotEmpty){
+            if (list.isNotEmpty) {
               await interMain.addImage(list);
               setState(() {});
             }

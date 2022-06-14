@@ -12,6 +12,7 @@ class SheetScreen extends StatefulWidget {
   final InteractionMain interMain;
   final InteractionView interView;
   final Cell cell;
+  final int selectedSheetId;
   final int index;
 
   const SheetScreen(
@@ -19,7 +20,8 @@ class SheetScreen extends StatefulWidget {
       required this.interMain,
       required this.interView,
       required this.cell,
-      required this.index})
+      required this.index,
+      required this.selectedSheetId})
       : super(key: key);
 
   @override
@@ -32,6 +34,8 @@ class _SheetScreenState extends State<SheetScreen> {
   InteractionView get interView => widget.interView;
 
   Cell get cell => widget.cell;
+
+  int get selectedSheetId => widget.selectedSheetId;
 
   int get index => widget.index;
 
@@ -70,12 +74,33 @@ class _SheetScreenState extends State<SheetScreen> {
                               key: UniqueKey(),
                               background:
                                   Container(color: const Color(0xBCC11717)),
-                              child: ListTile(
-                                  leading:
-                                      const Icon(Icons.text_snippet_rounded),
-                                  title: Text(sheets[index].title),
-                                  subtitle: Text(sheets[index].subtitle),
-                                  onTap: () => Navigator.pop(context, index)),
+                              child: ((() {
+                                if (sheets[index].id == selectedSheetId) {
+                                  return ListTile(
+                                      leading: const Icon(
+                                          Icons.text_snippet_rounded),
+                                      title: Text(
+                                        sheets[index].title,
+                                        style: const TextStyle(
+                                            color: Colors.amber),
+                                      ),
+                                      subtitle: Text(
+                                        sheets[index].subtitle,
+                                        style: const TextStyle(
+                                            color: Colors.amber),
+                                      ),
+                                      onTap: () =>
+                                          Navigator.pop(context, index));
+                                } else {
+                                  return ListTile(
+                                      leading: const Icon(
+                                          Icons.text_snippet_rounded),
+                                      title: Text(sheets[index].title),
+                                      subtitle: Text(sheets[index].subtitle),
+                                      onTap: () =>
+                                          Navigator.pop(context, index));
+                                }
+                              })()),
                               onDismissed: (direction) async {
                                 bool result = await showDialog(
                                     barrierDismissible: false,

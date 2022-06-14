@@ -38,6 +38,8 @@ dependencies:
   drag_and_drop_gridview: ^1.0.8
 
 dev_dependencies:
+
+  flutter_launcher_icons: ^0.9.2
   flutter_test:
     sdk: flutter
 
@@ -50,6 +52,13 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  image_path: "./Ressources/Logo.ico"
+  android: true
+  ios: true
+  windows: true
+  linux: true
 
 # The following section is specific to Flutter.
 flutter:

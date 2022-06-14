@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/View/loading_screen.dart';
-import '../element_screen_template.dart';
+import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_main.dart';
 import '/View/Interfaces/interaction_view.dart';
@@ -39,7 +39,7 @@ class _StateRankElementView extends State<RankElemView> {
           var widgets = interView.elementsToWidgets(elements, interView);
 
           return Scaffold(
-            body: ElemScreenTemplate(
+            body: VerticalList(
                 inter: interMain, elements: elements, widgets: widgets),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {

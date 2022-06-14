@@ -30,7 +30,7 @@ class _OptionState extends State<OptionScreen> {
                   children: [
                     const Icon(Icons.bedtime),
                     Switch(
-                      value: snapshot.data![1],
+                      value: snapshot.data![0],
                       onChanged: (value) {
                         UserSettings.setTheme(value);
                         setState(() => {});

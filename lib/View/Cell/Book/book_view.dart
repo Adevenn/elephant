@@ -12,11 +12,10 @@ class BookView extends StatefulWidget {
   final InteractionView interView;
   final Cell cell;
 
-  const BookView(
-      {Key? key,
-      required this.interMain,
-      required this.interView,
-      required this.cell})
+  const BookView({Key? key,
+    required this.interMain,
+    required this.interView,
+    required this.cell})
       : super(key: key);
 
   @override
@@ -52,11 +51,13 @@ class _StateBookView extends State<BookView> {
                       var result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SheetScreen(
-                                  cell: cell,
-                                  interMain: interMain,
-                                  interView: interView,
-                                  index: sheetIndex)));
+                              builder: (context) =>
+                                  SheetScreen(
+                                    cell: cell,
+                                    interMain: interMain,
+                                    interView: interView,
+                                    index: sheetIndex,
+                                    selectedSheetId: sheet!.id,)));
                       if (sheetIndex != result) {
                         sheetIndex = result;
                         setState(() {});

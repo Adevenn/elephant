@@ -1,5 +1,16 @@
 import '../../Elements/element.dart';
 
+/// int id,
+///
+/// int idParent,
+///
+/// String title,
+///
+/// String subtitle,
+///
+/// List elements,
+///
+/// int idOrder
 class Sheet{
   final int id;
   final int idParent;
