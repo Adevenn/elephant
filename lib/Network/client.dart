@@ -7,7 +7,7 @@ import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
 
 class Client {
-
+  ///Make a request to the http server
   static Future<String> request(String request, Map json) async {
     http.Response response = await http.post(
       Uri.parse('http://${Constants.ip}:${Constants.port}/$request'),
@@ -33,6 +33,17 @@ class Client {
       default:
         throw Exception('Not handled error code : ${response.statusCode}'
             '\n${response.body}');
+    }
+  }
+
+  ///Make a request to the http server
+  ///
+  ///And extract the json
+  static Future<dynamic> requestResult(String request, Map json) async {
+    try {
+      return jsonDecode(await Client.request(request, json));
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

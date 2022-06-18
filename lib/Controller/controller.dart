@@ -45,7 +45,7 @@ class Controller implements InteractionMain {
     var cells = <Cell>[];
     try {
       var result =
-          jsonDecode(await Client.request('cells', {'match_word': matchWord}));
+          await Client.requestResult('cells', {'match_word': matchWord});
       cells = List<Cell>.from(result.map((model) => Cell.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
@@ -61,8 +61,7 @@ class Controller implements InteractionMain {
   Future<List<Sheet>> getSheets(int idCell) async {
     var sheets = <Sheet>[];
     try {
-      var result =
-          jsonDecode(await Client.request('sheets', {'id_cell': idCell}));
+      var result = await Client.requestResult('sheets', {'id_cell': idCell});
       sheets = List<Sheet>.from(result.map((model) => Sheet.fromJson(model)));
     } on ServerException catch (e) {
       throw ServerException('$e');
@@ -77,9 +76,9 @@ class Controller implements InteractionMain {
   @override
   Future<Sheet> getSheet(int idCell, int sheetIndex) async {
     try {
-      var result = await Client.request(
+      var result = await Client.requestResult(
           'sheet', {'id_cell': idCell, 'sheet_index': sheetIndex});
-      return Sheet.fromJson(jsonDecode(result));
+      return Sheet.fromJson(result);
     } catch (e) {
       throw Exception(e);
     }
@@ -90,7 +89,7 @@ class Controller implements InteractionMain {
     var elements = <Element>[];
     try {
       var result =
-          jsonDecode(await Client.request('elements', {'id_sheet': idSheet}));
+          await Client.requestResult('elements', {'id_sheet': idSheet});
       elements =
           List<Element>.from(result.map((model) => Element.fromJson(model)));
     } on ServerException catch (e) {
@@ -104,8 +103,7 @@ class Controller implements InteractionMain {
   @override
   Future<Uint8List> getRawImage(int idImage) async {
     try {
-      var result =
-          jsonDecode(await Client.request('rawImage', {'id_img': idImage}));
+      var result = await Client.requestResult('rawImage', {'id_img': idImage});
       var imgRaw = jsonDecode(result);
       return Uint8List.fromList(imgRaw['img_raw'].cast<int>());
     } on ServerException catch (e) {
@@ -122,8 +120,8 @@ class Controller implements InteractionMain {
     } on ServerException catch (e) {
       throw ServerException('$e');
     } catch (e) {
-      throw Exception('Controller.addCell :\n$e\nrequest : $request\njson : '
-          '$jsonValues');
+      throw Exception(
+          'Controller.addCell :\n$e\nrequest : $request\njson : $jsonValues');
     }
   }
 
