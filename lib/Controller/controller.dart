@@ -15,28 +15,6 @@ class Controller implements InteractionMain {
   /// VIEW INTERACTION ///
 
   @override
-  Future<void> trySignIn(String username, String password) async {
-    Constants.username = username;
-    Constants.password = password;
-    try {
-      await Client.request('sign_in', {});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
-  Future<void> tryAddAccount(String username, String password) async {
-    Constants.username = username;
-    Constants.password = password;
-    try {
-      await Client.request('add_account', {});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
   Future<List<Cell>> getCells([String matchWord = '']) async {
     var cells = <Cell>[];
     try {

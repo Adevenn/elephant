@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '/Model/constants.dart';
+import '/Network/client.dart';
 import '/View/AddAccount/add_account_screen.dart';
 import '/Model/hash.dart';
 import '../Interfaces/interaction_main.dart';
@@ -40,12 +42,16 @@ class _LoginState extends State<SignInScreen> {
     setState(() => {});
   }
 
+  ///Try to login
+  ///
+  ///If connection fails => Exception
   Future<void> signIn() async {
     if (_formKey.currentState!.validate()) {
       UserSettings.setUsername(_username.text);
+      Constants.username = _username.text;
+      Constants.password = Hash.hashString(_password.text);
       try {
-        await interMain.trySignIn(
-            _username.text, Hash.hashString(_password.text));
+        await Client.request('sign_in', {});
         interView.gotoCellScreen(context);
       } catch (e) {
         ScaffoldMessenger.of(context)

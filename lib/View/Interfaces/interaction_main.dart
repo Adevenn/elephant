@@ -6,15 +6,6 @@ import '/Model/cell.dart';
 import '/Model/Elements/element.dart';
 
 abstract class InteractionMain {
-  ///Try to login
-  ///
-  ///If connection fails => Exception
-  Future<void> trySignIn(String username, String password);
-
-  ///Try to sign in a new user
-  ///
-  ///If connection fails => Exception
-  Future<void> tryAddAccount(String username, String password);
 
   ///Return cells that match with the [research] word
   Future<List<Cell>> getCells([String research = '']);

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '/Model/constants.dart';
+import '/Network/client.dart';
 import '/Model/hash.dart';
 import '../Interfaces/interaction_main.dart';
 import '/Model/user_settings.dart';
@@ -20,12 +22,16 @@ class _SignInState extends State<AddAccountScreen> {
 
   InteractionMain get interMain => widget.interMain;
 
+  ///Try to add a new user
+  ///
+  ///If connection fails => Exception
   Future<void> addAccount() async {
     if (_formKey.currentState!.validate()) {
       UserSettings.setUsername(_username.text);
+      Constants.username = _username.text;
+      Constants.password = Hash.hashString(_password.text);
       try {
-        await interMain.tryAddAccount(
-            _username.text, Hash.hashString(_password.text));
+        await Client.request('add_account', {});
         Navigator.pop(context);
       } catch (e) {
         ScaffoldMessenger.of(context)
