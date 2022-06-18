@@ -29,11 +29,6 @@ class _AddCellDialogState extends State<AddCellDialog> {
   }
 
   @override
-  initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Add cell'),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/Network/client.dart';
 import '/Model/constants.dart';
 import '../Interfaces/interaction_main.dart';
 import '/View/loading_screen.dart';
@@ -52,6 +53,18 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
     }
   }
 
+  ///Return cells that match with the [researchWord]
+  Future<List<Cell>> getCells() async {
+    var result =
+        await Client.requestResult('cells', {'match_word': researchWord});
+    return List<Cell>.from(result.map((model) => Cell.fromJson(model)));
+  }
+
+  Future<void> addCell(Map args) async {
+    await Client.request('addCell', args);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +76,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
             title: const Text('Cells')),
         endDrawer: Drawer(child: OptionScreen(interView: interView)),
         body: FutureBuilder<List<Cell>>(
-            future: interMain.getCells(researchWord),
+            future: getCells(),
             builder:
                 (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
               if (snapshot.hasData) {
@@ -189,9 +202,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                       cells: cells, author: Constants.username),
                                 );
                                 if (cell != null) {
-                                  await interMain.addCell(
-                                      'addCell', cell.toJson());
-                                  setState(() {});
+                                  addCell(cell.toJson());
                                 }
                               },
                             )

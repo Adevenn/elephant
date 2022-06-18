@@ -2,21 +2,12 @@ import 'dart:typed_data';
 
 import '/Model/Elements/image.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/Model/cell.dart';
 import '/Model/Elements/element.dart';
 
 abstract class InteractionMain {
 
-  ///Return cells that match with the [research] word
-  Future<List<Cell>> getCells([String research = '']);
-
-  ///Return sheets thant match with [idCell]
-  Future<List<Sheet>> getSheets(int idCell);
-
   ///Return elements that match with [idSheet]
   Future<List<Element>> getElements(int idSheet);
-
-  Future<void> addCell(String request, Map<String, dynamic> jsonValues);
 
   Future<void> addSheet(int idCell, String title, String subtitle);
 
@@ -29,8 +20,6 @@ abstract class InteractionMain {
   Future<void> deleteItem(String request, int index);
 
   Future<void> updateItem(String type, Map<String, dynamic> jsonValues);
-
-  Future<void> updateSheetOrder(List<Sheet> list);
 
   Future<void> updateElemOrder(List<Element> list);
 

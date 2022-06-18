@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import '../../../Network/client.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '/View/loading_screen.dart';
 import '/Model/cell.dart';
@@ -39,6 +42,27 @@ class _SheetScreenState extends State<SheetScreen> {
 
   int get index => widget.index;
 
+  ///Return sheets that match with [idCell]
+  Future<List<Sheet>> getSheets(int idCell) async{
+    var sheets = <Sheet>[];
+    try {
+      var result = await Client.requestResult('sheets', {'id_cell': idCell});
+      sheets = List<Sheet>.from(result.map((model) => Sheet.fromJson(model)));
+    } catch (e) {
+      throw Exception(e);
+    }
+    return sheets;
+  }
+
+  Future<void> updateSheetOrder(List<Sheet> list) async{
+    var jsonList = <String>[];
+    for (var i = 0; i < list.length; i++) {
+      jsonList.add(jsonEncode(list[i]));
+    }
+    await Client.request('updateSheetOrder', {'sheet_order': jsonList});
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +74,7 @@ class _SheetScreenState extends State<SheetScreen> {
           title: const Text('Sheets')),
       endDrawer: Drawer(child: OptionScreen(interView: interView)),
       body: FutureBuilder<List<Sheet>>(
-          future: interMain.getSheets(cell.id),
+          future: getSheets(cell.id),
           builder: (BuildContext context, AsyncSnapshot<List<Sheet>> snapshot) {
             if (snapshot.hasData) {
               var sheets = snapshot.data!;
@@ -65,8 +89,7 @@ class _SheetScreenState extends State<SheetScreen> {
                         }
                         Sheet item = sheets.removeAt(oldIndex);
                         sheets.insert(newIndex, item);
-                        await interMain.updateSheetOrder(sheets);
-                        setState(() {});
+                        await updateSheetOrder(sheets);
                       },
                       children: [
                         for (var index = 0; index < sheets.length; index++)

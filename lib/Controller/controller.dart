@@ -14,30 +14,6 @@ import '/View/Interfaces/interaction_main.dart';
 class Controller implements InteractionMain {
   /// VIEW INTERACTION ///
 
-  @override
-  Future<List<Cell>> getCells([String matchWord = '']) async {
-    var cells = <Cell>[];
-    try {
-      var result =
-          await Client.requestResult('cells', {'match_word': matchWord});
-      cells = List<Cell>.from(result.map((model) => Cell.fromJson(model)));
-    } catch (e) {
-      throw Exception(e);
-    }
-    return cells;
-  }
-
-  @override
-  Future<List<Sheet>> getSheets(int idCell) async {
-    var sheets = <Sheet>[];
-    try {
-      var result = await Client.requestResult('sheets', {'id_cell': idCell});
-      sheets = List<Sheet>.from(result.map((model) => Sheet.fromJson(model)));
-    } catch (e) {
-      throw Exception(e);
-    }
-    return sheets;
-  }
 
   @override
   Future<Sheet> getSheet(int idCell, int sheetIndex) async {
@@ -70,15 +46,6 @@ class Controller implements InteractionMain {
       var result = await Client.requestResult('rawImage', {'id_img': idImage});
       var imgRaw = jsonDecode(result);
       return Uint8List.fromList(imgRaw['img_raw'].cast<int>());
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
-  Future<void> addCell(String request, Map<String, dynamic> jsonValues) async {
-    try {
-      await Client.request(request, jsonValues);
     } catch (e) {
       throw Exception(e);
     }
@@ -144,15 +111,6 @@ class Controller implements InteractionMain {
     } catch (e) {
       throw Exception(e);
     }
-  }
-
-  @override
-  Future<void> updateSheetOrder(List<Sheet> list) async {
-    var jsonList = <String>[];
-    for (var i = 0; i < list.length; i++) {
-      jsonList.add(jsonEncode(list[i]));
-    }
-    await Client.request('updateSheetOrder', {'sheet_order': jsonList});
   }
 
   @override
