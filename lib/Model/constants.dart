@@ -12,4 +12,5 @@ class Constants{
 
   //user infos
   static late String username;
+  static late String password;
 }

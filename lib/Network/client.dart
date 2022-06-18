@@ -7,23 +7,16 @@ import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
 
 class Client {
-  final String _username;
-  String get username => _username;
-  final String _password;
 
-  var client = HttpClient();
-
-  Client(this._username, this._password);
-
-  Future<String> request(String request, Map json) async {
+  static Future<String> request(String request, Map json) async {
     http.Response response = await http.post(
       Uri.parse('http://${Constants.ip}:${Constants.port}/$request'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'username': _username,
-        'password': _password,
+        'username': Constants.username,
+        'password': Constants.password,
         'json': jsonEncode(json)
       }),
     );
