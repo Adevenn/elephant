@@ -15,7 +15,7 @@ class Client {
 
   Client(this._username, this._password);
 
-  Future<String> request(String request, json) async {
+  Future<String> request(String request, Map json) async {
     http.Response response = await http.post(
       Uri.parse('http://${Constants.ip}:${Constants.port}/$request'),
       headers: <String, String>{
@@ -24,7 +24,7 @@ class Client {
       body: jsonEncode(<String, String>{
         'username': _username,
         'password': _password,
-        'json': json
+        'json': jsonEncode(json)
       }),
     );
 
