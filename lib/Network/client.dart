@@ -38,7 +38,7 @@ class Client {
 
   ///Make a request to the http server
   ///
-  ///And extract the json
+  ///And extract the json from the answer
   static Future<dynamic> requestResult(String request, Map json) async {
     try {
       return jsonDecode(await Client.request(request, json));

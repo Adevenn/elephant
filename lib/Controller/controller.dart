@@ -20,10 +20,8 @@ class Controller implements InteractionMain {
     Constants.password = password;
     try {
       await Client.request('sign_in', {});
-    } on DbException {
-      throw const DbException('Incorrect identifiers');
     } catch (e) {
-      throw const ServerException('404 Not Found');
+      throw Exception(e);
     }
   }
 
@@ -33,10 +31,8 @@ class Controller implements InteractionMain {
     Constants.password = password;
     try {
       await Client.request('add_account', {});
-    } on DbException {
-      throw const DbException('Username already used');
     } catch (e) {
-      throw const ServerException('404 Not Found');
+      throw Exception(e);
     }
   }
 
@@ -47,12 +43,8 @@ class Controller implements InteractionMain {
       var result =
           await Client.requestResult('cells', {'match_word': matchWord});
       cells = List<Cell>.from(result.map((model) => Cell.fromJson(model)));
-    } on ServerException catch (e) {
-      throw ServerException('$e');
-    } on DbException catch (e) {
-      throw DbException('$e');
     } catch (e) {
-      throw ServerException('$e');
+      throw Exception(e);
     }
     return cells;
   }
@@ -63,10 +55,6 @@ class Controller implements InteractionMain {
     try {
       var result = await Client.requestResult('sheets', {'id_cell': idCell});
       sheets = List<Sheet>.from(result.map((model) => Sheet.fromJson(model)));
-    } on ServerException catch (e) {
-      throw ServerException('$e');
-    } on DbException catch (e) {
-      throw DbException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -92,8 +80,6 @@ class Controller implements InteractionMain {
           await Client.requestResult('elements', {'id_sheet': idSheet});
       elements =
           List<Element>.from(result.map((model) => Element.fromJson(model)));
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -106,8 +92,6 @@ class Controller implements InteractionMain {
       var result = await Client.requestResult('rawImage', {'id_img': idImage});
       var imgRaw = jsonDecode(result);
       return Uint8List.fromList(imgRaw['img_raw'].cast<int>());
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -117,11 +101,8 @@ class Controller implements InteractionMain {
   Future<void> addCell(String request, Map<String, dynamic> jsonValues) async {
     try {
       await Client.request(request, jsonValues);
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
-      throw Exception(
-          'Controller.addCell :\n$e\nrequest : $request\njson : $jsonValues');
+      throw Exception(e);
     }
   }
 
@@ -130,8 +111,6 @@ class Controller implements InteractionMain {
     try {
       await Client.request('addSheet',
           {'id_cell': idCell, 'title': title, 'subtitle': subtitle});
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -141,8 +120,6 @@ class Controller implements InteractionMain {
   Future<void> addCheckbox(int idSheet) async {
     try {
       await Client.request('addCheckbox', {'id_sheet': idSheet});
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -158,8 +135,6 @@ class Controller implements InteractionMain {
           'img_raw': image.imgRaw
         });
       }
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -170,8 +145,6 @@ class Controller implements InteractionMain {
     try {
       await Client.request(
           'addText', {'id_sheet': idParent, 'txt_type': txtType});
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -181,8 +154,6 @@ class Controller implements InteractionMain {
   Future<void> deleteItem(String request, int id) async {
     try {
       await Client.request(request, {'id': id});
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
@@ -192,8 +163,6 @@ class Controller implements InteractionMain {
   Future<void> updateItem(String request, Map<String, dynamic> json) async {
     try {
       await Client.request(request, json);
-    } on ServerException catch (e) {
-      throw ServerException('$e');
     } catch (e) {
       throw Exception(e);
     }
