@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '/View/Cell/Rank/rank_element_view.dart';
-import '/View/loading_screen.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_main.dart';
 import '/Model/cell.dart';
@@ -32,16 +31,7 @@ class _StateRankView extends State<RankView> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: interMain.getSheet(cell.id, 0),
-        builder: (BuildContext context, AsyncSnapshot<Sheet> snapshot) {
-          if (snapshot.hasData && sheet != snapshot.data) {
-            sheet = snapshot.data;
-            return RankElemView(
-                interMain: interMain, interView: interView, sheet: sheet!);
-          } else {
-            return const LoadingScreen();
-          }
-        });
+    return RankElemView(
+        interMain: interMain, interView: interView, sheet: sheet!);
   }
 }

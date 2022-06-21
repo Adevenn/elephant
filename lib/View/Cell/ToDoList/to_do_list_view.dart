@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_main.dart';
-import '/View/loading_screen.dart';
 import '/Model/cell.dart';
 import '/View/Cell/ToDoList/to_do_list_element_view.dart';
 import '/View/Interfaces/interaction_view.dart';
@@ -32,15 +31,7 @@ class _StateToDoListView extends State<ToDoListView> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: interMain.getSheet(cell.id, 0),
-        builder: (BuildContext context, AsyncSnapshot<Sheet> snapshot) {
-          if (snapshot.hasData && sheet != snapshot.data) {
-            sheet = snapshot.data;
-            return ToDoListElemView(interMain: interMain, interView: interView,sheet: sheet!);
-          } else {
-            return const LoadingScreen();
-          }
-        });
+    return ToDoListElemView(
+        interMain: interMain, interView: interView, sheet: sheet!);
   }
 }

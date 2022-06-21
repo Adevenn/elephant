@@ -25,5 +25,5 @@ abstract class InteractionMain {
 
   Future<Uint8List> getRawImage(int idImage);
 
-  Future<Sheet> getSheet(int idCell, int sheetIndex);
+  //Future<Sheet> getSheet(int idCell, int sheetIndex);
 }
