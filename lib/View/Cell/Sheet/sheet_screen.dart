@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import '../../../Network/client.dart';
+import '/Network/client.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '/View/loading_screen.dart';
 import '/Model/cell.dart';
@@ -43,7 +43,7 @@ class _SheetScreenState extends State<SheetScreen> {
   int get index => widget.index;
 
   ///Return sheets that match with [idCell]
-  Future<List<Sheet>> getSheets(int idCell) async{
+  Future<List<Sheet>> getSheets(int idCell) async {
     var sheets = <Sheet>[];
     try {
       var result = await Client.requestResult('sheets', {'id_cell': idCell});
@@ -54,7 +54,16 @@ class _SheetScreenState extends State<SheetScreen> {
     return sheets;
   }
 
-  Future<void> updateSheetOrder(List<Sheet> list) async{
+  Future<void> addSheet(int idCell, String title, String subtitle) async {
+    try {
+      await Client.request('addSheet',
+          {'id_cell': idCell, 'title': title, 'subtitle': subtitle});
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> updateSheetOrder(List<Sheet> list) async {
     var jsonList = <String>[];
     for (var i = 0; i < list.length; i++) {
       jsonList.add(jsonEncode(list[i]));
@@ -155,8 +164,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                   AddSheetDialog(sheets: sheets),
                             );
                             if (list != null) {
-                              await interMain.addSheet(
-                                  cell.id, list[0], list[1]);
+                              await addSheet(cell.id, list[0], list[1]);
                               setState(() {});
                             }
                           },

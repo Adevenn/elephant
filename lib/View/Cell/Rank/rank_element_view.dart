@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../FloatingBtns/floatings_btns.dart';
 import '/View/loading_screen.dart';
 import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
 import '/Model/Cells/Book/sheet.dart';
@@ -39,16 +40,16 @@ class _StateRankElementView extends State<RankElemView> {
           var widgets = interView.elementsToWidgets(elements, interView);
 
           return Scaffold(
-            body: VerticalList(
-                inter: interMain, elements: elements, widgets: widgets),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                await interMain.addCheckbox(sheet.id);
-                setState(() {});
-              },
-              child: const Icon(Icons.add_rounded),
-            ),
-          );
+              body: VerticalList(
+                  inter: interMain, elements: elements, widgets: widgets),
+              floatingActionButton: FloatingButtons(
+                sheet: sheet,
+                elements: const ['checkbox'],
+                interView: interView,
+                onElementAdded: () {
+                  setState(() {});
+                },
+              ));
         } else {
           return const LoadingScreen();
         }

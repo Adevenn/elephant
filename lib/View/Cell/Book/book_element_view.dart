@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/FloatingBtns/floatings_btns.dart';
+import '/Network/client.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '/View/Interfaces/interaction_main.dart';
 import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/text_type.dart';
-import '/View/floating_buttons.dart';
+import '../../FloatingBtns/animation_floating_btns.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/Model/Elements/element.dart' as elem;
 
@@ -30,6 +32,14 @@ class _StateBookElemView extends State<BookElemView> {
   InteractionView get interView => widget.interView;
 
   Sheet get sheet => widget.sheet;
+
+  Future<void> addCheckbox(int idSheet) async {
+    try {
+      await Client.request('addCheckbox', {'id_sheet': idSheet});
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,61 +90,22 @@ class _StateBookElemView extends State<BookElemView> {
                     ],
                   ),
                 ),
-                floatingActionButton: floatingBtn());
+                floatingActionButton: FloatingButtons(
+                  sheet: sheet,
+                  elements: const [
+                    'title',
+                    'subtitle',
+                    'text',
+                    'readonly',
+                    'checkbox',
+                    'image'
+                  ],
+                  interView: interView,
+                  onElementAdded: () => setState(() {}),
+                ));
           } else {
             return const LoadingScreen();
           }
         });
   }
-
-  Widget floatingBtn() => ExpandableFab(distance: 150.0, children: [
-        IconButton(
-          onPressed: () async {
-            await interMain.addTexts(sheet.id, TextType.text.index);
-            setState(() {});
-          },
-          icon: const Icon(Icons.title_rounded),
-          iconSize: 35,
-          tooltip: 'Text',
-        ),
-        IconButton(
-          onPressed: () async {
-            await interMain.addTexts(sheet.id, TextType.subtitle.index);
-            setState(() {});
-          },
-          icon: const Icon(Icons.text_fields_rounded),
-          iconSize: 30,
-          tooltip: 'Subtitle',
-        ),
-        IconButton(
-          onPressed: () async {
-            await interMain.addTexts(sheet.id, TextType.title.index);
-            setState(() {});
-          },
-          icon: const Icon(Icons.text_fields_rounded),
-          iconSize: 35,
-          tooltip: 'Title',
-        ),
-        IconButton(
-          onPressed: () async {
-            var list = await interView.pickImage(sheet);
-            if (list.isNotEmpty) {
-              await interMain.addImage(list);
-              setState(() {});
-            }
-          },
-          icon: const Icon(Icons.add_photo_alternate_outlined),
-          iconSize: 35,
-          tooltip: 'Image',
-        ),
-        IconButton(
-          onPressed: () async {
-            await interMain.addCheckbox(sheet.id);
-            setState(() {});
-          },
-          icon: const Icon(Icons.check_box_rounded),
-          iconSize: 35,
-          tooltip: 'Checkbox',
-        ),
-      ]);
 }

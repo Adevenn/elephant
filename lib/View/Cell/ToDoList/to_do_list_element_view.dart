@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/View/FloatingBtns/floatings_btns.dart';
 import '/View/Interfaces/interaction_main.dart';
 import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
 import '/View/loading_screen.dart';
@@ -38,16 +39,16 @@ class _StateToDoListElemView extends State<ToDoListElemView> {
           var widgets = interView.elementsToWidgets(elements, interView);
 
           return Scaffold(
-            body: VerticalList(
-                inter: interMain, elements: elements, widgets: widgets),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                await interMain.addCheckbox(sheet.id);
-                setState(() {});
-              },
-              child: const Icon(Icons.add_rounded),
-            ),
-          );
+              body: VerticalList(
+                  inter: interMain, elements: elements, widgets: widgets),
+              floatingActionButton: FloatingButtons(
+                sheet: sheet,
+                elements: const ['checkbox'],
+                interView: interView,
+                onElementAdded: () {
+                  setState(() {});
+                },
+              ));
         } else {
           return const LoadingScreen();
         }

@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+
+import '/Network/client.dart';
 import '/View/Interfaces/interaction_main.dart';
 import 'Elements/image_raw.dart';
 
@@ -11,11 +13,21 @@ class ImageScreen extends StatelessWidget {
   const ImageScreen({Key? key, required this.idImage, required this.interMain})
       : super(key: key);
 
+  Future<Uint8List> getRawImage(int idImage) async {
+    try {
+      var result = await Client.requestResult('rawImage', {'id_img': idImage});
+      var imgRaw = jsonDecode(result);
+      return Uint8List.fromList(imgRaw['img_raw'].cast<int>());
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<Uint8List>(
-        future: interMain.getRawImage(idImage),
+        future: getRawImage(idImage),
         builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;

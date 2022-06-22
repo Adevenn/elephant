@@ -70,10 +70,16 @@ class _StateCellView extends State<CellView> {
                     );
                   case 'ToDoList':
                     return ToDoListView(
-                        interMain: interMain, interView: interView, cell: cell);
+                        interMain: interMain,
+                        interView: interView,
+                        cell: cell,
+                        sheet: sheet!);
                   case 'Rank':
                     return RankView(
-                        interMain: interMain, interView: interView, cell: cell);
+                        interMain: interMain,
+                        interView: interView,
+                        cell: cell,
+                        sheet: sheet!);
                 }
               }()),
             );
