@@ -12,18 +12,13 @@ import 'Elements/checkbox_custom.dart';
 import 'Elements/image_preview.dart';
 import 'Elements/text_field_custom.dart';
 import 'SelectCell/select_cell_screen.dart';
-import 'Interfaces/interaction_main.dart';
 import 'Interfaces/interaction_view.dart';
 import 'SignIn/sign_in_screen.dart';
 
 ///Functions in common for all classes in View
 class ControllerView implements InteractionView {
-  final InteractionMain interMain;
-
-  ControllerView(this.interMain);
-
   start() {
-    runApp(MyApp(interMain: interMain, interView: this));
+    runApp(MyApp(interView: this));
   }
 
   @override
@@ -34,19 +29,16 @@ class ControllerView implements InteractionView {
       switch (element.runtimeType) {
         case text.Text:
           _widgets.add(TextFieldCustom(
-              interMain: interMain,
               key: UniqueKey(),
               texts: element as text.Text));
           break;
         case img.Image:
           _widgets.add(ImagePreview(
-              interMain: interMain,
               image: element as img.Image,
               key: UniqueKey()));
           break;
         case cb.Checkbox:
           _widgets.add(CheckboxCustom(
-              interMain: interMain,
               key: UniqueKey(),
               checkbox: element as cb.Checkbox));
           break;
@@ -91,7 +83,7 @@ class ControllerView implements InteractionView {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) =>
-            SignInScreen(interMain: interMain, interView: this),
+            SignInScreen(interView: this),
       ),
       (route) => false,
     );
@@ -103,7 +95,7 @@ class ControllerView implements InteractionView {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) =>
-            SelectCellScreen(interMain: interMain, interView: this),
+            SelectCellScreen(interView: this),
       ),
     );
   }
@@ -111,9 +103,8 @@ class ControllerView implements InteractionView {
 
 class MyApp extends StatelessWidget {
   final InteractionView interView;
-  final InteractionMain interMain;
 
-  const MyApp({required this.interMain, required this.interView, Key? key})
+  const MyApp({required this.interView, Key? key})
       : super(key: key);
 
   @override
@@ -125,7 +116,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),*/
       theme: ThemeData.dark(),
-      home: SignInScreen(interMain: interMain, interView: interView),
+      home: SignInScreen(interView: interView),
     );
   }
 }

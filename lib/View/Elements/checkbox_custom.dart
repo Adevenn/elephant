@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
+import '/Network/client.dart';
 import '/Model/Elements/checkbox.dart' as cb;
-import '../Interfaces/interaction_main.dart';
 
-class CheckboxCustom extends StatefulWidget{
-  final InteractionMain interMain;
+class CheckboxCustom extends StatefulWidget {
   final cb.Checkbox checkbox;
 
-  const CheckboxCustom({required Key key, required this.interMain, required this.checkbox}) : super(key: key);
+  const CheckboxCustom({required Key key, required this.checkbox})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CheckBoxState();
 }
 
-class _CheckBoxState extends State<CheckboxCustom>{
-
+class _CheckBoxState extends State<CheckboxCustom> {
   cb.Checkbox get checkbox => widget.checkbox;
-  InteractionMain get interMain => widget.interMain;
+
   var focusCheckbox = FocusNode();
   var focusTxt = FocusNode();
   late bool backupChecked;
   late String backupText;
+
+  Future<void> updateItem(String request, Map<String, dynamic> json) async {
+    try {
+      await Client.request(request, json);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   void initState() {
@@ -41,13 +48,12 @@ class _CheckBoxState extends State<CheckboxCustom>{
 
   ///Update [checkbox] when values change and both elements
   ///([checkbox.text] and [checkbox.isChecked]) lost focus
-  void _updateCheckbox() async{
-    if(!focusCheckbox.hasFocus && !focusTxt.hasFocus){
-      if(backupChecked != checkbox.isChecked
-          || backupText != checkbox.text){
+  void _updateCheckbox() async {
+    if (!focusCheckbox.hasFocus && !focusTxt.hasFocus) {
+      if (backupChecked != checkbox.isChecked || backupText != checkbox.text) {
         backupChecked = checkbox.isChecked;
         backupText = checkbox.text;
-        interMain.updateItem('updateCheckbox', checkbox.toJson());
+        updateItem('updateCheckbox', checkbox.toJson());
       }
     }
   }
@@ -60,7 +66,7 @@ class _CheckBoxState extends State<CheckboxCustom>{
         Checkbox(
           focusNode: focusCheckbox,
           value: checkbox.isChecked,
-          onChanged: (bool? value){
+          onChanged: (bool? value) {
             focusCheckbox.requestFocus();
             setState(() => checkbox.isChecked = value!);
           },

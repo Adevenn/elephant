@@ -29,7 +29,6 @@ class FloatingButtons extends StatelessWidget {
         case 'text':
         case 'subtitle':
         case'title':
-        case'readonly':
           widgets.add(text(elements[i]));
           break;
         case 'image':

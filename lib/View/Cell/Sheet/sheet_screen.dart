@@ -9,10 +9,8 @@ import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
 import 'delete_sheet_dialog.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/View/Interfaces/interaction_main.dart';
 
 class SheetScreen extends StatefulWidget {
-  final InteractionMain interMain;
   final InteractionView interView;
   final Cell cell;
   final int selectedSheetId;
@@ -20,7 +18,6 @@ class SheetScreen extends StatefulWidget {
 
   const SheetScreen(
       {Key? key,
-      required this.interMain,
       required this.interView,
       required this.cell,
       required this.index,
@@ -32,8 +29,6 @@ class SheetScreen extends StatefulWidget {
 }
 
 class _SheetScreenState extends State<SheetScreen> {
-  InteractionMain get interMain => widget.interMain;
-
   InteractionView get interView => widget.interView;
 
   Cell get cell => widget.cell;
@@ -58,6 +53,14 @@ class _SheetScreenState extends State<SheetScreen> {
     try {
       await Client.request('addSheet',
           {'id_cell': idCell, 'title': title, 'subtitle': subtitle});
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> deleteItem(String request, int id) async {
+    try {
+      await Client.request(request, {'id': id});
     } catch (e) {
       throw Exception(e);
     }
@@ -141,7 +144,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                         DeleteSheetDialog(
                                             sheetTitle: sheets[index].title));
                                 if (result) {
-                                  await interMain.deleteItem(
+                                  await deleteItem(
                                       'deleteSheet', sheets[index].id);
                                 }
                                 setState(() {});

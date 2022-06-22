@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/Network/client.dart';
+
+import '/Network/client.dart';
 import '/Model/constants.dart';
-import '../Interfaces/interaction_main.dart';
 import '/View/loading_screen.dart';
 import '/View/Cell/cell_view.dart';
 import '/View/Options/option_screen.dart';
@@ -15,25 +15,26 @@ import '/Model/cell.dart';
 import '../Interfaces/interaction_view.dart';
 
 class SelectCellScreen extends StatefulWidget {
-  final InteractionMain interMain;
   final InteractionView interView;
 
-  const SelectCellScreen(
-      {required this.interMain, required this.interView, Key? key})
-      : super(key: key);
+  const SelectCellScreen({required this.interView, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SelectCellScreenState();
 }
 
 class _SelectCellScreenState extends State<SelectCellScreen> {
-  InteractionMain get interMain => widget.interMain;
-
   InteractionView get interView => widget.interView;
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
-  _SelectCellScreenState();
+  Future<void> deleteItem(String request, int id) async {
+    try {
+      await Client.request(request, {'id': id});
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   void applyResearch([String newWord = '']) {
     researchWord = newWord;
@@ -63,6 +64,15 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
   Future<void> addCell(Map args) async {
     await Client.request('addCell', args);
     setState(() {});
+  }
+
+  Future<void> updateItem(String request, Map<String, dynamic> json) async {
+    try {
+      await Client.request(request, json);
+      setState(() {});
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -152,9 +162,8 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                                         : 'private');
                                           });
                                       if (cell != null) {
-                                        await interMain.updateItem(
+                                        await updateItem(
                                             'updateCell', cell.toJson());
-                                        setState(() {});
                                       }
                                     },
                                   ),
@@ -163,7 +172,6 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => CellView(
-                                                interMain: interMain,
                                                 interView: interView,
                                                 cell: cells[index])));
                                   },
@@ -177,7 +185,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                           DeleteCellDialog(
                                               cellTitle: cells[index].title));
                                   if (result) {
-                                    await interMain.deleteItem(
+                                    await deleteItem(
                                         'deleteCell', cells[index].id);
                                   }
                                   setState(() {});

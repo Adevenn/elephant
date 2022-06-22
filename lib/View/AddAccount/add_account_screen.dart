@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import '/Model/constants.dart';
 import '/Network/client.dart';
 import '/Model/hash.dart';
-import '../Interfaces/interaction_main.dart';
 import '/Model/user_settings.dart';
 
 class AddAccountScreen extends StatefulWidget {
-  final InteractionMain interMain;
-
-  const AddAccountScreen({Key? key, required this.interMain}) : super(key: key);
+  const AddAccountScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SignInState();
@@ -19,8 +16,6 @@ class _SignInState extends State<AddAccountScreen> {
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _passwordRepeat = TextEditingController();
-
-  InteractionMain get interMain => widget.interMain;
 
   ///Try to add a new user
   ///

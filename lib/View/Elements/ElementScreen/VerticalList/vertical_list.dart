@@ -1,17 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_main.dart';
+
+import '/Network/client.dart';
 import '/Model/Elements/element.dart' as elem;
 import '../delete_element_dialog.dart';
 import 'vertical_list_element.dart';
 
 class VerticalList extends StatefulWidget {
-  final InteractionMain inter;
   final List<elem.Element> elements;
   final List<Widget> widgets;
 
   const VerticalList(
       {Key? key,
-      required this.inter,
       required this.elements,
       required this.widgets})
       : super(key: key);
@@ -21,11 +21,25 @@ class VerticalList extends StatefulWidget {
 }
 
 class _StateElemScreenTemplate extends State<VerticalList> {
-  InteractionMain get interaction => widget.inter;
-
   List<elem.Element> get elements => widget.elements;
 
   List<Widget> get widgets => widget.widgets;
+
+  Future<void> deleteItem(String request, int id) async {
+    try {
+      await Client.request(request, {'id': id});
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> updateElemOrder(List<elem.Element> list) async {
+    var jsonList = <String>[];
+    for (var i = 0; i < list.length; i++) {
+      jsonList.add(jsonEncode(list[i]));
+    }
+    await Client.request('updateElementOrder', {'elem_order': jsonList});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +57,7 @@ class _StateElemScreenTemplate extends State<VerticalList> {
               Widget widget = widgets.removeAt(oldIndex);
               elements.insert(newIndex, item);
               widgets.insert(newIndex, widget);
-              await interaction.updateElemOrder(elements);
+              await updateElemOrder(elements);
               setState(() {});
             },
             children: [
@@ -60,8 +74,7 @@ class _StateElemScreenTemplate extends State<VerticalList> {
                             elementType:
                                 elements[index].runtimeType.toString()));
                     if (result) {
-                      await interaction.deleteItem(
-                          'deleteElement', elements[index].id);
+                      await deleteItem('deleteElement', elements[index].id);
                       elements.removeAt(index);
                       widgets.removeAt(index);
                     }

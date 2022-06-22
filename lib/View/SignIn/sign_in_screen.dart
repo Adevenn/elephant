@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
+
 import '/Model/constants.dart';
 import '/Network/client.dart';
 import '/View/AddAccount/add_account_screen.dart';
 import '/Model/hash.dart';
-import '../Interfaces/interaction_main.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '/Model/user_settings.dart';
 
 class SignInScreen extends StatefulWidget {
-  final InteractionMain interMain;
   final InteractionView interView;
 
-  const SignInScreen(
-      {required this.interMain, required this.interView, Key? key})
-      : super(key: key);
+  const SignInScreen({required this.interView, Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<SignInScreen> {
-  InteractionMain get interMain => widget.interMain;
-
   InteractionView get interView => widget.interView;
   final _formKey = GlobalKey<FormState>();
   final RegExp ipv4Reg = RegExp(
@@ -119,8 +114,7 @@ class _LoginState extends State<SignInScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              AddAccountScreen(interMain: interMain)));
+                          builder: (context) => const AddAccountScreen()));
                 },
                 child: const Text('Add account'))));
   }

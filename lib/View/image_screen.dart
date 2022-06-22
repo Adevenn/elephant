@@ -3,15 +3,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import '/Network/client.dart';
-import '/View/Interfaces/interaction_main.dart';
 import 'Elements/image_raw.dart';
 
 class ImageScreen extends StatelessWidget {
-  final InteractionMain interMain;
   final int idImage;
 
-  const ImageScreen({Key? key, required this.idImage, required this.interMain})
-      : super(key: key);
+  const ImageScreen({Key? key, required this.idImage}) : super(key: key);
 
   Future<Uint8List> getRawImage(int idImage) async {
     try {

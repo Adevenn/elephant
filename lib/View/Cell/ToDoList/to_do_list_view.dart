@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+
 import '/Model/Cells/Book/sheet.dart';
-import '/View/Interfaces/interaction_main.dart';
 import '/Model/cell.dart';
 import '/View/Cell/ToDoList/to_do_list_element_view.dart';
 import '/View/Interfaces/interaction_view.dart';
 
 class ToDoListView extends StatelessWidget {
-  final InteractionMain interMain;
   final InteractionView interView;
   final Cell cell;
   final Sheet sheet;
 
   const ToDoListView(
       {Key? key,
-      required this.interMain,
       required this.interView,
       required this.cell,
       required this.sheet})
@@ -21,7 +19,6 @@ class ToDoListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ToDoListElemView(
-        interMain: interMain, interView: interView, sheet: sheet);
+    return ToDoListElemView(interView: interView, sheet: sheet);
   }
 }

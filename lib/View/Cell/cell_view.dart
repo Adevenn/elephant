@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_main.dart';
 import '/Model/Cells/Book/sheet.dart';
+
 import '/Network/client.dart';
 import '../loading_screen.dart';
 import '/View/Options/option_screen.dart';
@@ -13,13 +13,11 @@ import 'ToDoList/to_do_list_view.dart';
 class CellView extends StatefulWidget {
   final Cell cell;
   final InteractionView interView;
-  final InteractionMain interMain;
 
   const CellView(
       {Key? key,
       required this.cell,
-      required this.interView,
-      required this.interMain})
+      required this.interView})
       : super(key: key);
 
   @override
@@ -31,7 +29,6 @@ class _StateCellView extends State<CellView> {
 
   InteractionView get interView => widget.interView;
 
-  InteractionMain get interMain => widget.interMain;
   Sheet? sheet;
   int sheetIndex = 0;
 
@@ -59,7 +56,6 @@ class _StateCellView extends State<CellView> {
                 switch (cell.type) {
                   case 'Book':
                     return BookView(
-                      interMain: interMain,
                       interView: interView,
                       cell: cell,
                       sheet: sheet!,
@@ -70,13 +66,11 @@ class _StateCellView extends State<CellView> {
                     );
                   case 'ToDoList':
                     return ToDoListView(
-                        interMain: interMain,
                         interView: interView,
                         cell: cell,
                         sheet: sheet!);
                   case 'Rank':
                     return RankView(
-                        interMain: interMain,
                         interView: interView,
                         cell: cell,
                         sheet: sheet!);

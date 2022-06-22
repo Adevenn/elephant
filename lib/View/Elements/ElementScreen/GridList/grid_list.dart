@@ -1,15 +1,15 @@
+import 'dart:convert';
+
 import 'package:drag_and_drop_gridview/devdrag.dart';
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_main.dart';
+import '/Network/client.dart';
 import '/Model/Elements/element.dart' as elem;
 
 class VerticalList extends StatefulWidget {
-  final InteractionMain inter;
   final List<elem.Element> elements;
   final List<Widget> widgets;
 
   const VerticalList({Key? key,
-    required this.inter,
     required this.elements,
     required this.widgets})
       : super(key: key);
@@ -19,8 +19,6 @@ class VerticalList extends StatefulWidget {
 }
 
 class _StateElemScreenTemplate extends State<VerticalList> {
-  InteractionMain get interaction => widget.inter;
-
   List<elem.Element> get elements => widget.elements;
 
   List<Widget> get widgets => widget.widgets;
@@ -29,6 +27,14 @@ class _StateElemScreenTemplate extends State<VerticalList> {
   final ScrollController _scrollController = ScrollController();
   //double width;
   //double height;
+
+  Future<void> updateElemOrder(List<elem.Element> list) async {
+    var jsonList = <String>[];
+    for (var i = 0; i < list.length; i++) {
+      jsonList.add(jsonEncode(list[i]));
+    }
+    await Client.request('updateElementOrder', {'elem_order': jsonList});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,7 @@ class _StateElemScreenTemplate extends State<VerticalList> {
             Widget widget = widgets.removeAt(oldIndex);
             elements.insert(newIndex, item);
             widgets.insert(newIndex, widget);
-            await interaction.updateElemOrder(elements);
+            await updateElemOrder(elements);
             setState(() {});
           },
           itemCount: elements.length,

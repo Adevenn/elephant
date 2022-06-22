@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
-import '../Interfaces/interaction_main.dart';
+import '/Network/client.dart';
 import '/Model/Elements/text.dart' as text;
 import '/Model/Elements/text_type.dart';
 
-class TextFieldCustom extends StatefulWidget{
-  final InteractionMain interMain;
+class TextFieldCustom extends StatefulWidget {
   final text.Text texts;
 
-  const TextFieldCustom({required Key? key, required this.interMain, required this.texts}) : super(key: key);
+  const TextFieldCustom({required Key? key, required this.texts})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TextFieldCustomState();
 }
 
-class _TextFieldCustomState extends State<TextFieldCustom>{
-
-  InteractionMain get interMain => widget.interMain;
+class _TextFieldCustomState extends State<TextFieldCustom> {
   text.Text get texts => widget.texts;
   final focus = FocusNode();
   late String backupText;
+
+  Future<void> updateItem(String request, Map<String, dynamic> json) async {
+    try {
+      await Client.request(request, json);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   void initState() {
@@ -35,14 +41,14 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
   }
 
   void _updateTexts() {
-    if(backupText != texts.text){
-      interMain.updateItem('updateText', texts.toJson());
+    if (backupText != texts.text) {
+      updateItem('updateText', texts.toJson());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    switch(texts.txtType){
+    switch (texts.txtType) {
       case TextType.text:
         return TextFormField(
           focusNode: focus,
@@ -56,10 +62,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
       case TextType.subtitle:
         return TextFormField(
           focusNode: focus,
-          style: const TextStyle(
-            fontSize: 19,
-            fontStyle: FontStyle.italic
-          ),
+          style: const TextStyle(fontSize: 19, fontStyle: FontStyle.italic),
           initialValue: texts.text,
           decoration: const InputDecoration(hintText: 'enter some text'),
           onChanged: (value) => texts.text = value,
@@ -68,10 +71,7 @@ class _TextFieldCustomState extends State<TextFieldCustom>{
         return TextFormField(
           focusNode: focus,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold
-          ),
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           initialValue: texts.text,
           decoration: const InputDecoration(hintText: 'enter some text'),
           onChanged: (value) => texts.text = value,
