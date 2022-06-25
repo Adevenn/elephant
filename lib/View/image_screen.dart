@@ -27,7 +27,6 @@ class ImageScreen extends StatelessWidget {
         future: image.getRawImage(),
         builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
           if (snapshot.hasData) {
-            var data = snapshot.data!;
             return Center(
               child: SingleChildScrollView(
                 child: Center(
