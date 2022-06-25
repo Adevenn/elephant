@@ -14,10 +14,7 @@ class CellView extends StatefulWidget {
   final Cell cell;
   final InteractionView interView;
 
-  const CellView(
-      {Key? key,
-      required this.cell,
-      required this.interView})
+  const CellView({Key? key, required this.cell, required this.interView})
       : super(key: key);
 
   @override
@@ -66,14 +63,10 @@ class _StateCellView extends State<CellView> {
                     );
                   case 'ToDoList':
                     return ToDoListView(
-                        interView: interView,
-                        cell: cell,
-                        sheet: sheet!);
+                        interView: interView, cell: cell, sheet: sheet!);
                   case 'Rank':
                     return RankView(
-                        interView: interView,
-                        cell: cell,
-                        sheet: sheet!);
+                        interView: interView, cell: cell, sheet: sheet!);
                 }
               }()),
             );

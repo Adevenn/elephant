@@ -1,19 +1,44 @@
 import 'package:flutter/material.dart';
+
 import '/Network/client.dart';
-import '/Model/Elements/checkbox.dart' as cb;
+import 'element_custom.dart';
 
-class CheckboxCustom extends StatefulWidget {
-  final cb.Checkbox checkbox;
+class CheckboxCustom extends ElementCustom{
+  bool isChecked;
+  String text;
 
-  const CheckboxCustom({required Key key, required this.checkbox})
+  CheckboxCustom({this.isChecked = false, required this.text, required int id, required int idSheet, required int idOrder})
+    : super(id: id, idSheet: idSheet, idOrder: idOrder);
+
+  @override
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'id_sheet' : idSheet,
+    'is_checked' : isChecked,
+    'text' : text,
+    'elem_order' : idOrder,
+    'type' : runtimeType.toString(),
+  };
+
+  @override
+  Widget toWidget() => _CheckboxCustomView(key: UniqueKey(), checkbox: this);
+}
+
+
+/// VIEW PART ///
+
+class _CheckboxCustomView extends StatefulWidget {
+  final CheckboxCustom checkbox;
+
+  const _CheckboxCustomView({required Key key, required this.checkbox})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CheckBoxState();
 }
 
-class _CheckBoxState extends State<CheckboxCustom> {
-  cb.Checkbox get checkbox => widget.checkbox;
+class _CheckBoxState extends State<_CheckboxCustomView> {
+  CheckboxCustom get checkbox => widget.checkbox;
 
   var focusCheckbox = FocusNode();
   var focusTxt = FocusNode();

@@ -3,32 +3,27 @@ import 'dart:convert';
 import 'package:drag_and_drop_gridview/devdrag.dart';
 import 'package:flutter/material.dart';
 import '/Network/client.dart';
-import '/Model/Elements/element.dart' as elem;
+import '/Model/Elements/element_custom.dart';
 
 class VerticalList extends StatefulWidget {
-  final List<elem.Element> elements;
-  final List<Widget> widgets;
+  final List<ElementCustom> elements;
 
-  const VerticalList({Key? key,
-    required this.elements,
-    required this.widgets})
-      : super(key: key);
+  const VerticalList({Key? key, required this.elements}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateElemScreenTemplate();
 }
 
 class _StateElemScreenTemplate extends State<VerticalList> {
-  List<elem.Element> get elements => widget.elements;
-
-  List<Widget> get widgets => widget.widgets;
+  List<ElementCustom> get elements => widget.elements;
 
   int variableSet = 0;
   final ScrollController _scrollController = ScrollController();
+
   //double width;
   //double height;
 
-  Future<void> updateElemOrder(List<elem.Element> list) async {
+  Future<void> updateElemOrder(List<ElementCustom> list) async {
     var jsonList = <String>[];
     for (var i = 0; i < list.length; i++) {
       jsonList.add(jsonEncode(list[i]));
@@ -45,18 +40,15 @@ class _StateElemScreenTemplate extends State<VerticalList> {
             if (oldIndex < newIndex) {
               newIndex -= 1;
             }
-            elem.Element item = elements.removeAt(oldIndex);
-            Widget widget = widgets.removeAt(oldIndex);
+            ElementCustom item = elements.removeAt(oldIndex);
             elements.insert(newIndex, item);
-            widgets.insert(newIndex, widget);
             await updateElemOrder(elements);
             setState(() {});
           },
           itemCount: elements.length,
           padding: const EdgeInsets.all(20),
           onWillAccept: null,
-          itemBuilder: (context, index) =>
-              Card(
+          itemBuilder: (context, index) => Card(
                 elevation: 2,
                 child: LayoutBuilder(
                   builder: (context, constrains) {
@@ -74,8 +66,7 @@ class _StateElemScreenTemplate extends State<VerticalList> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 3 / 4.5,
-          )
-      ),
+          )),
     );
   }
 }

@@ -1,20 +1,47 @@
 import 'package:flutter/material.dart';
+
 import '/Network/client.dart';
-import '/Model/Elements/text.dart' as text;
-import '/Model/Elements/text_type.dart';
+import 'element_custom.dart';
+import 'text_type.dart';
 
-class TextFieldCustom extends StatefulWidget {
-  final text.Text texts;
+class TextCustom extends ElementCustom {
+  String text;
+  late TextType txtType;
 
-  const TextFieldCustom({required Key? key, required this.texts})
+  TextCustom(
+      {required this.text,
+      required this.txtType,
+      required int id,
+      required int idParent,
+      required int idOrder})
+      : super(id: id, idSheet: idParent, idOrder: idOrder);
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'id_sheet': idSheet,
+        'text': text,
+        'txt_type': txtType.index,
+        'elem_order': idOrder,
+        'type': runtimeType.toString(),
+      };
+
+  @override
+  Widget toWidget() => _TextFieldCustom(key: UniqueKey(), texts: this);
+}
+
+class _TextFieldCustom extends StatefulWidget {
+  final TextCustom texts;
+
+  const _TextFieldCustom({required Key? key, required this.texts})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TextFieldCustomState();
 }
 
-class _TextFieldCustomState extends State<TextFieldCustom> {
-  text.Text get texts => widget.texts;
+class _TextFieldCustomState extends State<_TextFieldCustom> {
+  TextCustom get texts => widget.texts;
   final focus = FocusNode();
   late String backupText;
 

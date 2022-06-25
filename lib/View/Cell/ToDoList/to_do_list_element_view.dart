@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '/View/FloatingBtns/floatings_btns.dart';
 import '/Network/client.dart';
-import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
+import '/View/ElementScreen/VerticalList/vertical_list.dart';
 import '/View/loading_screen.dart';
-import '/Model/Elements/element.dart' as elem;
+import '/Model/Elements/element_custom.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '/View/Interfaces/interaction_view.dart';
 
@@ -13,9 +13,7 @@ class ToDoListElemView extends StatefulWidget {
   final Sheet sheet;
 
   const ToDoListElemView(
-      {Key? key,
-      required this.interView,
-      required this.sheet})
+      {Key? key, required this.interView, required this.sheet})
       : super(key: key);
 
   @override
@@ -27,13 +25,13 @@ class _StateToDoListElemView extends State<ToDoListElemView> {
 
   Sheet get sheet => widget.sheet;
 
-  Future<List<elem.Element>> getElements(int idSheet) async {
-    var elements = <elem.Element>[];
+  Future<List<ElementCustom>> getElements(int idSheet) async {
+    var elements = <ElementCustom>[];
     try {
       var result =
           await Client.requestResult('elements', {'id_sheet': idSheet});
-      elements = List<elem.Element>.from(
-          result.map((model) => elem.Element.fromJson(model)));
+      elements = List<ElementCustom>.from(
+          result.map((model) => ElementCustom.fromJson(model)));
     } catch (e) {
       throw Exception(e);
     }
@@ -47,10 +45,9 @@ class _StateToDoListElemView extends State<ToDoListElemView> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           var elements = snapshot.data!;
-          var widgets = interView.elementsToWidgets(elements, interView);
 
           return Scaffold(
-              body: VerticalList(elements: elements, widgets: widgets),
+              body: VerticalList(elements: elements),
               floatingActionButton: FloatingButtons(
                 sheet: sheet,
                 elements: const ['checkbox'],

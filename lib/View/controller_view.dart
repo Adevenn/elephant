@@ -1,16 +1,10 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
 
 import '/Model/Cells/Book/sheet.dart';
-import '/Model/Elements/checkbox.dart' as cb;
-import '/Model/Elements/image.dart' as img;
-import '/Model/Elements/text.dart' as text;
-import 'Elements/checkbox_custom.dart';
-import 'Elements/image_preview.dart';
-import 'Elements/text_field_custom.dart';
+import '/Model/Elements/image_custom.dart';
 import 'SelectCell/select_cell_screen.dart';
 import 'Interfaces/interaction_view.dart';
 import 'SignIn/sign_in_screen.dart';
@@ -22,36 +16,8 @@ class ControllerView implements InteractionView {
   }
 
   @override
-  List<Widget> elementsToWidgets(
-      List<Object> items, InteractionView interView) {
-    List<Widget> _widgets = [];
-    for (var element in items) {
-      switch (element.runtimeType) {
-        case text.Text:
-          _widgets.add(TextFieldCustom(
-              key: UniqueKey(),
-              texts: element as text.Text));
-          break;
-        case img.Image:
-          _widgets.add(ImagePreview(
-              image: element as img.Image,
-              key: UniqueKey()));
-          break;
-        case cb.Checkbox:
-          _widgets.add(CheckboxCustom(
-              key: UniqueKey(),
-              checkbox: element as cb.Checkbox));
-          break;
-        default:
-          throw Exception('Unknown element type');
-      }
-    }
-    return _widgets;
-  }
-
-  @override
-  Future<List<img.Image>> pickImage(Sheet sheet) async {
-    var images = <img.Image>[];
+  Future<List<ImageCustom>> pickImage(Sheet sheet) async {
+    var images = <ImageCustom>[];
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.image,
@@ -66,7 +32,7 @@ class ControllerView implements InteractionView {
             config: const Configuration(
                 pngCompression: PngCompression.bestCompression,
                 jpgQuality: 25)));
-        images.add(img.Image(
+        images.add(ImageCustom(
             id: -1,
             imgPreview: imageCompressed.rawBytes,
             imgRaw: image.rawBytes,
@@ -82,8 +48,7 @@ class ControllerView implements InteractionView {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) =>
-            SignInScreen(interView: this),
+        builder: (BuildContext context) => SignInScreen(interView: this),
       ),
       (route) => false,
     );
@@ -94,8 +59,7 @@ class ControllerView implements InteractionView {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) =>
-            SelectCellScreen(interView: this),
+        builder: (BuildContext context) => SelectCellScreen(interView: this),
       ),
     );
   }
@@ -104,8 +68,7 @@ class ControllerView implements InteractionView {
 class MyApp extends StatelessWidget {
   final InteractionView interView;
 
-  const MyApp({required this.interView, Key? key})
-      : super(key: key);
+  const MyApp({required this.interView, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

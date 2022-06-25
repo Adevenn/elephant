@@ -1,6 +1,5 @@
 import 'Cells/Ranking/ranking.dart';
 import 'Cells/ToDoList/to_do_list.dart';
-
 import 'Cells/Book/book.dart';
 
 abstract class Cell {

@@ -1,4 +1,4 @@
-import '../../Elements/element.dart';
+import '/Model/Elements/element_custom.dart';
 
 /// int id,
 ///
@@ -16,7 +16,7 @@ class Sheet{
   final int idParent;
   String title;
   String subtitle;
-  List<Element> elements = [];
+  List<ElementCustom> elements = [];
   int get elemCount => elements.length;
   int idOrder;
 

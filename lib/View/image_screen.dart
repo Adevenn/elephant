@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
+import '/Model/Elements/image_custom.dart';
 import '/Network/client.dart';
-import 'Elements/image_raw.dart';
 
 class ImageScreen extends StatelessWidget {
-  final int idImage;
+  final ImageCustom image;
 
-  const ImageScreen({Key? key, required this.idImage}) : super(key: key);
+  const ImageScreen({Key? key, required this.image}) : super(key: key);
 
   Future<Uint8List> getRawImage(int idImage) async {
     try {
@@ -24,7 +24,7 @@ class ImageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<Uint8List>(
-        future: getRawImage(idImage),
+        future: image.getRawImage(),
         builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
@@ -33,7 +33,7 @@ class ImageScreen extends StatelessWidget {
                 child: Center(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: ImageRaw(data: data),
+                    child: image.toImageRaw(),
                   ),
                 ),
               ),

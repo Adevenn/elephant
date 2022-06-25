@@ -17,11 +17,11 @@ class BookView extends StatelessWidget {
 
   const BookView(
       {Key? key,
-        required this.interView,
-        required this.cell,
-        required this.sheet,
-        required this.sheetIndex,
-        required this.onSheetIndexChange})
+      required this.interView,
+      required this.cell,
+      required this.sheet,
+      required this.sheetIndex,
+      required this.onSheetIndexChange})
       : super(key: key);
 
   @override

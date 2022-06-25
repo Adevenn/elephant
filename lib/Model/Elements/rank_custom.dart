@@ -1,13 +1,14 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 
-import '/Model/Elements/element.dart';
+import '/Model/Elements/element_custom.dart';
 
-class Rank extends Element {
+class RankCustom extends ElementCustom {
   String title;
   String description;
   Uint8List image;
 
-  Rank({required int id,
+  RankCustom({required int id,
     required int idParent,
     required int idOrder,
     required this.title,
@@ -24,4 +25,10 @@ class Rank extends Element {
     'description': description,
     'img': image
   };
+
+  @override
+  Widget toWidget() {
+    // TODO: implement toWidget
+    throw UnimplementedError();
+  }
 }

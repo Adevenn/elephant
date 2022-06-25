@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '/Network/client.dart';
-import '../../FloatingBtns/floatings_btns.dart';
+import '/View/FloatingBtns/floatings_btns.dart';
 import '/View/loading_screen.dart';
-import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
+import '/View/ElementScreen/VerticalList/vertical_list.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/Model/Elements/element.dart' as elem;
+import '/Model/Elements/element_custom.dart';
 import '/View/Interfaces/interaction_view.dart';
 
 class RankElemView extends StatefulWidget {
@@ -24,13 +24,13 @@ class _StateRankElementView extends State<RankElemView> {
 
   Sheet get sheet => widget.sheet;
 
-  Future<List<elem.Element>> getElements(int idSheet) async {
-    var elements = <elem.Element>[];
+  Future<List<ElementCustom>> getElements(int idSheet) async {
+    var elements = <ElementCustom>[];
     try {
       var result =
           await Client.requestResult('elements', {'id_sheet': idSheet});
-      elements = List<elem.Element>.from(
-          result.map((model) => elem.Element.fromJson(model)));
+      elements = List<ElementCustom>.from(
+          result.map((model) => ElementCustom.fromJson(model)));
     } catch (e) {
       throw Exception(e);
     }
@@ -44,10 +44,9 @@ class _StateRankElementView extends State<RankElemView> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           var elements = snapshot.data!;
-          var widgets = interView.elementsToWidgets(elements, interView);
 
           return Scaffold(
-              body: VerticalList(elements: elements, widgets: widgets),
+              body: VerticalList(elements: elements),
               floatingActionButton: FloatingButtons(
                 sheet: sheet,
                 elements: const ['checkbox'],

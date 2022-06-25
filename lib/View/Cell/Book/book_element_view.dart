@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/FloatingBtns/floatings_btns.dart';
+
+import '/View/FloatingBtns/floatings_btns.dart';
 import '/Network/client.dart';
 import '/View/Interfaces/interaction_view.dart';
-import '../../Elements/ElementScreen/VerticalList/vertical_list.dart';
+import '/View/ElementScreen/VerticalList/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '/Model/Elements/element.dart' as elem;
+import '/Model/Elements/element_custom.dart';
 
 class BookElemView extends StatefulWidget {
   final InteractionView interView;
   final Sheet sheet;
 
-  const BookElemView(
-      {Key? key,
-      required this.interView,
-      required this.sheet})
+  const BookElemView({Key? key, required this.interView, required this.sheet})
       : super(key: key);
 
   @override
@@ -26,14 +24,13 @@ class _StateBookElemView extends State<BookElemView> {
 
   Sheet get sheet => widget.sheet;
 
-  Future<List<elem.Element>> getElements(int idSheet) async {
-    var elements = <elem.Element>[];
+  Future<List<ElementCustom>> getElements(int idSheet) async {
+    var elements = <ElementCustom>[];
     try {
       var result =
-      await Client.requestResult('elements', {'id_sheet': idSheet});
-      elements =
-      List<elem.Element>.from(result.map((model) => elem.Element.fromJson
-        (model)));
+          await Client.requestResult('elements', {'id_sheet': idSheet});
+      elements = List<ElementCustom>.from(
+          result.map((model) => ElementCustom.fromJson(model)));
     } catch (e) {
       throw Exception(e);
     }
@@ -42,13 +39,12 @@ class _StateBookElemView extends State<BookElemView> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<elem.Element>>(
+    return FutureBuilder<List<ElementCustom>>(
         future: getElements(sheet.id),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<elem.Element>> snapshot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<List<ElementCustom>> snapshot) {
           if (snapshot.hasData) {
             var elements = snapshot.data!;
-            var widgets = interView.elementsToWidgets(elements, interView);
 
             return Scaffold(
                 body: Padding(
@@ -81,9 +77,7 @@ class _StateBookElemView extends State<BookElemView> {
                         ),
                       ),
                       Expanded(
-                        child: VerticalList(
-                            elements: elements,
-                            widgets: widgets),
+                        child: VerticalList(elements: elements),
                       )
                     ],
                   ),

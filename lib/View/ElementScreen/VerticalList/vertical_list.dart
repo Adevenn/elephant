@@ -2,28 +2,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '/Network/client.dart';
-import '/Model/Elements/element.dart' as elem;
+import '/Model/Elements/element_custom.dart';
 import '../delete_element_dialog.dart';
 import 'vertical_list_element.dart';
 
 class VerticalList extends StatefulWidget {
-  final List<elem.Element> elements;
-  final List<Widget> widgets;
+  final List<ElementCustom> elements;
 
-  const VerticalList(
-      {Key? key,
-      required this.elements,
-      required this.widgets})
-      : super(key: key);
+  const VerticalList({Key? key, required this.elements}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateElemScreenTemplate();
 }
 
 class _StateElemScreenTemplate extends State<VerticalList> {
-  List<elem.Element> get elements => widget.elements;
-
-  List<Widget> get widgets => widget.widgets;
+  List<ElementCustom> get elements => widget.elements;
 
   Future<void> deleteItem(String request, int id) async {
     try {
@@ -33,7 +26,7 @@ class _StateElemScreenTemplate extends State<VerticalList> {
     }
   }
 
-  Future<void> updateElemOrder(List<elem.Element> list) async {
+  Future<void> updateElemOrder(List<ElementCustom> list) async {
     var jsonList = <String>[];
     for (var i = 0; i < list.length; i++) {
       jsonList.add(jsonEncode(list[i]));
@@ -53,19 +46,17 @@ class _StateElemScreenTemplate extends State<VerticalList> {
               if (oldIndex < newIndex) {
                 newIndex -= 1;
               }
-              elem.Element item = elements.removeAt(oldIndex);
-              Widget widget = widgets.removeAt(oldIndex);
+              ElementCustom item = elements.removeAt(oldIndex);
               elements.insert(newIndex, item);
-              widgets.insert(newIndex, widget);
               await updateElemOrder(elements);
               setState(() {});
             },
             children: [
-              for (var index = 0; index < widgets.length; index++)
+              for (var index = 0; index < elements.length; index++)
                 Dismissible(
                   key: UniqueKey(),
                   child: VerticalListElem(
-                      key: UniqueKey(), widget: widgets[index]),
+                      key: UniqueKey(), widget: elements[index].toWidget()),
                   onDismissed: (direction) async {
                     bool result = await showDialog(
                         barrierDismissible: false,
@@ -76,7 +67,6 @@ class _StateElemScreenTemplate extends State<VerticalList> {
                     if (result) {
                       await deleteItem('deleteElement', elements[index].id);
                       elements.removeAt(index);
-                      widgets.removeAt(index);
                     }
                     setState(() {});
                   },

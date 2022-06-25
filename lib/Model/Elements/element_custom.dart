@@ -1,44 +1,44 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 
-import 'package:my_netia_client/Model/Elements/rank.dart';
-
-import 'checkbox.dart';
-import 'image.dart';
-import 'text.dart';
+import '/Model/Elements/rank_custom.dart';
+import 'checkbox_custom.dart';
+import 'image_custom.dart';
+import 'text_custom.dart';
 import 'text_type.dart';
 
-abstract class Element {
+abstract class ElementCustom {
   final int id;
   final int idSheet;
   int idOrder;
 
-  Element({required this.id, required this.idSheet, required this.idOrder});
+  ElementCustom({required this.id, required this.idSheet, required this.idOrder});
 
-  factory Element.fromJson(Map<String, dynamic> json) {
+  factory ElementCustom.fromJson(Map<String, dynamic> json) {
     switch (json['type'] as String) {
-      case 'Checkbox':
-        return Checkbox(
+      case 'CheckboxCustom':
+        return CheckboxCustom(
             id: json['id'],
             idSheet: json['id_sheet'],
             isChecked: json['is_checked'],
             text: json['text'],
             idOrder: json['elem_order']);
-      case 'Image':
-        return Image(
+      case 'ImageCustom':
+        return ImageCustom(
             id: json['id'],
             idParent: json['id_sheet'],
             imgPreview: Uint8List.fromList(json['img_preview'].cast<int>()),
             imgRaw: Uint8List.fromList(json['img_raw'].cast<int>()),
             idOrder: json['elem_order']);
-      case 'Text':
-        return Text(
+      case 'TextCustom':
+        return TextCustom(
             id: json['id'],
             idParent: json['id_sheet'],
             text: json['text'],
             txtType: TextType.values[json['txt_type']],
             idOrder: json['elem_order']);
-      case 'Rank':
-        return Rank(
+      case 'RankCustom':
+        return RankCustom(
             id: json['id'],
             idParent: json['id_sheet'],
             title: json['title'],
@@ -51,4 +51,6 @@ abstract class Element {
   }
 
   Map<String, dynamic> toJson();
+
+  Widget toWidget();
 }

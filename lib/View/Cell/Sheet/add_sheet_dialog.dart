@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../Model/Cells/Book/sheet.dart';
+import '/Model/Cells/Book/sheet.dart';
 
-class AddSheetDialog extends StatelessWidget{
-
+class AddSheetDialog extends StatelessWidget {
   final List<Sheet> sheets;
 
   const AddSheetDialog({Key? key, required this.sheets}) : super(key: key);
@@ -13,9 +12,9 @@ class AddSheetDialog extends StatelessWidget{
     var _title = TextEditingController();
     var _subtitle = TextEditingController();
 
-    bool isSheetTitleValid(List<Sheet> sheets, String title){
-      for(int i = 0; i < sheets.length; i++){
-        if(sheets[i].title == title){
+    bool isSheetTitleValid(List<Sheet> sheets, String title) {
+      for (int i = 0; i < sheets.length; i++) {
+        if (sheets[i].title == title) {
           return false;
         }
       }
@@ -32,8 +31,8 @@ class AddSheetDialog extends StatelessWidget{
             TextFormField(
               controller: _title,
               decoration: const InputDecoration(hintText: 'Title'),
-              validator: (value){
-                if(value == null || value.isEmpty) {
+              validator: (value) {
+                if (value == null || value.isEmpty) {
                   return 'Please enter some text';
                 } else if (!isSheetTitleValid(sheets, value)) {
                   return 'Title already exist';
@@ -50,8 +49,8 @@ class AddSheetDialog extends StatelessWidget{
       ),
       actions: [
         TextButton(
-          onPressed: (){
-            if(_formKey.currentState!.validate()){
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
               List<String> sheet = [_title.text, _subtitle.text];
               Navigator.pop(context, sheet);
             }

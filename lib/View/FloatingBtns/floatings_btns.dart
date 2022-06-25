@@ -4,7 +4,7 @@ import '/View/FloatingBtns/animation_floating_btns.dart';
 import '/Model/Cells/Book/sheet.dart';
 import '../Interfaces/interaction_view.dart';
 import '/Network/client.dart';
-import '/Model/Elements/image.dart' as img;
+import '/Model/Elements/image_custom.dart';
 import '/Model/Elements/text_type.dart';
 
 class FloatingButtons extends StatelessWidget {
@@ -24,11 +24,11 @@ class FloatingButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var widgets = <Widget>[];
-    for(int i = 0; i < elements.length; i++){
-      switch(elements[i]){
+    for (int i = 0; i < elements.length; i++) {
+      switch (elements[i]) {
         case 'text':
         case 'subtitle':
-        case'title':
+        case 'title':
           widgets.add(text(elements[i]));
           break;
         case 'image':
@@ -44,7 +44,7 @@ class FloatingButtons extends StatelessWidget {
     return AnimationFloatingBtn(children: widgets);
   }
 
-  Widget checkbox(){
+  Widget checkbox() {
     return IconButton(
       onPressed: () async {
         await addCheckbox(sheet.id);
@@ -106,7 +106,7 @@ class FloatingButtons extends StatelessWidget {
     }
   }
 
-  Future<void> addImage(List<img.Image> images) async {
+  Future<void> addImage(List<ImageCustom> images) async {
     try {
       for (var image in images) {
         await Client.request('addImage', {

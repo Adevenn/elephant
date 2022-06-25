@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DeleteCellDialog extends StatelessWidget{
-
+class DeleteCellDialog extends StatelessWidget {
   final String cellTitle;
 
   const DeleteCellDialog({Key? key, required this.cellTitle}) : super(key: key);

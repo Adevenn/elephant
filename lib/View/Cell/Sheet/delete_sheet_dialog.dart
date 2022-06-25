@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class DeleteSheetDialog extends StatelessWidget{
-
+class DeleteSheetDialog extends StatelessWidget {
   final String sheetTitle;
 
-  const DeleteSheetDialog({Key? key, required this.sheetTitle}) : super(key: key);
+  const DeleteSheetDialog({Key? key, required this.sheetTitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

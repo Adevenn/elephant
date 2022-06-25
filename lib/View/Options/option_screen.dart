@@ -12,14 +12,12 @@ class OptionScreen extends StatefulWidget {
 }
 
 class _OptionState extends State<OptionScreen> {
-
   InteractionView get interView => widget.interView;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<bool>>(
-        future:
-            Future.wait([UserSettings.getTheme()]),
+        future: Future.wait([UserSettings.getTheme()]),
         builder: (BuildContext context, AsyncSnapshot<List<bool>> snapshot) {
           if (snapshot.hasData) {
             return Column(
