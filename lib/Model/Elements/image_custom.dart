@@ -32,7 +32,7 @@ class ImageCustom extends ElementCustom {
 
   @override
   Widget toWidget() => _ImagePreview(image: this, key: UniqueKey());
-  
+
   Future<Uint8List> getRawImage() async {
     try {
       var result = await Client.requestResult('rawImage', {'id_img': id});

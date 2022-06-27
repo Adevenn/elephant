@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/View/FloatingBtns/floatings_btns.dart';
+import '../FloatingBtns/floatings_btns.dart';
 import '/Network/client.dart';
-import '/View/ElementScreen/VerticalList/vertical_list.dart';
+import '../ElementScreen/VerticalList/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/element_custom.dart';
 import '/Model/Cells/Book/sheet.dart';

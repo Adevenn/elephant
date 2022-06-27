@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/View/FloatingBtns/animation_floating_btns.dart';
+import 'animation_floating_btns.dart';
 import '/Model/Cells/Book/sheet.dart';
-import '../Interfaces/interaction_view.dart';
+import '/View/Interfaces/interaction_view.dart';
 import '/Network/client.dart';
 import '/Model/Elements/image_custom.dart';
 import '/Model/Elements/text_type.dart';
