@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
+import '/View/image_screen.dart';
 import '/Network/client.dart';
 import 'element_custom.dart';
 
@@ -17,16 +18,6 @@ class ImageCustom extends ElementCustom {
       required int idOrder})
       : super(id: id, idSheet: idParent, idOrder: idOrder);
 
-  Future<Uint8List> getRawImage() async {
-    try {
-      var result = await Client.requestResult('rawImage', {'id_img': id});
-      var imgRaw = jsonDecode(result);
-      return Uint8List.fromList(imgRaw['img_raw'].cast<int>());
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   @override
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -41,6 +32,17 @@ class ImageCustom extends ElementCustom {
 
   @override
   Widget toWidget() => _ImagePreview(image: this, key: UniqueKey());
+  
+  Future<Uint8List> getRawImage() async {
+    try {
+      var result = await Client.requestResult('rawImage', {'id_img': id});
+      var imgRawJson = jsonDecode(result);
+      imgRaw =  Uint8List.fromList(imgRawJson['img_raw'].cast<int>());
+      return imgRaw;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
 
 class _ImagePreview extends StatelessWidget {
@@ -55,10 +57,8 @@ class _ImagePreview extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 500, maxHeight: 500),
       child: InkWell(
         child: Image.memory(image.imgPreview),
-        /*onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ImageScreen(idImage: image.id))),*/
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ImageScreen(image: image))),
       ),
     );
   }

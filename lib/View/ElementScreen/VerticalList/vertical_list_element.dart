@@ -10,7 +10,7 @@ class VerticalListElem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: widget,
+      child: Center(child: widget),
     );
   }
 }
