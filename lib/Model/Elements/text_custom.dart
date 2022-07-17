@@ -20,10 +20,10 @@ class TextCustom extends ElementCustom {
   Map<String, dynamic> toJson() => {
         'id': id,
         'id_sheet': idSheet,
-        'text': text,
+        'txt_text': text,
         'txt_type': txtType.index,
         'elem_order': idOrder,
-        'type': runtimeType.toString(),
+        'elem_type': runtimeType.toString(),
       };
 
   @override

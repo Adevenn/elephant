@@ -1,8 +1,8 @@
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:my_netia_client/Model/Elements/flashcard_custom.dart';
 
-import '/Model/Elements/rank_custom.dart';
+import 'package:flutter/material.dart';
+import 'flashcard_custom.dart';
+import 'rank_custom.dart';
 import 'checkbox_custom.dart';
 import 'image_custom.dart';
 import 'text_custom.dart';
@@ -17,13 +17,13 @@ abstract class ElementCustom {
       {required this.id, required this.idSheet, required this.idOrder});
 
   factory ElementCustom.fromJson(Map<String, dynamic> json) {
-    switch (json['type'] as String) {
+    switch (json['elem_type'] as String) {
       case 'CheckboxCustom':
         return CheckboxCustom(
             id: json['id'],
             idSheet: json['id_sheet'],
             isChecked: json['is_checked'],
-            text: json['text'],
+            text: json['cb_text'],
             idOrder: json['elem_order']);
       case 'ImageCustom':
         return ImageCustom(
@@ -36,7 +36,7 @@ abstract class ElementCustom {
         return TextCustom(
             id: json['id'],
             idParent: json['id_sheet'],
-            text: json['text'],
+            text: json['txt_text'],
             txtType: TextType.values[json['txt_type']],
             idOrder: json['elem_order']);
       case 'RankCustom':

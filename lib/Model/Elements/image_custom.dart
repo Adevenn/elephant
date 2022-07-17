@@ -25,7 +25,7 @@ class ImageCustom extends ElementCustom {
         'img_preview': imgPreview,
         'img_raw': imgRaw,
         'elem_order': idOrder,
-        'type': runtimeType.toString(),
+        'elem_type': runtimeType.toString(),
       };
 
   Widget toImageRaw() => ImageRaw(data: imgRaw);

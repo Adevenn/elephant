@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
-import '/Model/Elements/element_custom.dart';
+import 'element_custom.dart';
 
 class RankCustom extends ElementCustom {
   String title;
@@ -23,7 +23,8 @@ class RankCustom extends ElementCustom {
     'elem_order': idOrder,
     'title': title,
     'description': description,
-    'img': image
+    'img': image,
+    'elem_type' : runtimeType.toString()
   };
 
   @override

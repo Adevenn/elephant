@@ -20,7 +20,7 @@ class FlashcardCustom extends ElementCustom {
         'back': back,
         'front': front,
         'elem_order': idOrder,
-        'type': runtimeType.toString(),
+        'elem_type': runtimeType.toString(),
       };
 
   @override
