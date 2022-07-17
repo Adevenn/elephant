@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
 
-import '/Model/Cells/Book/sheet.dart';
+import '../Model/Cells/sheet.dart';
 import '/Model/Elements/image_custom.dart';
 import 'SelectCell/select_cell_screen.dart';
 import 'Interfaces/interaction_view.dart';

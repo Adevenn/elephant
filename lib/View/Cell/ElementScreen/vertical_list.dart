@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 import '/Network/client.dart';
 import '/Model/Elements/element_custom.dart';
-import '../delete_element_dialog.dart';
-import 'vertical_list_element.dart';
+import 'delete_element_dialog.dart';
 
 class VerticalList extends StatefulWidget {
   final List<ElementCustom> elements;
@@ -12,10 +11,10 @@ class VerticalList extends StatefulWidget {
   const VerticalList({Key? key, required this.elements}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _StateElemScreenTemplate();
+  State<StatefulWidget> createState() => _StateVerticalList();
 }
 
-class _StateElemScreenTemplate extends State<VerticalList> {
+class _StateVerticalList extends State<VerticalList> {
   List<ElementCustom> get elements => widget.elements;
 
   Future<void> deleteItem(String request, int id) async {
@@ -55,7 +54,7 @@ class _StateElemScreenTemplate extends State<VerticalList> {
               for (var index = 0; index < elements.length; index++)
                 Dismissible(
                   key: UniqueKey(),
-                  child: VerticalListElem(
+                  child: _VerticalListElem(
                       key: UniqueKey(), widget: elements[index].toWidget()),
                   onDismissed: (direction) async {
                     bool result = await showDialog(
@@ -77,6 +76,21 @@ class _StateElemScreenTemplate extends State<VerticalList> {
         ),
         Expanded(child: Container()),
       ],
+    );
+  }
+}
+
+class _VerticalListElem extends StatelessWidget {
+  final Widget widget;
+
+  const _VerticalListElem({required Key key, required this.widget})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Center(child: widget),
     );
   }
 }

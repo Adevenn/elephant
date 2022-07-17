@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '/Model/Cells/Book/sheet.dart';
+import '../../Model/Cells/sheet.dart';
 
 import '/Network/client.dart';
 import '../loading_screen.dart';
 import '/View/Options/option_screen.dart';
 import '/View/Cell/Book/book_view.dart';
 import '/View/Interfaces/interaction_view.dart';
-import '/Model/cell.dart';
+import '../../Model/Cells/cell.dart';
 import 'Rank/rank_view.dart';
 import 'ToDoList/to_do_list_view.dart';
 

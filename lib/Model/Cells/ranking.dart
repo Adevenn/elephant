@@ -1,28 +1,26 @@
-import '/Model/cell.dart';
+import 'cell.dart';
 
-class Book extends Cell {
-  int sheetSelect = 0;
-
-  Book(
+class Ranking extends Cell {
+  Ranking(
       {required int id,
       required String title,
-      required String subtitle,
+      String subtitle = '',
       required String author,
       required bool isPublic})
       : super(
             id: id,
             title: title,
             subtitle: subtitle,
-            type: (Book).toString(),
+            type: (Ranking).toString(),
             author: author,
             isPublic: isPublic);
 
-  Book.fromJson(Map<String, dynamic> json)
+  Ranking.fromJson(Map<String, dynamic> json)
       : super(
             id: json['id_cell'],
             title: json['title'],
             subtitle: json['subtitle'],
-            type: (Book).toString(),
+            type: (Ranking).toString(),
             author: json['author'],
             isPublic: json['is_public']);
 }

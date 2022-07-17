@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '/Model/Cells/Book/sheet.dart';
-import '/Model/cell.dart';
+import '../../../Model/Cells/sheet.dart';
+import '../../../Model/Cells/cell.dart';
 import '/View/Cell/ToDoList/to_do_list_element_view.dart';
 import '/View/Interfaces/interaction_view.dart';
 

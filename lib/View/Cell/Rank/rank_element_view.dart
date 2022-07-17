@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '/Network/client.dart';
 import '../FloatingBtns/floatings_btns.dart';
 import '/View/loading_screen.dart';
-import '../ElementScreen/VerticalList/vertical_list.dart';
-import '/Model/Cells/Book/sheet.dart';
+import '../ElementScreen/vertical_list.dart';
+import '/Model/Cells/sheet.dart';
 import '/Model/Elements/element_custom.dart';
 import '/View/Interfaces/interaction_view.dart';
 

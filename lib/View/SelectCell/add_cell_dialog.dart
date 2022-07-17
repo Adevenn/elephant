@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/Model/cell.dart';
+import '/Model/Cells/cell.dart';
 
 class AddCellDialog extends StatefulWidget {
   final List<Cell> cells;
@@ -44,7 +44,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
                     alignment: AlignmentDirectional.center,
                     value: type,
                     icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    items: <String>['Book', 'ToDoList', 'Ranking']
+                    items: <String>['Book', 'ToDoList', 'Quiz']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                           value: value, child: Text(value));

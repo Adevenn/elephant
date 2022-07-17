@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/Model/Elements/flashcard_custom.dart';
 
 import '/Model/Elements/rank_custom.dart';
 import 'checkbox_custom.dart';
@@ -12,7 +13,8 @@ abstract class ElementCustom {
   final int idSheet;
   int idOrder;
 
-  ElementCustom({required this.id, required this.idSheet, required this.idOrder});
+  ElementCustom(
+      {required this.id, required this.idSheet, required this.idOrder});
 
   factory ElementCustom.fromJson(Map<String, dynamic> json) {
     switch (json['type'] as String) {
@@ -44,6 +46,13 @@ abstract class ElementCustom {
             title: json['title'],
             description: json['description'],
             image: Uint8List.fromList(json['img'].cast<int>()),
+            idOrder: json['elem_order']);
+      case 'FlashcardCustom':
+        return FlashcardCustom(
+            id: json['id'],
+            idSheet: json['id_sheet'],
+            front: json['front'],
+            back: json['back'],
             idOrder: json['elem_order']);
       default:
         throw Exception('Json with wrong element type');

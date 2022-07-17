@@ -1,4 +1,4 @@
-import '../../cell.dart';
+import 'cell.dart';
 
 class ToDoList extends Cell {
   ToDoList(

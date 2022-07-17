@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/Model/cell.dart';
+import '../../Model/Cells/cell.dart';
 
 class EditCellDialog extends StatefulWidget {
   final List<Cell> cells;

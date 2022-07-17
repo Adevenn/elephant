@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_netia_client/Model/Cells/quiz.dart';
 
 import '/Network/client.dart';
 import '/Model/constants.dart';
@@ -8,10 +9,10 @@ import '/View/Options/option_screen.dart';
 import 'add_cell_dialog.dart';
 import 'edit_cell_dialog.dart';
 import 'delete_cell_dialog.dart';
-import '/Model/Cells/Book/book.dart';
-import '/Model/Cells/Ranking/ranking.dart';
-import '/Model/Cells/ToDoList/to_do_list.dart';
-import '/Model/cell.dart';
+import '/Model/Cells/book.dart';
+import '/Model/Cells/ranking.dart';
+import '/Model/Cells/to_do_list.dart';
+import '/Model/Cells/cell.dart';
 import '../Interfaces/interaction_view.dart';
 
 class SelectCellScreen extends StatefulWidget {
@@ -49,6 +50,8 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
         return const Icon(Icons.playlist_add_check_rounded);
       case Ranking:
         return const Icon(Icons.format_list_numbered_rounded);
+      case Quiz:
+        return const Icon(Icons.question_mark_rounded);
       default:
         throw Exception('Unknown type');
     }
@@ -164,6 +167,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                       if (cell != null) {
                                         await updateItem(
                                             'updateCell', cell.toJson());
+                                        setState(() => {});
                                       }
                                     },
                                   ),

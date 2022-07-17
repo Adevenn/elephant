@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
-import '/View/image_screen.dart';
+import '../../View/Cell/image_screen.dart';
 import '/Network/client.dart';
 import 'element_custom.dart';
 

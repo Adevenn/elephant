@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../FloatingBtns/floatings_btns.dart';
 import '/Network/client.dart';
 import '/View/Interfaces/interaction_view.dart';
-import '../ElementScreen/VerticalList/vertical_list.dart';
+import '../ElementScreen/vertical_list.dart';
 import '/View/loading_screen.dart';
-import '/Model/Cells/Book/sheet.dart';
+import '/Model/Cells/sheet.dart';
 import '/Model/Elements/element_custom.dart';
 
 class BookElemView extends StatefulWidget {

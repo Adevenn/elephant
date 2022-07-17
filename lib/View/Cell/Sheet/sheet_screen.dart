@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import '/Network/client.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '/View/loading_screen.dart';
-import '/Model/cell.dart';
+import '../../../Model/Cells/cell.dart';
 import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
 import 'delete_sheet_dialog.dart';
-import '/Model/Cells/Book/sheet.dart';
+import '../../../Model/Cells/sheet.dart';
 
 class SheetScreen extends StatefulWidget {
   final InteractionView interView;

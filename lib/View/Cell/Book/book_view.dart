@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/Model/Cells/Book/sheet.dart';
+import '/Model/Cells/sheet.dart';
 import '/View/Cell/Book/book_element_view.dart';
-import '/Model/cell.dart';
+import '/Model/Cells/cell.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '../Sheet/sheet_screen.dart';
 

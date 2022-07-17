@@ -1,6 +1,7 @@
-import 'Cells/Ranking/ranking.dart';
-import 'Cells/ToDoList/to_do_list.dart';
-import 'Cells/Book/book.dart';
+import 'quiz.dart';
+import 'ranking.dart';
+import 'to_do_list.dart';
+import 'book.dart';
 
 abstract class Cell {
   final int id;
@@ -47,6 +48,14 @@ abstract class Cell {
             subtitle: subtitle,
             author: author,
             isPublic: isPublic);
+      case 'Quiz':
+        return Quiz(
+            id: id,
+            title: title,
+            subtitle: subtitle,
+            type: type,
+            author: author,
+            isPublic: isPublic);
       default:
         throw Exception('Factory with wrong cell type');
     }
@@ -60,6 +69,8 @@ abstract class Cell {
         return ToDoList.fromJson(json);
       case 'Ranking':
         return Ranking.fromJson(json);
+      case 'Quiz':
+        return Quiz.fromJson(json);
       default:
         throw Exception('Json with wrong cell type');
     }
