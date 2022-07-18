@@ -1,4 +1,4 @@
-import '/Model/Cells/cell.dart';
+import 'cell.dart';
 
 class Quiz extends Cell {
   Quiz(
@@ -18,10 +18,10 @@ class Quiz extends Cell {
 
   Quiz.fromJson(Map<String, dynamic> json)
       : super(
-      id: json['id_cell'],
-      title: json['title'],
-      subtitle: json['subtitle'],
-      type: (Quiz).toString(),
-      author: json['author'],
-      isPublic: json['is_public']);
+            id: json['id_cell'],
+            title: json['title'],
+            subtitle: json['subtitle'],
+            type: (Quiz).toString(),
+            author: json['author'],
+            isPublic: json['is_public']);
 }

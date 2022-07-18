@@ -25,8 +25,7 @@ class FlashcardCustom extends ElementCustom {
 
   @override
   Widget toWidget() {
-    // TODO: implement toWidget
-    throw UnimplementedError();
+    return Text('TEST');
   }
 }
 
