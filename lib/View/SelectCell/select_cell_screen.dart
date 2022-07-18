@@ -29,14 +29,6 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
-  Future<void> deleteItem(String request, int id) async {
-    try {
-      await Client.request(request, {'id': id});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   void applyResearch([String newWord = '']) {
     researchWord = newWord;
     setState(() {});
@@ -189,8 +181,9 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                           DeleteCellDialog(
                                               cellTitle: cells[index].title));
                                   if (result) {
-                                    await deleteItem(
-                                        'deleteCell', cells[index].id);
+                                    await Client.deleteItem(
+                                        cells[index].id, 'cell');
+                                    cells.removeAt(index);
                                   }
                                   setState(() {});
                                 },

@@ -46,4 +46,13 @@ class Client {
       throw Exception(e);
     }
   }
+
+  ///Request a delete query to server
+  static Future<void> deleteItem(int id, String type) async {
+    try {
+      await Client.request('deleteItem', {'id': id, 'item_type': type});
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

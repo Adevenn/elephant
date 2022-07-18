@@ -17,14 +17,6 @@ class VerticalList extends StatefulWidget {
 class _StateVerticalList extends State<VerticalList> {
   List<ElementCustom> get elements => widget.elements;
 
-  Future<void> deleteItem(String request, int id) async {
-    try {
-      await Client.request(request, {'id': id});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   Future<void> updateElemOrder(List<ElementCustom> list) async {
     var jsonList = <String>[];
     for (var i = 0; i < list.length; i++) {
@@ -64,7 +56,7 @@ class _StateVerticalList extends State<VerticalList> {
                             elementType:
                                 elements[index].runtimeType.toString()));
                     if (result) {
-                      await deleteItem('deleteElement', elements[index].id);
+                      await Client.deleteItem(elements[index].id, 'element');
                       elements.removeAt(index);
                     }
                     setState(() {});

@@ -58,14 +58,6 @@ class _SheetScreenState extends State<SheetScreen> {
     }
   }
 
-  Future<void> deleteItem(String request, int id) async {
-    try {
-      await Client.request(request, {'id': id});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   Future<void> updateSheetOrder(List<Sheet> list) async {
     var jsonList = <String>[];
     for (var i = 0; i < list.length; i++) {
@@ -144,8 +136,9 @@ class _SheetScreenState extends State<SheetScreen> {
                                         DeleteSheetDialog(
                                             sheetTitle: sheets[index].title));
                                 if (result) {
-                                  await deleteItem(
-                                      'deleteSheet', sheets[index].id);
+                                  await Client.deleteItem(
+                                      sheets[index].id, 'sheet');
+                                  sheets.removeAt(index);
                                 }
                                 setState(() {});
                               })
