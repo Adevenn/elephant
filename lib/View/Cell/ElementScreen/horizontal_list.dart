@@ -17,6 +17,9 @@ class _StateHorizontalList extends State<HorizontalList> {
 
   @override
   Widget build(BuildContext context) {
+    if(elements.isEmpty){
+      return Container();
+    }
     return Column(
       children: [
         Expanded(child: Container()),

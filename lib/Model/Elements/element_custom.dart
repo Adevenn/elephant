@@ -48,12 +48,13 @@ abstract class ElementCustom {
             image: Uint8List.fromList(json['img'].cast<int>()),
             idOrder: json['elem_order']);
       case 'FlashcardCustom':
-        return FlashcardCustom(
+        var fc = FlashcardCustom(
             id: json['id'],
             idSheet: json['id_sheet'],
-            front: json['front'],
-            back: json['back'],
+            front: List<String>.from(json['front']),
+            back: List<String>.from(json['back']),
             idOrder: json['elem_order']);
+        return fc;
       default:
         throw Exception('Json with wrong element type');
     }

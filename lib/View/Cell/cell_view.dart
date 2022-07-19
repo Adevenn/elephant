@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../Model/Cells/sheet.dart';
 
+import '/Model/Cells/sheet.dart';
 import '/Network/client.dart';
 import '../loading_screen.dart';
 import '/View/Options/option_screen.dart';
 import '/View/Cell/Book/book_view.dart';
 import '/View/Interfaces/interaction_view.dart';
-import '../../Model/Cells/cell.dart';
+import '/Model/Cells/cell.dart';
+import 'Quiz/quiz_view.dart';
 import 'Rank/rank_view.dart';
-import 'ToDoList/to_do_list_view.dart';
+import 'ToDoList/to_do_view.dart';
 
 class CellView extends StatefulWidget {
   final Cell cell;
@@ -62,7 +63,10 @@ class _StateCellView extends State<CellView> {
                       },
                     );
                   case 'ToDoList':
-                    return ToDoListView(
+                    return ToDoView(
+                        interView: interView, cell: cell, sheet: sheet!);
+                  case 'Quiz':
+                    return QuizView(
                         interView: interView, cell: cell, sheet: sheet!);
                   case 'Rank':
                     return RankView(

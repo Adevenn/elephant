@@ -8,11 +8,11 @@ import '/Model/Elements/element_custom.dart';
 import '../../../Model/Cells/sheet.dart';
 import '/View/Interfaces/interaction_view.dart';
 
-class ToDoListElemView extends StatefulWidget {
+class ToDoElemView extends StatefulWidget {
   final InteractionView interView;
   final Sheet sheet;
 
-  const ToDoListElemView(
+  const ToDoElemView(
       {Key? key, required this.interView, required this.sheet})
       : super(key: key);
 
@@ -20,7 +20,7 @@ class ToDoListElemView extends StatefulWidget {
   State<StatefulWidget> createState() => _StateToDoListElemView();
 }
 
-class _StateToDoListElemView extends State<ToDoListElemView> {
+class _StateToDoListElemView extends State<ToDoElemView> {
   InteractionView get interView => widget.interView;
 
   Sheet get sheet => widget.sheet;
