@@ -17,35 +17,41 @@ class _StateHorizontalList extends State<HorizontalList> {
 
   @override
   Widget build(BuildContext context) {
-    if(elements.isEmpty){
+    print(elements[questionIndex].id);
+    if (elements.isEmpty) {
       return Container();
     }
-    return Column(
+    return Row(
       children: [
-        Expanded(child: Container()),
+        Expanded(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+                onPressed: () {
+                  questionIndex == 0 ? null : setState(() => questionIndex--);
+                },
+                icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+          ],
+        )),
         Expanded(
             flex: 5,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      questionIndex == 0
-                          ? null
-                          : setState(() => questionIndex--);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-                Container(child: elements[questionIndex].toWidget()),
-                IconButton(
-                    onPressed: () {
-                      questionIndex <= elements.length
-                          ? null
-                          : setState(() => questionIndex++);
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios_rounded))
-              ],
+            child: Center(
+              child: elements[questionIndex].toWidget(),
             )),
-        Expanded(child: Container()),
+        Expanded(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+                onPressed: () {
+                  questionIndex < elements.length - 1
+                      ? setState(() => questionIndex++)
+                      : null;
+                },
+                icon: const Icon(Icons.arrow_forward_ios_rounded))
+          ],
+        )),
       ],
     );
   }

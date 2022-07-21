@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'element_custom.dart';
@@ -25,7 +26,7 @@ class FlashcardCustom extends ElementCustom {
 
   @override
   Widget toWidget() {
-    return Text('TEST');
+    return Text('TEST ' + Random().nextInt(100).toString());
   }
 }
 
