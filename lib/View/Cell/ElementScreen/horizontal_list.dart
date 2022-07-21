@@ -26,11 +26,9 @@ class _StateHorizontalList extends State<HorizontalList> {
           if (questionIndex == 0) {
             return Container();
           }
-          return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            IconButton(
-                onPressed: () => setState(() => questionIndex--),
-                icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-          ]);
+          return IconButton(
+              onPressed: () => setState(() => questionIndex--),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded));
         }()),
         Expanded(
             flex: 5,
