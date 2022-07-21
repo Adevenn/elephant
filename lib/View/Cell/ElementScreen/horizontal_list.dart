@@ -17,41 +17,34 @@ class _StateHorizontalList extends State<HorizontalList> {
 
   @override
   Widget build(BuildContext context) {
-    print(elements[questionIndex].id);
     if (elements.isEmpty) {
       return Container();
     }
     return Row(
       children: [
-        Expanded(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        Expanded(child: () {
+          if (questionIndex == 0) {
+            return Container();
+          }
+          return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             IconButton(
-                onPressed: () {
-                  questionIndex == 0 ? null : setState(() => questionIndex--);
-                },
+                onPressed: () => setState(() => questionIndex--),
                 icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-          ],
-        )),
+          ]);
+        }()),
         Expanded(
             flex: 5,
             child: Center(
               child: elements[questionIndex].toWidget(),
             )),
-        Expanded(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-                onPressed: () {
-                  questionIndex < elements.length - 1
-                      ? setState(() => questionIndex++)
-                      : null;
-                },
-                icon: const Icon(Icons.arrow_forward_ios_rounded))
-          ],
-        )),
+        Expanded(child: () {
+          if (questionIndex >= elements.length - 1) {
+            return Container();
+          }
+          return IconButton(
+              onPressed: () => setState(() => questionIndex++),
+              icon: const Icon(Icons.arrow_forward_ios_rounded));
+        }()),
       ],
     );
   }

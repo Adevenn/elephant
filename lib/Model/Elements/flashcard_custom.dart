@@ -26,6 +26,8 @@ class FlashcardCustom extends ElementCustom {
 
   @override
   Widget toWidget() {
+    var frontOrBack = Random().nextBool();
+    //return ;
     return Text('TEST ' + Random().nextInt(100).toString());
   }
 }
