@@ -27,6 +27,7 @@ class ControllerView implements InteractionView {
       for (var file in files) {
         var image =
             ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
+        print(image.rawBytes.cast<int>());
         var imageCompressed = compress(ImageFileConfiguration(
             input: image,
             config: const Configuration(

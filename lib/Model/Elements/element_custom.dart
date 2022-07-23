@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+
 import 'flashcard_custom.dart';
 import 'rank_custom.dart';
 import 'checkbox_custom.dart';
@@ -29,8 +28,8 @@ abstract class ElementCustom {
         return ImageCustom(
             id: json['id'],
             idParent: json['id_sheet'],
-            imgPreview: Uint8List.fromList(json['img_preview'].cast<int>()),
-            imgRaw: Uint8List.fromList(json['img_raw'].cast<int>()),
+            imgPreview: json['img_preview'].cast<int>(),
+            imgRaw: json['img_raw'].cast<int>(),
             idOrder: json['elem_order']);
       case 'TextCustom':
         return TextCustom(
@@ -45,7 +44,7 @@ abstract class ElementCustom {
             idParent: json['id_sheet'],
             title: json['title'],
             description: json['description'],
-            image: Uint8List.fromList(json['img'].cast<int>()),
+            image: json['img'].cast<int>(),
             idOrder: json['elem_order']);
       case 'FlashcardCustom':
         var fc = FlashcardCustom(

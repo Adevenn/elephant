@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
-import '../../View/Cell/image_screen.dart';
+import '/View/Cell/image_screen.dart';
 import '/Network/client.dart';
 import 'element_custom.dart';
 
 class ImageCustom extends ElementCustom {
-  Uint8List imgPreview;
-  Uint8List imgRaw;
+  List<int> imgPreview, imgRaw;
 
   ImageCustom(
       {required int id,
@@ -28,7 +27,7 @@ class ImageCustom extends ElementCustom {
         'elem_type': runtimeType.toString(),
       };
 
-  Widget toImageRaw() => ImageRaw(data: imgRaw);
+  Widget toImageRaw() => ImageRaw(data: Uint8List.fromList(imgRaw));
 
   @override
   Widget toWidget() => _ImagePreview(image: this, key: UniqueKey());
@@ -38,7 +37,7 @@ class ImageCustom extends ElementCustom {
       var result = await Client.requestResult('rawImage', {'id_img': id});
       var imgRawJson = jsonDecode(result);
       imgRaw =  Uint8List.fromList(imgRawJson['img_raw'].cast<int>());
-      return imgRaw;
+      return Uint8List.fromList(imgRaw);
     } catch (e) {
       throw Exception(e);
     }
@@ -56,7 +55,7 @@ class _ImagePreview extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(maxWidth: 500, maxHeight: 500),
       child: InkWell(
-        child: Image.memory(image.imgPreview),
+        child: Image.memory(Uint8List.fromList(image.imgPreview)),
         onTap: () => Navigator.push(context,
             MaterialPageRoute(builder: (context) => ImageScreen(image: image))),
       ),
