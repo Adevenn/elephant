@@ -36,7 +36,7 @@ class ImageCustom extends ElementCustom {
     try {
       var result = await Client.requestResult('rawImage', {'id_img': id});
       var imgRawJson = jsonDecode(result);
-      imgRaw =  Uint8List.fromList(imgRawJson['img_raw'].cast<int>());
+      imgRaw = imgRawJson['img_raw'];
       return Uint8List.fromList(imgRaw);
     } catch (e) {
       throw Exception(e);
