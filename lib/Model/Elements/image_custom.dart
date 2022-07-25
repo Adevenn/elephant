@@ -35,8 +35,7 @@ class ImageCustom extends ElementCustom {
   Future<Uint8List> getRawImage() async {
     try {
       var result = await Client.requestResult('rawImage', {'id_img': id});
-      var imgRawJson = jsonDecode(result);
-      imgRaw = imgRawJson['img_raw'];
+      imgRaw = result['image_raw'].cast<int>();
       return Uint8List.fromList(imgRaw);
     } catch (e) {
       throw Exception(e);
