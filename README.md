@@ -1,14 +1,13 @@
-# Welcome to *my_netia* !
+# Welcome to *elephant* !
 
 
-This application is a personal encyclopedia. Everything you want to remember can be saved in *MyNetia*. Notes, summaries, quick reminders, ToDo list, etc ..
+This application is a personal encyclopedia. Everything you want to remember can be saved in *Elephant*. Notes, summaries, quick reminders, ToDo list, etc ..
 
-Have fun using MyNetia, I hope this will be useful for you :D
+Have fun using Elephant, I hope this will be useful for you :D
 
-To report any bugs, questions, anything.. Please create an issue or send a mail to MyNetia-Help@outlook.com
+To report any bugs, questions, anything.. Please create an issue or send a mail to Elephant-Help@outlook.com
 
-(my_netia is still in development, many features will come in the next updates! Stay alert :D)
-
+E
 PS: look at the wiki to learn how to install the app, server and database
 
 
