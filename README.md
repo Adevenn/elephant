@@ -7,7 +7,7 @@ Have fun using *Elephant*, I hope this will be useful for you :D
 
 To report any bugs, questions, anything.. Please create an issue or send a mail to Elephant-Help@outlook.com
 
-E
+
 PS: look at the wiki to learn how to install the app, server and database
 
 
