@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/Model/Cells/quiz.dart';
 
+import '/Model/Cells/quiz.dart';
 import '/Network/client.dart';
 import '/Model/constants.dart';
 import '/View/loading_screen.dart';

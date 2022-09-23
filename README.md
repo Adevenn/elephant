@@ -1,7 +1,7 @@
 # Welcome to *my_netia* !
 
 
-This application is a personnal encyclopedia. Everything you want to remember can be saved in *MyNetia*. Notes, summaries, quick reminders, ToDo list, etc ..
+This application is a personal encyclopedia. Everything you want to remember can be saved in *MyNetia*. Notes, summaries, quick reminders, ToDo list, etc ..
 
 Have fun using MyNetia, I hope this will be useful for you :D
 

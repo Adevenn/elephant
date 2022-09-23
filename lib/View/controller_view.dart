@@ -21,13 +21,12 @@ class ControllerView implements InteractionView {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.image,
-        dialogTitle: 'my_netia image selection');
+        dialogTitle: 'elephant image selection');
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
       for (var file in files) {
         var image =
             ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
-        print(image.rawBytes.cast<int>());
         var imageCompressed = compress(ImageFileConfiguration(
             input: image,
             config: const Configuration(
@@ -75,7 +74,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Netia',
+      title: 'Elephant',
       /*theme: ThemeData.(
         primarySwatch: Colors.blue,
       ),*/

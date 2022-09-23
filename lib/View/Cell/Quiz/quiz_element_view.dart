@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_netia_client/View/Cell/ElementScreen/horizontal_list.dart';
+import '/View/Cell/ElementScreen/horizontal_list.dart';
 
 import '../FloatingBtns/floatings_btns.dart';
 import '/Network/client.dart';
 import '../ElementScreen/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/element_custom.dart';
-import '../../../Model/Cells/sheet.dart';
+import '/Model/Cells/sheet.dart';
 import '/View/Interfaces/interaction_view.dart';
 
 class QuizElemView extends StatefulWidget {
