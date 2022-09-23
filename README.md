@@ -3,7 +3,7 @@
 
 This application is a personal encyclopedia. Everything you want to remember can be saved in *Elephant*. Notes, summaries, quick reminders, ToDo list, etc ..
 
-Have fun using Elephant, I hope this will be useful for you :D
+Have fun using *Elephant*, I hope this will be useful for you :D
 
 To report any bugs, questions, anything.. Please create an issue or send a mail to Elephant-Help@outlook.com
 
