@@ -11,8 +11,9 @@ To report any bugs, questions, anything.. Please create an issue or send a mail 
 PS: look at the wiki to learn how to install the app, server and database
 
 
-![SignInNetia](https://user-images.githubusercontent.com/33542661/166166034-ed0c678d-9729-4158-a1b6-8288322e3151.png)
-![CellsScreenNetia](https://user-images.githubusercontent.com/33542661/166167849-af49699d-92d7-43a0-b944-d8129dfdd336.png)
-![SheetScreen](https://user-images.githubusercontent.com/33542661/166167901-95a45bf9-3220-4e5b-832f-3d79ed6d257b.png)
-![SheetScreenBook](https://user-images.githubusercontent.com/33542661/166167994-b1867938-091e-4f44-b24b-50a7ebac09d2.png)
-![LogoElephant](https://user-images.githubusercontent.com/33542661/166165987-d94830a1-26af-4217-b803-d5e0c7f52c55.png)
+
+![login_screen_elephant](https://user-images.githubusercontent.com/33542661/192093217-3fbda390-2577-4412-8c55-2bc224051536.png)
+![cell_screen_elephant](https://user-images.githubusercontent.com/33542661/192093221-5807fb71-1e29-4143-8f4e-019ae0d7acde.png)
+![book_screen_elephant](https://user-images.githubusercontent.com/33542661/192093223-82801a9a-4b3d-475a-b5df-e2cf67e90f45.png)
+![todo_screen_elephant](https://user-images.githubusercontent.com/33542661/192093232-b4fccd36-da59-4fcc-9c36-0c70a72d3f54.png)
+![logo_elephant](https://user-images.githubusercontent.com/33542661/192093237-7bb44669-98b8-4e2f-b94b-b61be298b8f1.png)
