@@ -7,7 +7,7 @@ import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
 
 class Client {
-  ///Make a request to the http server
+  ///Make a request to web server
   static Future<String> request(String request, Map json) async {
     http.Response response = await http.post(
       Uri.parse('http://${Constants.ip}:${Constants.port}/$request'),
@@ -36,7 +36,7 @@ class Client {
     }
   }
 
-  ///Make a request to the http server
+  ///Make a request to web server
   ///
   ///And extract the json from the answer
   static Future<dynamic> requestResult(String request, Map json) async {

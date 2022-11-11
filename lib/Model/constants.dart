@@ -8,7 +8,7 @@ class Constants{
   //server infos
   static const ip = '127.0.0.1';
   static const port = 9632;
-  static const databaseName = 'my_netia';
+  static const databaseName = 'elephant';
 
   //user infos
   static late String username;
