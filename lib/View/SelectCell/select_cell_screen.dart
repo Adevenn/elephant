@@ -192,27 +192,24 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                         ),
                       ),
                       /* ADD CELL DIALOG */
-                      Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: Column(
-                          children: [
-                            const Divider(),
-                            ListTile(
-                              leading: const Icon(Icons.add_rounded),
-                              title: const Text('Add cell'),
-                              onTap: () async {
-                                var cell = await showDialog<Cell?>(
-                                  context: context,
-                                  builder: (context) => AddCellDialog(
-                                      cells: cells, author: Constants.username),
-                                );
-                                if (cell != null) {
-                                  addCell(cell.toJson());
-                                }
-                              },
-                            )
-                          ],
-                        ),
+                      Column(
+                        children: [
+                          const Divider(),
+                          ListTile(
+                            leading: const Icon(Icons.add_rounded),
+                            title: const Text('Add cell'),
+                            onTap: () async {
+                              var cell = await showDialog<Cell?>(
+                                context: context,
+                                builder: (context) => AddCellDialog(
+                                    cells: cells, author: Constants.username),
+                              );
+                              if (cell != null) {
+                                addCell(cell.toJson());
+                              }
+                            },
+                          )
+                        ],
                       ),
                     ],
                   ),
