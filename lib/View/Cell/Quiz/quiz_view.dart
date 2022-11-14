@@ -18,7 +18,6 @@ class QuizView extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return QuizElemView(interView: interView, sheet: sheet);
-  }
+  Widget build(BuildContext context)
+  => QuizElemView(interView: interView, sheet: sheet);
 }

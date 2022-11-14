@@ -10,7 +10,7 @@ import 'text_type.dart';
 abstract class ElementCustom {
   final int id;
   final int idSheet;
-  int idOrder;
+  final int idOrder;
 
   ElementCustom(
       {required this.id, required this.idSheet, required this.idOrder});

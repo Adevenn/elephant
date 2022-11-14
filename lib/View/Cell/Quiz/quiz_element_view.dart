@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '/View/Cell/ElementScreen/horizontal_list.dart';
 
+import '/View/Cell/ElementScreen/horizontal_list.dart';
 import '../FloatingBtns/floatings_btns.dart';
 import '/Network/client.dart';
-import '../ElementScreen/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/element_custom.dart';
 import '/Model/Cells/sheet.dart';
@@ -17,10 +16,10 @@ class QuizElemView extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _StateToDoListElemView();
+  State<StatefulWidget> createState() => _StateQuizElemView();
 }
 
-class _StateToDoListElemView extends State<QuizElemView> {
+class _StateQuizElemView extends State<QuizElemView> {
   InteractionView get interView => widget.interView;
 
   Sheet get sheet => widget.sheet;

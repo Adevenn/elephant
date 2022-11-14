@@ -5,7 +5,7 @@ import '/Network/client.dart';
 import '../ElementScreen/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/element_custom.dart';
-import '../../../Model/Cells/sheet.dart';
+import '/Model/Cells/sheet.dart';
 import '/View/Interfaces/interaction_view.dart';
 
 class ToDoElemView extends StatefulWidget {

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import '/Network/client.dart';
 import '/View/Interfaces/interaction_view.dart';
 import '/View/loading_screen.dart';
-import '../../../Model/Cells/cell.dart';
+import '/Model/Cells/cell.dart';
 import '/View/Options/option_screen.dart';
 import 'add_sheet_dialog.dart';
 import 'delete_sheet_dialog.dart';
-import '../../../Model/Cells/sheet.dart';
+import '/Model/Cells/sheet.dart';
 
 class SheetScreen extends StatefulWidget {
   final InteractionView interView;
@@ -145,29 +145,26 @@ class _SheetScreenState extends State<SheetScreen> {
                       ],
                     ),
                   ),
-                  Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Column(
-                      children: [
-                        const Divider(),
-                        ListTile(
-                          leading: const Icon(Icons.add_rounded),
-                          title: const Text('Add sheet'),
-                          onTap: () async {
-                            var list = await showDialog<List<String>?>(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  AddSheetDialog(sheets: sheets),
-                            );
-                            if (list != null) {
-                              await addSheet(cell.id, list[0], list[1]);
-                              setState(() {});
-                            }
-                          },
-                        )
-                      ],
-                    ),
-                  )
+                  Column(
+                    children: [
+                      const Divider(),
+                      ListTile(
+                        leading: const Icon(Icons.add_rounded),
+                        title: const Text('Add sheet'),
+                        onTap: () async {
+                          var list = await showDialog<List<String>?>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                AddSheetDialog(sheets: sheets),
+                          );
+                          if (list != null) {
+                            await addSheet(cell.id, list[0], list[1]);
+                            setState(() {});
+                          }
+                        },
+                      )
+                    ],
+                  ),
                 ]),
               );
             } else {
