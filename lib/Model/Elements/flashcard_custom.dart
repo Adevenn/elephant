@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+import '/Network/client.dart';
 import 'element_custom.dart';
 
 class FlashcardCustom extends ElementCustom {
@@ -28,7 +29,7 @@ class FlashcardCustom extends ElementCustom {
   Widget toWidget() {
     //var frontOrBack = Random().nextBool();
 
-    return _FlashcardCustomView(flashcard: this);
+    return _FlashcardCustomView(key: UniqueKey(), flashcard: this);
   }
 }
 
@@ -37,6 +38,19 @@ class _FlashcardCustomView extends StatelessWidget {
 
   const _FlashcardCustomView({Key? key, required this.flashcard})
       : super(key: key);
+
+  Future<void> updateItem(String request, Map<String, dynamic> json) async {
+    try {
+      await Client.request(request, json);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  void _updateFlashcard(List<String> newFront, List<String> newBack) {
+    //if(flashcard.front.length == );
+    updateItem('updateFlashcard', flashcard.toJson());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +106,12 @@ class _FlashcardEditView extends StatelessWidget {
           ),
           title: const Text('Flashcard')),
       body: Column(
-        children: const [Center(child: Text('Edit flashcard'))],
+        children: const [
+          Center(child: Text('Front side :')),
+          //ReorderableListView(children: children, onReorder: onReorder),
+          Center(child: Text('Back side :')),
+          ListTile(),
+        ],
       ),
     );
   }
