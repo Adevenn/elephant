@@ -6,23 +6,17 @@ import '../ElementScreen/vertical_list.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/element_custom.dart';
 import '/Model/Cells/sheet.dart';
-import '/View/Interfaces/interaction_view.dart';
 
 class ToDoElemView extends StatefulWidget {
-  final InteractionView interView;
   final Sheet sheet;
 
-  const ToDoElemView(
-      {Key? key, required this.interView, required this.sheet})
-      : super(key: key);
+  const ToDoElemView({Key? key, required this.sheet}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateToDoListElemView();
 }
 
 class _StateToDoListElemView extends State<ToDoElemView> {
-  InteractionView get interView => widget.interView;
-
   Sheet get sheet => widget.sheet;
 
   Future<List<ElementCustom>> getElements(int idSheet) async {
@@ -51,7 +45,6 @@ class _StateToDoListElemView extends State<ToDoElemView> {
               floatingActionButton: FloatingButtons(
                 sheet: sheet,
                 elements: const ['checkbox'],
-                interView: interView,
                 onElementAdded: () {
                   setState(() {});
                 },

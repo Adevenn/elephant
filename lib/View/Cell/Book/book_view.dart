@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import '/Model/Cells/sheet.dart';
 import '/View/Cell/Book/book_element_view.dart';
 import '/Model/Cells/cell.dart';
-import '/View/Interfaces/interaction_view.dart';
 import '../Sheet/sheet_screen.dart';
 
 typedef SheetIndexCallBack = void Function(int sheetIndex);
 
 class BookView extends StatelessWidget {
-  final InteractionView interView;
   final Cell cell;
   final Sheet sheet;
   final int sheetIndex;
@@ -17,7 +15,6 @@ class BookView extends StatelessWidget {
 
   const BookView(
       {Key? key,
-      required this.interView,
       required this.cell,
       required this.sheet,
       required this.sheetIndex,
@@ -27,7 +24,7 @@ class BookView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BookElemView(interView: interView, sheet: sheet),
+      body: BookElemView(sheet: sheet),
       bottomSheet: Container(
         margin: const EdgeInsets.all(15),
         child: Tooltip(
@@ -40,7 +37,6 @@ class BookView extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => SheetScreen(
                             cell: cell,
-                            interView: interView,
                             index: sheetIndex,
                             selectedSheetId: sheet.id,
                           )));

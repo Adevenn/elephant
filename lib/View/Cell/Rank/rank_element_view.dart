@@ -6,22 +6,17 @@ import '/View/loading_screen.dart';
 import '../ElementScreen/vertical_list.dart';
 import '/Model/Cells/sheet.dart';
 import '/Model/Elements/element_custom.dart';
-import '/View/Interfaces/interaction_view.dart';
 
 class RankElemView extends StatefulWidget {
-  final InteractionView interView;
   final Sheet sheet;
 
-  const RankElemView({Key? key, required this.interView, required this.sheet})
-      : super(key: key);
+  const RankElemView({Key? key, required this.sheet}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateRankElementView();
 }
 
 class _StateRankElementView extends State<RankElemView> {
-  InteractionView get interView => widget.interView;
-
   Sheet get sheet => widget.sheet;
 
   Future<List<ElementCustom>> getElements(int idSheet) async {
@@ -50,7 +45,6 @@ class _StateRankElementView extends State<RankElemView> {
               floatingActionButton: FloatingButtons(
                 sheet: sheet,
                 elements: const ['checkbox'],
-                interView: interView,
                 onElementAdded: () {
                   setState(() {});
                 },

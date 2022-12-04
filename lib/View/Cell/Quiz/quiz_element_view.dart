@@ -6,22 +6,17 @@ import '/Network/client.dart';
 import '/View/loading_screen.dart';
 import '/Model/Elements/element_custom.dart';
 import '/Model/Cells/sheet.dart';
-import '/View/Interfaces/interaction_view.dart';
 
 class QuizElemView extends StatefulWidget {
-  final InteractionView interView;
   final Sheet sheet;
 
-  const QuizElemView({Key? key, required this.interView, required this.sheet})
-      : super(key: key);
+  const QuizElemView({Key? key, required this.sheet}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateQuizElemView();
 }
 
 class _StateQuizElemView extends State<QuizElemView> {
-  InteractionView get interView => widget.interView;
-
   Sheet get sheet => widget.sheet;
 
   Future<List<ElementCustom>> getElements(int idSheet) async {
@@ -50,7 +45,6 @@ class _StateQuizElemView extends State<QuizElemView> {
               floatingActionButton: FloatingButtons(
                 sheet: sheet,
                 elements: const ['flashcard'],
-                interView: interView,
                 onElementAdded: () {
                   setState(() {});
                 },

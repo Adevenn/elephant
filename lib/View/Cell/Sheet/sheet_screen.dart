@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import '/Network/client.dart';
-import '/View/Interfaces/interaction_view.dart';
 import '/View/loading_screen.dart';
 import '/Model/Cells/cell.dart';
 import '/View/Options/option_screen.dart';
@@ -11,14 +10,12 @@ import 'delete_sheet_dialog.dart';
 import '/Model/Cells/sheet.dart';
 
 class SheetScreen extends StatefulWidget {
-  final InteractionView interView;
   final Cell cell;
   final int selectedSheetId;
   final int index;
 
   const SheetScreen(
       {Key? key,
-      required this.interView,
       required this.cell,
       required this.index,
       required this.selectedSheetId})
@@ -29,8 +26,6 @@ class SheetScreen extends StatefulWidget {
 }
 
 class _SheetScreenState extends State<SheetScreen> {
-  InteractionView get interView => widget.interView;
-
   Cell get cell => widget.cell;
 
   int get selectedSheetId => widget.selectedSheetId;
@@ -76,7 +71,7 @@ class _SheetScreenState extends State<SheetScreen> {
             onPressed: () => Navigator.pop(context, index),
           ),
           title: const Text('Sheets')),
-      endDrawer: Drawer(child: OptionScreen(interView: interView)),
+      endDrawer: const Drawer(child: OptionScreen()),
       body: FutureBuilder<List<Sheet>>(
           future: getSheets(cell.id),
           builder: (BuildContext context, AsyncSnapshot<List<Sheet>> snapshot) {

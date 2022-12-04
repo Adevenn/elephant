@@ -5,7 +5,6 @@ import '/Network/client.dart';
 import '../loading_screen.dart';
 import '/View/Options/option_screen.dart';
 import '/View/Cell/Book/book_view.dart';
-import '/View/Interfaces/interaction_view.dart';
 import '/Model/Cells/cell.dart';
 import 'Quiz/quiz_view.dart';
 import 'Rank/rank_view.dart';
@@ -13,10 +12,8 @@ import 'ToDoList/to_do_view.dart';
 
 class CellView extends StatefulWidget {
   final Cell cell;
-  final InteractionView interView;
 
-  const CellView({Key? key, required this.cell, required this.interView})
-      : super(key: key);
+  const CellView({Key? key, required this.cell}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateCellView();
@@ -24,8 +21,6 @@ class CellView extends StatefulWidget {
 
 class _StateCellView extends State<CellView> {
   Cell get cell => widget.cell;
-
-  InteractionView get interView => widget.interView;
 
   Sheet? sheet;
   int sheetIndex = 0;
@@ -49,12 +44,11 @@ class _StateCellView extends State<CellView> {
             sheet = snapshot.data;
             return Scaffold(
               appBar: appBar(context),
-              endDrawer: Drawer(child: OptionScreen(interView: interView)),
+              endDrawer: const Drawer(child: OptionScreen()),
               body: (() {
                 switch (cell.type) {
                   case 'Book':
                     return BookView(
-                      interView: interView,
                       cell: cell,
                       sheet: sheet!,
                       sheetIndex: sheetIndex,
@@ -63,14 +57,11 @@ class _StateCellView extends State<CellView> {
                       },
                     );
                   case 'ToDoList':
-                    return ToDoView(
-                        interView: interView, cell: cell, sheet: sheet!);
+                    return ToDoView(cell: cell, sheet: sheet!);
                   case 'Quiz':
-                    return QuizView(
-                        interView: interView, cell: cell, sheet: sheet!);
+                    return QuizView(cell: cell, sheet: sheet!);
                   case 'Rank':
-                    return RankView(
-                        interView: interView, cell: cell, sheet: sheet!);
+                    return RankView(cell: cell, sheet: sheet!);
                 }
               }()),
             );

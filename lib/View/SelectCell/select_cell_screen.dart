@@ -13,19 +13,15 @@ import '/Model/Cells/book.dart';
 import '/Model/Cells/ranking.dart';
 import '/Model/Cells/to_do_list.dart';
 import '/Model/Cells/cell.dart';
-import '../Interfaces/interaction_view.dart';
 
 class SelectCellScreen extends StatefulWidget {
-  final InteractionView interView;
-
-  const SelectCellScreen({required this.interView, Key? key}) : super(key: key);
+  const SelectCellScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SelectCellScreenState();
 }
 
 class _SelectCellScreenState extends State<SelectCellScreen> {
-  InteractionView get interView => widget.interView;
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
@@ -76,10 +72,10 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
         appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () => interView.gotoLoginScreen(context),
+              onPressed: () => Navigator.pop(context),
             ),
             title: const Text('Cells')),
-        endDrawer: Drawer(child: OptionScreen(interView: interView)),
+        endDrawer: const Drawer(child: OptionScreen()),
         body: FutureBuilder<List<Cell>>(
             future: getCells(),
             builder:
@@ -168,7 +164,6 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => CellView(
-                                                interView: interView,
                                                 cell: cells[index])));
                                   },
                                 ),

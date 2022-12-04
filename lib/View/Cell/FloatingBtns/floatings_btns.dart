@@ -1,8 +1,11 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_compression/image_compression.dart';
 
 import 'animation_floating_btns.dart';
 import '/Model/Cells/sheet.dart';
-import '/View/Interfaces/interaction_view.dart';
 import '/Network/client.dart';
 import '/Model/Elements/image_custom.dart';
 import '/Model/Elements/text_type.dart';
@@ -10,14 +13,12 @@ import '/Model/Elements/text_type.dart';
 class FloatingButtons extends StatelessWidget {
   final Sheet sheet;
   final List<String> elements;
-  final InteractionView interView;
   final VoidCallback onElementAdded;
 
   const FloatingButtons(
       {Key? key,
       required this.elements,
       required this.sheet,
-      required this.interView,
       required this.onElementAdded})
       : super(key: key);
 
@@ -41,6 +42,33 @@ class FloatingButtons extends StatelessWidget {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  Future<List<ImageCustom>> pickImage(Sheet sheet) async {
+    var images = <ImageCustom>[];
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.image,
+        dialogTitle: 'elephant image selection');
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path!)).toList();
+      for (var file in files) {
+        var image =
+        ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
+        var imageCompressed = compress(ImageFileConfiguration(
+            input: image,
+            config: const Configuration(
+                pngCompression: PngCompression.bestCompression,
+                jpgQuality: 25)));
+        images.add(ImageCustom(
+            id: -1,
+            imgPreview: imageCompressed.rawBytes,
+            imgRaw: image.rawBytes,
+            idParent: sheet.id,
+            idOrder: -1));
+      }
+    }
+    return images;
   }
 
   Future<void> addTexts(int idSheet, int txtType) async {
@@ -101,7 +129,7 @@ class FloatingButtons extends StatelessWidget {
   Widget imageBtn() {
     return IconButton(
       onPressed: () async {
-        var list = await interView.pickImage(sheet);
+        var list = await pickImage(sheet);
         if (list.isNotEmpty) {
           await addImage(list);
           onElementAdded();

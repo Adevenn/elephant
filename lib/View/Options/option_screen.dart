@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
-import '/View/Interfaces/interaction_view.dart';
+import '../SignIn/sign_in_screen.dart';
 import '/Model/user_settings.dart';
 
 class OptionScreen extends StatefulWidget {
-  final InteractionView interView;
-
-  const OptionScreen({Key? key, required this.interView}) : super(key: key);
+  const OptionScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _OptionState();
 }
 
 class _OptionState extends State<OptionScreen> {
-  InteractionView get interView => widget.interView;
+  void gotoSignInScreen(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const SignInScreen(),
+      ),
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,7 @@ class _OptionState extends State<OptionScreen> {
                   endIndent: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () => interView.gotoLoginScreen(context),
+                  onPressed: () => gotoSignInScreen(context),
                   child: const Text('Change Server'),
                 ),
               ],

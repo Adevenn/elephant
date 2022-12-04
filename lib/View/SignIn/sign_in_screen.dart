@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../SelectCell/select_cell_screen.dart';
 import '/Model/constants.dart';
 import '/Network/client.dart';
 import '/View/AddAccount/add_account_screen.dart';
 import '/Model/hash.dart';
-import '/View/Interfaces/interaction_view.dart';
 import '/Model/user_settings.dart';
 
 class SignInScreen extends StatefulWidget {
-  final InteractionView interView;
-
-  const SignInScreen({required this.interView, Key? key}) : super(key: key);
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<SignInScreen> {
-  InteractionView get interView => widget.interView;
   final _formKey = GlobalKey<FormState>();
   final RegExp ipv4Reg = RegExp(
       r'^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$',
@@ -30,6 +27,15 @@ class _LoginState extends State<SignInScreen> {
   void initState() {
     super.initState();
     defaultValues();
+  }
+
+  void gotoCellScreen(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const SelectCellScreen(),
+      ),
+    );
   }
 
   Future<void> defaultValues() async {
@@ -47,7 +53,7 @@ class _LoginState extends State<SignInScreen> {
       Constants.password = Hash.hashString(_password.text);
       try {
         await Client.request('sign_in', {});
-        interView.gotoCellScreen(context);
+        gotoCellScreen(context);
       } catch (e) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('$e')));
