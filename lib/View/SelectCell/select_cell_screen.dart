@@ -163,8 +163,8 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => CellView(
-                                                cell: cells[index])));
+                                            builder: (context) =>
+                                                CellView(cell: cells[index])));
                                   },
                                 ),
                                 /* DELETE CELL*/

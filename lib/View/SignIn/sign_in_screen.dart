@@ -29,15 +29,6 @@ class _LoginState extends State<SignInScreen> {
     defaultValues();
   }
 
-  void gotoCellScreen(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => const SelectCellScreen(),
-      ),
-    );
-  }
-
   Future<void> defaultValues() async {
     _username.text = await UserSettings.getUsername();
     setState(() => {});
@@ -53,7 +44,9 @@ class _LoginState extends State<SignInScreen> {
       Constants.password = Hash.hashString(_password.text);
       try {
         await Client.request('sign_in', {});
-        gotoCellScreen(context);
+        _password.clear();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SelectCellScreen()));
       } catch (e) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('$e')));
