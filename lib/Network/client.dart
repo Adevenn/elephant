@@ -1,16 +1,16 @@
 import 'package:http/http.dart' as http;
-import '/Model/constants.dart';
 import 'dart:convert';
 import 'dart:io';
 
+import '/Model/constants.dart';
 import '/Exception/database_exception.dart';
 import '/Exception/server_exception.dart';
 
 class Client {
   ///Make a request to web server
-  static Future<String> request(String request, Map json) async {
+  static Future<String> request(String stringRequest, Map json) async {
     http.Response response = await http.post(
-      Uri.parse('http://${Constants.ip}:${Constants.port}/$request'),
+      Uri.parse('http://${Constants.ip}:${Constants.port}/$stringRequest'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -39,9 +39,9 @@ class Client {
   ///Make a request to web server
   ///
   ///And extract the json from the answer
-  static Future<dynamic> requestResult(String request, Map json) async {
+  static Future<dynamic> requestResult(String stringRequest, Map json) async {
     try {
-      return jsonDecode(await Client.request(request, json));
+      return jsonDecode(await request(stringRequest, json));
     } catch (e) {
       throw Exception(e);
     }
@@ -50,7 +50,7 @@ class Client {
   ///Request a delete query to server
   static Future<void> deleteItem(int id, String type) async {
     try {
-      await Client.request('deleteItem', {'id': id, 'item_type': type});
+      await request('deleteItem', {'id': id, 'item_type': type});
     } catch (e) {
       throw Exception(e);
     }
