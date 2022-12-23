@@ -7,10 +7,10 @@ class CellList {
   CellList();
 
   ///Return cells that match with the [researchWord]
-  Future<List<Cell>> getCells(String researchWord) async {
+  Future<void> getCells(String researchWord) async {
     var result =
         await Client.requestResult('cells', {'match_word': researchWord});
-    return List<Cell>.from(result.map((model) => Cell.fromJson(model)));
+    cells = List<Cell>.from(result.map((model) => Cell.fromJson(model)));
   }
 
   ///Add cell
@@ -22,7 +22,7 @@ class CellList {
       await Client.deleteItem(cells[index].id, 'cell');
 
   ///Update cell info
-  Future<void> updateItem(Cell cell) async =>
+  Future<void> updateCell(Cell cell) async =>
       await Client.request('updateCell', cell.toJson());
 
   ///Check if cell title is available

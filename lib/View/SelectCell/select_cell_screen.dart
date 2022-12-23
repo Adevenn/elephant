@@ -132,7 +132,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                                   });
                                           if (cellEdited != null) {
                                             await cellList
-                                                .updateItem(cellEdited);
+                                                .updateCell(cellEdited);
                                             setState(() => {});
                                           }
                                         },
@@ -141,8 +141,8 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => CellView(
-                                                    cell: cells[index])));
+                                                builder: (context) =>
+                                                    CellView(cell: cell)));
                                       },
                                     ),
                                     /* DELETE CELL*/
@@ -152,8 +152,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                           context: context,
                                           builder: (BuildContext context) =>
                                               DeleteCellDialog(
-                                                  cellTitle:
-                                                      cells[index].title));
+                                                  cellTitle: cell.title));
                                       if (result) {
                                         await cellList.deleteCell(index);
                                       }
