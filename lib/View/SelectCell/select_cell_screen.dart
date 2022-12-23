@@ -1,10 +1,11 @@
 import 'package:elephant_client/Model/Cells/book.dart';
 import 'package:elephant_client/Model/Cells/cell.dart';
+import 'package:elephant_client/Model/Cells/cell_list.dart';
 import 'package:elephant_client/Model/Cells/quiz.dart';
 import 'package:elephant_client/Model/Cells/to_do_list.dart';
 import 'package:elephant_client/Model/constants.dart';
-import 'package:elephant_client/Network/client.dart';
 import 'package:elephant_client/View/Cell/cell_view.dart';
+import 'package:elephant_client/View/loading_screen.dart';
 import 'package:elephant_client/View/option_screen.dart';
 import 'package:elephant_client/View/SelectCell/add_cell_dialog.dart';
 import 'package:elephant_client/View/SelectCell/delete_cell_dialog.dart';
@@ -19,6 +20,7 @@ class SelectCellScreen extends StatefulWidget {
 }
 
 class _SelectCellScreenState extends State<SelectCellScreen> {
+  CellList cellList = CellList();
   final _controllerResearch = TextEditingController();
   var researchWord = '';
 
@@ -40,27 +42,6 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
     }
   }
 
-  ///Return cells that match with the [researchWord]
-  Future<List<Cell>> getCells() async {
-    var result =
-        await Client.requestResult('cells', {'match_word': researchWord});
-    return List<Cell>.from(result.map((model) => Cell.fromJson(model)));
-  }
-
-  Future<void> addCell(Map args) async {
-    await Client.request('addCell', args);
-    setState(() {});
-  }
-
-  Future<void> updateItem(String request, Map<String, dynamic> json) async {
-    try {
-      await Client.request(request, json);
-      setState(() {});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +53,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
             title: const Text('Cells')),
         endDrawer: const Drawer(child: OptionScreen()),
         body: FutureBuilder<List<Cell>>(
-            future: getCells(),
+            future: cellList.getCells(researchWord),
             builder:
                 (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
               if (snapshot.hasData) {
@@ -148,8 +129,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                                         : 'private');
                                           });
                                       if (cell != null) {
-                                        await updateItem(
-                                            'updateCell', cell.toJson());
+                                        await cellList.updateItem(cell);
                                         setState(() => {});
                                       }
                                     },
@@ -171,9 +151,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                           DeleteCellDialog(
                                               cellTitle: cells[index].title));
                                   if (result) {
-                                    await Client.deleteItem(
-                                        cells[index].id, 'cell');
-                                    cells.removeAt(index);
+                                    await cellList.deleteCell(index);
                                   }
                                   setState(() {});
                                 },
@@ -192,10 +170,12 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                               var cell = await showDialog<Cell?>(
                                 context: context,
                                 builder: (context) => AddCellDialog(
-                                    cells: cells, author: Constants.username),
+                                    cells: cellList,
+                                    author: Constants.username),
                               );
                               if (cell != null) {
-                                addCell(cell.toJson());
+                                await cellList.addCell(cell);
+                                setState(() {});
                               }
                             },
                           )
@@ -205,23 +185,7 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                   ),
                 );
               } else {
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const <Widget>[
-                    SizedBox(
-                      child: CircularProgressIndicator(),
-                      width: 60,
-                      height: 60,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Awaiting 1 ...'),
-                    )
-                  ],
-                ));
-                //return const LoadingScreen();
+                return const LoadingScreen();
               }
             }));
   }

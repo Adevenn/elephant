@@ -1,8 +1,9 @@
+import 'package:elephant_client/Model/Cells/cell.dart';
+import 'package:elephant_client/Model/Cells/cell_list.dart';
 import 'package:flutter/material.dart';
-import '/Model/Cells/cell.dart';
 
 class AddCellDialog extends StatefulWidget {
-  final List<Cell> cells;
+  final CellList cells;
   final String author;
 
   const AddCellDialog({Key? key, required this.cells, required this.author})
@@ -13,20 +14,14 @@ class AddCellDialog extends StatefulWidget {
 }
 
 class _AddCellDialogState extends State<AddCellDialog> {
+  CellList get cells => widget.cells;
+
+  String get author => widget.author;
   final _formKey = GlobalKey<FormState>();
   var title = TextEditingController(),
       subtitle = TextEditingController(),
       type = 'Book',
       visibility = 'private';
-
-  bool isCellTitleValid(List<Cell> cells, String title) {
-    for (int i = 0; i < cells.length; i++) {
-      if (cells[i].title == title) {
-        return false;
-      }
-    }
-    return true;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +70,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
-                  } else if (!isCellTitleValid(widget.cells, value)) {
+                  } else if (!cells.isCellTitleValid(value)) {
                     return 'Title already exist';
                   }
                   return null;
@@ -98,7 +93,7 @@ class _AddCellDialogState extends State<AddCellDialog> {
                       title: title.text,
                       subtitle: subtitle.text,
                       type: type,
-                      author: widget.author,
+                      author: author,
                       isPublic: visibility == 'public' ? true : false));
             }
           },
