@@ -21,21 +21,18 @@ class _StateToDoListElemView extends State<ToDoElemView> {
     return FutureBuilder(
       future: page.getElements(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return const LoadingScreen();
-          case ConnectionState.active:
-          case ConnectionState.done:
-            return Scaffold(
-                body: VerticalList(page: page),
-                floatingActionButton: FloatingButtons(
-                  page: page,
-                  elementsType: const ['checkbox'],
-                  onElementAdded: () {
-                    setState(() {});
-                  },
-                ));
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+              body: VerticalList(page: page),
+              floatingActionButton: FloatingButtons(
+                page: page,
+                elementsType: const ['checkbox'],
+                onElementAdded: () {
+                  setState(() {});
+                },
+              ));
+        } else {
+          return const LoadingScreen();
         }
       },
     );
