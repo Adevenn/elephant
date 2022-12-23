@@ -87,77 +87,84 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                       ),
                       /* CELL ITEMS */
                       Expanded(
-                        child: ListView(
-                          children: [
-                            for (var index = 0; index < cells.length; index++)
-                              Dismissible(
-                                key: UniqueKey(),
-                                background:
-                                    Container(color: const Color(0xBCC11717)),
-                                child: ListTile(
-                                  leading: selectIconByCell(
-                                      cells[index].runtimeType),
-                                  title: Text(cells[index].title),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(cells[index].subtitle),
-                                      Icon(cells[index].isPublic == false
-                                          ? Icons.lock_rounded
-                                          : Icons.public_rounded)
-                                    ],
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () async {
-                                      var cell = await showDialog<Cell?>(
+                        child: cellList.cells.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: cellList.cells.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Cell cell = cellList.cells[index];
+                                  return Dismissible(
+                                    key: UniqueKey(),
+                                    background: Container(
+                                        color: const Color(0xBCC11717)),
+                                    child: ListTile(
+                                      leading:
+                                          selectIconByCell(cell.runtimeType),
+                                      title: Text(cell.title),
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(cell.subtitle),
+                                          Icon(cell.isPublic == false
+                                              ? Icons.lock_rounded
+                                              : Icons.public_rounded)
+                                        ],
+                                      ),
+                                      trailing: IconButton(
+                                        icon: const Icon(Icons.edit),
+                                        onPressed: () async {
+                                          var cellEdited =
+                                              await showDialog<Cell?>(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return EditCellDialog(
+                                                        cells: cells,
+                                                        id: cell.id,
+                                                        title: cell.title,
+                                                        subtitle: cell.subtitle,
+                                                        type: cell.type,
+                                                        author: cell.author,
+                                                        visibility:
+                                                            cell.isPublic ==
+                                                                    true
+                                                                ? 'public'
+                                                                : 'private');
+                                                  });
+                                          if (cellEdited != null) {
+                                            await cellList
+                                                .updateItem(cellEdited);
+                                            setState(() => {});
+                                          }
+                                        },
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => CellView(
+                                                    cell: cells[index])));
+                                      },
+                                    ),
+                                    /* DELETE CELL*/
+                                    onDismissed: (direction) async {
+                                      bool result = await showDialog(
+                                          barrierDismissible: false,
                                           context: context,
-                                          builder: (context) {
-                                            var cell = cells[index];
-                                            return EditCellDialog(
-                                                cells: cells,
-                                                id: cell.id,
-                                                title: cell.title,
-                                                subtitle: cell.subtitle,
-                                                type: cell.type,
-                                                author: cell.author,
-                                                visibility:
-                                                    cell.isPublic == true
-                                                        ? 'public'
-                                                        : 'private');
-                                          });
-                                      if (cell != null) {
-                                        await cellList.updateItem(cell);
-                                        setState(() => {});
+                                          builder: (BuildContext context) =>
+                                              DeleteCellDialog(
+                                                  cellTitle:
+                                                      cells[index].title));
+                                      if (result) {
+                                        await cellList.deleteCell(index);
                                       }
+                                      setState(() {});
                                     },
-                                  ),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CellView(cell: cells[index])));
-                                  },
-                                ),
-                                /* DELETE CELL*/
-                                onDismissed: (direction) async {
-                                  bool result = await showDialog(
-                                      barrierDismissible: false,
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          DeleteCellDialog(
-                                              cellTitle: cells[index].title));
-                                  if (result) {
-                                    await cellList.deleteCell(index);
-                                  }
-                                  setState(() {});
+                                  );
                                 },
                               )
-                          ],
-                        ),
+                            : const Center(child: Text('No items')),
                       ),
+
                       /* ADD CELL DIALOG */
                       Column(
                         children: [
