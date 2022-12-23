@@ -1,50 +1,27 @@
 import 'dart:io';
 
+import 'package:elephant_client/Model/Cells/page_custom.dart';
+import 'package:elephant_client/Model/Elements/image_custom.dart';
+import 'package:elephant_client/Model/Elements/text_type.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_compression/image_compression.dart';
 
 import 'animation_floating_btns.dart';
-import '/Model/Cells/sheet.dart';
-import '/Network/client.dart';
-import '/Model/Elements/image_custom.dart';
-import '/Model/Elements/text_type.dart';
 
 class FloatingButtons extends StatelessWidget {
-  final Sheet sheet;
-  final List<String> elements;
+  final PageCustom page;
+  final List<String> elementsType;
   final VoidCallback onElementAdded;
 
   const FloatingButtons(
       {Key? key,
-      required this.elements,
-      required this.sheet,
+      required this.elementsType,
+      required this.page,
       required this.onElementAdded})
       : super(key: key);
 
-  Future<void> addCheckbox(int idSheet) async {
-    try {
-      await Client.request('addCheckbox', {'id_sheet': idSheet});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<void> addImage(List<ImageCustom> images) async {
-    try {
-      for (var image in images) {
-        await Client.request('addImage', {
-          'id_sheet': image.idSheet,
-          'img_preview': image.imgPreview,
-          'img_raw': image.imgRaw
-        });
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<List<ImageCustom>> pickImage(Sheet sheet) async {
+  Future<List<ImageCustom>> pickImage() async {
     var images = <ImageCustom>[];
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
@@ -54,7 +31,7 @@ class FloatingButtons extends StatelessWidget {
       List<File> files = result.paths.map((path) => File(path!)).toList();
       for (var file in files) {
         var image =
-        ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
+            ImageFile(filePath: file.path, rawBytes: file.readAsBytesSync());
         var imageCompressed = compress(ImageFileConfiguration(
             input: image,
             config: const Configuration(
@@ -64,39 +41,22 @@ class FloatingButtons extends StatelessWidget {
             id: -1,
             imgPreview: imageCompressed.rawBytes,
             imgRaw: image.rawBytes,
-            idParent: sheet.id,
+            idPage: page.id,
             idOrder: -1));
       }
     }
     return images;
   }
 
-  Future<void> addTexts(int idSheet, int txtType) async {
-    try {
-      await Client.request(
-          'addText', {'id_sheet': idSheet, 'txt_type': txtType});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<void> addFlashcard(int idSheet) async {
-    try {
-      await Client.request('addFlashcard', {'id_sheet': idSheet});
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var widgets = <Widget>[];
-    for (int i = 0; i < elements.length; i++) {
-      switch (elements[i]) {
+    for (int i = 0; i < elementsType.length; i++) {
+      switch (elementsType[i]) {
         case 'text':
         case 'subtitle':
         case 'title':
-          widgets.add(textBtn(elements[i]));
+          widgets.add(textBtn(elementsType[i]));
           break;
         case 'image':
           widgets.add(imageBtn());
@@ -117,7 +77,7 @@ class FloatingButtons extends StatelessWidget {
   Widget checkboxBtn() {
     return IconButton(
       onPressed: () async {
-        await addCheckbox(sheet.id);
+        await page.addCheckbox();
         onElementAdded();
       },
       icon: const Icon(Icons.check_box_rounded),
@@ -129,9 +89,9 @@ class FloatingButtons extends StatelessWidget {
   Widget imageBtn() {
     return IconButton(
       onPressed: () async {
-        var list = await pickImage(sheet);
+        var list = await pickImage();
         if (list.isNotEmpty) {
-          await addImage(list);
+          await page.addImage(list);
           onElementAdded();
         }
       },
@@ -144,7 +104,7 @@ class FloatingButtons extends StatelessWidget {
   Widget textBtn(String type) {
     return IconButton(
       onPressed: () async {
-        await addTexts(sheet.id, selectTextType(type));
+        await page.addTexts(selectTextType(type));
         onElementAdded();
       },
       icon: const Icon(Icons.title_rounded),
@@ -171,7 +131,7 @@ class FloatingButtons extends StatelessWidget {
   Widget flashcardBtn() {
     return IconButton(
       onPressed: () async {
-        await addFlashcard(sheet.id);
+        await page.addFlashcard();
         onElementAdded();
       },
       icon: const Icon(Icons.credit_card_rounded),

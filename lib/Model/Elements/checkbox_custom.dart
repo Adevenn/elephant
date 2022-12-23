@@ -11,14 +11,14 @@ class CheckboxCustom extends ElementCustom {
       {this.isChecked = false,
       required this.text,
       required int id,
-      required int idSheet,
+      required int idPage,
       required int idOrder})
-      : super(id: id, idSheet: idSheet, idOrder: idOrder);
+      : super(id: id, idPage: idPage, idOrder: idOrder);
 
   @override
   Map<String, dynamic> toJson() => {
         'id': id,
-        'id_sheet': idSheet,
+        'id_sheet': idPage,
         'is_checked': isChecked,
         'cb_text': text,
         'elem_order': idOrder,

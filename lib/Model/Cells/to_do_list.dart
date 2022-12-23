@@ -12,6 +12,7 @@ class ToDoList extends Cell {
             title: title,
             subtitle: subtitle,
             type: (ToDoList).toString(),
+            multiPage: false,
             author: author,
             isPublic: isPublic);
 
@@ -21,6 +22,7 @@ class ToDoList extends Cell {
             title: json['title'],
             subtitle: json['subtitle'],
             type: (ToDoList).toString(),
+            multiPage: false,
             author: json['author'],
             isPublic: json['is_public']);
 }

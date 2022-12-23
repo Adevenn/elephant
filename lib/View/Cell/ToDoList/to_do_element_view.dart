@@ -1,56 +1,41 @@
+import 'package:elephant_client/Model/Cells/page_custom.dart';
+import 'package:elephant_client/View/Cell/ElementScreen/vertical_list.dart';
+import 'package:elephant_client/View/Cell/FloatingBtns/floatings_btns.dart';
+import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../FloatingBtns/floatings_btns.dart';
-import '/Network/client.dart';
-import '../ElementScreen/vertical_list.dart';
-import '/View/loading_screen.dart';
-import '/Model/Elements/element_custom.dart';
-import '/Model/Cells/sheet.dart';
-
 class ToDoElemView extends StatefulWidget {
-  final Sheet sheet;
+  final PageCustom page;
 
-  const ToDoElemView({Key? key, required this.sheet}) : super(key: key);
+  const ToDoElemView({Key? key, required this.page}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateToDoListElemView();
 }
 
 class _StateToDoListElemView extends State<ToDoElemView> {
-  Sheet get sheet => widget.sheet;
-
-  Future<List<ElementCustom>> getElements(int idSheet) async {
-    var elements = <ElementCustom>[];
-    try {
-      var result =
-          await Client.requestResult('elements', {'id_sheet': idSheet});
-      elements = List<ElementCustom>.from(
-          result.map((model) => ElementCustom.fromJson(model)));
-    } catch (e) {
-      throw Exception(e);
-    }
-    return elements;
-  }
+  PageCustom get page => widget.page;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getElements(sheet.id),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
-          var elements = snapshot.data!;
-
-          return Scaffold(
-              body: VerticalList(elements: elements),
-              floatingActionButton: FloatingButtons(
-                sheet: sheet,
-                elements: const ['checkbox'],
-                onElementAdded: () {
-                  setState(() {});
-                },
-              ));
-        } else {
-          return const LoadingScreen();
+      future: page.getElements(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const LoadingScreen();
+          case ConnectionState.active:
+          case ConnectionState.done:
+            return Scaffold(
+                body: VerticalList(page: page),
+                floatingActionButton: FloatingButtons(
+                  page: page,
+                  elementsType: const ['checkbox'],
+                  onElementAdded: () {
+                    setState(() {});
+                  },
+                ));
         }
       },
     );

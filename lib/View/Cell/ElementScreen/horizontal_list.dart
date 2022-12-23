@@ -1,6 +1,5 @@
+import 'package:elephant_client/Model/Elements/element_custom.dart';
 import 'package:flutter/material.dart';
-
-import '/Model/Elements/element_custom.dart';
 
 class HorizontalList extends StatelessWidget {
   final List<ElementCustom> elements;

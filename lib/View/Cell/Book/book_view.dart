@@ -1,48 +1,44 @@
+import 'package:elephant_client/Model/Cells/cell.dart';
+import 'package:elephant_client/View/Cell/Book/book_element_view.dart';
+import 'package:elephant_client/View/Cell/Page/page_screen.dart';
 import 'package:flutter/material.dart';
 
-import '/Model/Cells/sheet.dart';
-import '/View/Cell/Book/book_element_view.dart';
-import '/Model/Cells/cell.dart';
-import '../Sheet/sheet_screen.dart';
-
-typedef SheetIndexCallBack = void Function(int sheetIndex);
+typedef PageIndexCallBack = void Function(int sheetIndex);
 
 class BookView extends StatelessWidget {
   final Cell cell;
-  final Sheet sheet;
-  final int sheetIndex;
-  final SheetIndexCallBack onSheetIndexChange;
+  final int pageIndex;
+  final PageIndexCallBack onPageIndexChange;
 
   const BookView(
       {Key? key,
       required this.cell,
-      required this.sheet,
-      required this.sheetIndex,
-      required this.onSheetIndexChange})
+      required this.pageIndex,
+      required this.onPageIndexChange})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BookElemView(sheet: sheet),
+      body: BookElemView(page: cell.pages[pageIndex]),
       bottomSheet: Container(
         margin: const EdgeInsets.all(15),
         child: Tooltip(
-          message: 'Sheets',
+          message: 'Pages',
           child: FloatingActionButton(
-            heroTag: 'sheetsBtn',
+            heroTag: 'pagesBtn',
             onPressed: () async {
               var result = await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SheetScreen(
+                      builder: (context) => PageScreen(
                             cell: cell,
-                            index: sheetIndex,
-                            selectedSheetId: sheet.id,
+                            index: pageIndex,
+                            selectedPageId: cell.pages[pageIndex].id,
                           )));
-              if (sheetIndex != result) {
+              if (pageIndex != result) {
                 //Call the function defined by the parent (parent setState)
-                onSheetIndexChange(result);
+                onPageIndexChange(result);
               }
             },
             child: const Icon(Icons.text_snippet),

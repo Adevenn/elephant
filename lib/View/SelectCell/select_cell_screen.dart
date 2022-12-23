@@ -1,18 +1,15 @@
+import 'package:elephant_client/Model/Cells/book.dart';
+import 'package:elephant_client/Model/Cells/cell.dart';
+import 'package:elephant_client/Model/Cells/quiz.dart';
+import 'package:elephant_client/Model/Cells/to_do_list.dart';
+import 'package:elephant_client/Model/constants.dart';
+import 'package:elephant_client/Network/client.dart';
+import 'package:elephant_client/View/Cell/cell_view.dart';
+import 'package:elephant_client/View/option_screen.dart';
+import 'package:elephant_client/View/SelectCell/add_cell_dialog.dart';
+import 'package:elephant_client/View/SelectCell/delete_cell_dialog.dart';
+import 'package:elephant_client/View/SelectCell/edit_cell_dialog.dart';
 import 'package:flutter/material.dart';
-
-import '/Model/Cells/quiz.dart';
-import '/Network/client.dart';
-import '/Model/constants.dart';
-import '/View/loading_screen.dart';
-import '/View/Cell/cell_view.dart';
-import '/View/Options/option_screen.dart';
-import 'add_cell_dialog.dart';
-import 'edit_cell_dialog.dart';
-import 'delete_cell_dialog.dart';
-import '/Model/Cells/book.dart';
-import '/Model/Cells/ranking.dart';
-import '/Model/Cells/to_do_list.dart';
-import '/Model/Cells/cell.dart';
 
 class SelectCellScreen extends StatefulWidget {
   const SelectCellScreen({Key? key}) : super(key: key);
@@ -36,8 +33,6 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
         return const Icon(Icons.menu_book_rounded);
       case ToDoList:
         return const Icon(Icons.playlist_add_check_rounded);
-      case Ranking:
-        return const Icon(Icons.format_list_numbered_rounded);
       case Quiz:
         return const Icon(Icons.question_mark_rounded);
       default:
@@ -210,7 +205,23 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                   ),
                 );
               } else {
-                return const LoadingScreen();
+                return Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const <Widget>[
+                    SizedBox(
+                      child: CircularProgressIndicator(),
+                      width: 60,
+                      height: 60,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: Text('Awaiting 1 ...'),
+                    )
+                  ],
+                ));
+                //return const LoadingScreen();
               }
             }));
   }

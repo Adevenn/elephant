@@ -1,96 +1,83 @@
+import 'package:elephant_client/Model/Cells/page_custom.dart';
+import 'package:elephant_client/View/Cell/ElementScreen/vertical_list.dart';
+import 'package:elephant_client/View/Cell/FloatingBtns/floatings_btns.dart';
+import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../FloatingBtns/floatings_btns.dart';
-import '/Network/client.dart';
-import '../ElementScreen/vertical_list.dart';
-import '/View/loading_screen.dart';
-import '/Model/Cells/sheet.dart';
-import '/Model/Elements/element_custom.dart';
-
 class BookElemView extends StatefulWidget {
-  final Sheet sheet;
+  final PageCustom page;
 
-  const BookElemView({Key? key, required this.sheet}) : super(key: key);
+  const BookElemView({Key? key, required this.page}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateBookElemView();
 }
 
 class _StateBookElemView extends State<BookElemView> {
-  Sheet get sheet => widget.sheet;
-
-  Future<List<ElementCustom>> getElements(int idSheet) async {
-    var elements = <ElementCustom>[];
-    try {
-      var result =
-          await Client.requestResult('elements', {'id_sheet': idSheet});
-      elements = List<ElementCustom>.from(
-          result.map((model) => ElementCustom.fromJson(model)));
-    } catch (e) {
-      throw Exception(e);
-    }
-    return elements;
-  }
+  PageCustom get page => widget.page;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<ElementCustom>>(
-        future: getElements(sheet.id),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<ElementCustom>> snapshot) {
-          if (snapshot.hasData) {
-            var elements = snapshot.data!;
-
-            return Scaffold(
-                body: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: Column(
-                              children: [
-                                Text(
-                                  sheet.title,
-                                  style: const TextStyle(
-                                      fontSize: 30,
-                                      fontStyle: FontStyle.normal),
-                                ),
-                                Text(
-                                  sheet.subtitle,
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontStyle: FontStyle.italic),
-                                )
-                              ],
-                            ))
-                          ],
+    return FutureBuilder<void>(
+        future: page.getElements(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const LoadingScreen();
+            case ConnectionState.done:
+              return Scaffold(
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: Column(
+                                children: [
+                                  Text(
+                                    page.title,
+                                    style: const TextStyle(
+                                        fontSize: 30,
+                                        fontStyle: FontStyle.normal),
+                                  ),
+                                  Text(
+                                    page.subtitle,
+                                    style: const TextStyle(
+                                        fontSize: 25,
+                                        fontStyle: FontStyle.italic),
+                                  )
+                                ],
+                              ))
+                            ],
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: VerticalList(elements: elements),
-                      )
-                    ],
+                        Expanded(
+                          child: VerticalList(page: page),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                floatingActionButton: FloatingButtons(
-                  sheet: sheet,
-                  elements: const [
-                    'title',
-                    'subtitle',
-                    'text',
-                    'checkbox',
-                    'image'
-                  ],
-                  onElementAdded: () => setState(() {}),
-                ));
-          } else {
-            return const LoadingScreen();
+                  floatingActionButton: FloatingButtons(
+                    page: page,
+                    elementsType: const [
+                      'title',
+                      'subtitle',
+                      'text',
+                      'checkbox',
+                      'image'
+                    ],
+                    onElementAdded: () => setState(() {}),
+                  ));
+            case ConnectionState.none:
+              break;
+            case ConnectionState.active:
+              break;
           }
+          return Container(); //unreachable
         });
   }
 }

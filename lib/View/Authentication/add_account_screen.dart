@@ -1,8 +1,8 @@
+import 'package:elephant_client/Model/constants.dart';
+import 'package:elephant_client/Model/hash.dart';
+import 'package:elephant_client/Model/user_settings.dart';
+import 'package:elephant_client/Network/client.dart';
 import 'package:flutter/material.dart';
-import '/Model/constants.dart';
-import '/Network/client.dart';
-import '/Model/hash.dart';
-import '/Model/user_settings.dart';
 
 class AddAccountScreen extends StatefulWidget {
   const AddAccountScreen({Key? key}) : super(key: key);

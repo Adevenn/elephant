@@ -1,11 +1,10 @@
+import 'package:elephant_client/Model/constants.dart';
+import 'package:elephant_client/Model/hash.dart';
+import 'package:elephant_client/Model/user_settings.dart';
+import 'package:elephant_client/Network/client.dart';
+import 'package:elephant_client/View/Authentication/add_account_screen.dart';
+import 'package:elephant_client/View/SelectCell/select_cell_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../SelectCell/select_cell_screen.dart';
-import '/Model/constants.dart';
-import '/Network/client.dart';
-import '/View/AddAccount/add_account_screen.dart';
-import '/Model/hash.dart';
-import '/Model/user_settings.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);

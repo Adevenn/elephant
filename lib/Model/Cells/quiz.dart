@@ -13,6 +13,7 @@ class Quiz extends Cell {
             title: title,
             subtitle: subtitle,
             type: type,
+            multiPage: true,
             author: author,
             isPublic: isPublic);
 
@@ -22,6 +23,7 @@ class Quiz extends Cell {
             title: json['title'],
             subtitle: json['subtitle'],
             type: (Quiz).toString(),
+            multiPage: true,
             author: json['author'],
             isPublic: json['is_public']);
 }

@@ -9,6 +9,7 @@ import '/Exception/server_exception.dart';
 class Client {
   ///Make a request to web server
   static Future<String> request(String stringRequest, Map json) async {
+    await Future.delayed(Duration(seconds: 1), () {});
     http.Response response = await http.post(
       Uri.parse('http://${Constants.ip}:${Constants.port}/$stringRequest'),
       headers: <String, String>{

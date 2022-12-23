@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/Controller/app_scroll.dart';
-import 'SignIn/sign_in_screen.dart';
+import 'Authentication/sign_in_screen.dart';
 
 ///Functions in common for all classes in View
 class ControllerView {
@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Elephant',
-      /*theme: ThemeData.(
-        primarySwatch: Colors.blue,
-      ),*/
+      //theme: ThemeData.light(),
       theme: ThemeData.dark(),
       home: const SignInScreen(),
       scrollBehavior: AppScrollBehavior(),

@@ -10,16 +10,16 @@ class ImageCustom extends ElementCustom {
 
   ImageCustom(
       {required int id,
-      required int idParent,
+      required int idPage,
       required this.imgPreview,
       required this.imgRaw,
       required int idOrder})
-      : super(id: id, idSheet: idParent, idOrder: idOrder);
+      : super(id: id, idPage: idPage, idOrder: idOrder);
 
   @override
   Map<String, dynamic> toJson() => {
         'id': id,
-        'id_sheet': idSheet,
+        'id_sheet': idPage,
         'img_preview': imgPreview,
         'img_raw': imgRaw,
         'elem_order': idOrder,

@@ -1,23 +1,22 @@
+import 'package:elephant_client/Model/Cells/page_custom.dart';
+import 'package:elephant_client/Model/Elements/element_custom.dart';
+import 'package:elephant_client/Network/client.dart';
+import 'package:elephant_client/View/Cell/ElementScreen/horizontal_list.dart';
+import 'package:elephant_client/View/Cell/FloatingBtns/floatings_btns.dart';
+import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
 
-import '/View/Cell/ElementScreen/horizontal_list.dart';
-import '../FloatingBtns/floatings_btns.dart';
-import '/Network/client.dart';
-import '/View/loading_screen.dart';
-import '/Model/Elements/element_custom.dart';
-import '/Model/Cells/sheet.dart';
-
 class QuizElemView extends StatefulWidget {
-  final Sheet sheet;
+  final PageCustom page;
 
-  const QuizElemView({Key? key, required this.sheet}) : super(key: key);
+  const QuizElemView({Key? key, required this.page}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateQuizElemView();
 }
 
 class _StateQuizElemView extends State<QuizElemView> {
-  Sheet get sheet => widget.sheet;
+  PageCustom get page => widget.page;
 
   Future<List<ElementCustom>> getElements(int idSheet) async {
     var elements = <ElementCustom>[];
@@ -35,7 +34,7 @@ class _StateQuizElemView extends State<QuizElemView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getElements(sheet.id),
+      future: getElements(page.id),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           var elements = snapshot.data!;
@@ -43,8 +42,8 @@ class _StateQuizElemView extends State<QuizElemView> {
           return Scaffold(
               body: HorizontalList(elements: elements),
               floatingActionButton: FloatingButtons(
-                sheet: sheet,
-                elements: const ['flashcard'],
+                page: page,
+                elementsType: const ['flashcard'],
                 onElementAdded: () {
                   setState(() {});
                 },

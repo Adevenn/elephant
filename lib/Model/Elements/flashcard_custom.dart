@@ -9,16 +9,16 @@ class FlashcardCustom extends ElementCustom {
 
   FlashcardCustom(
       {required int id,
-      required int idSheet,
+      required int idPage,
       required this.back,
       required this.front,
       required int idOrder})
-      : super(id: id, idSheet: idSheet, idOrder: idOrder);
+      : super(id: id, idPage: idPage, idOrder: idOrder);
 
   @override
   Map<String, dynamic> toJson() => {
         'id': id,
-        'id_sheet': idSheet,
+        'id_sheet': idPage,
         'back': back,
         'front': front,
         'elem_order': idOrder,
@@ -62,7 +62,7 @@ class _FlashcardCustomView extends StatelessWidget {
         Align(
           alignment: FractionalOffset.centerRight,
           child: FloatingActionButton(
-            heroTag: 'Edit',
+            heroTag: 'Edit ${flashcard.id}',
             onPressed: () async {
               await Navigator.push(
                   context,
@@ -79,7 +79,7 @@ class _FlashcardCustomView extends StatelessWidget {
         Tooltip(
           message: 'Check answer',
           child: FloatingActionButton(
-            heroTag: 'Check',
+            heroTag: 'Check ${flashcard.id}',
             onPressed: () {},
             child: const Icon(Icons.check),
           ),

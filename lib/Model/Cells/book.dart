@@ -14,6 +14,7 @@ class Book extends Cell {
             title: title,
             subtitle: subtitle,
             type: (Book).toString(),
+            multiPage: true,
             author: author,
             isPublic: isPublic);
 
@@ -23,6 +24,7 @@ class Book extends Cell {
             title: json['title'],
             subtitle: json['subtitle'],
             type: (Book).toString(),
+            multiPage: true,
             author: json['author'],
             isPublic: json['is_public']);
 }

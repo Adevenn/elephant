@@ -1,29 +1,18 @@
-import 'dart:convert';
+import 'package:elephant_client/Model/Cells/page_custom.dart';
+import 'package:elephant_client/View/Cell/ElementScreen/delete_element_dialog.dart';
 import 'package:flutter/material.dart';
 
-import '/Network/client.dart';
-import '/Model/Elements/element_custom.dart';
-import 'delete_element_dialog.dart';
-
 class VerticalList extends StatefulWidget {
-  final List<ElementCustom> elements;
+  final PageCustom page;
 
-  const VerticalList({Key? key, required this.elements}) : super(key: key);
+  const VerticalList({Key? key, required this.page}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateVerticalList();
 }
 
 class _StateVerticalList extends State<VerticalList> {
-  List<ElementCustom> get elements => widget.elements;
-
-  Future<void> updateElemOrder(List<ElementCustom> list) async {
-    var jsonList = <String>[];
-    for (var i = 0; i < list.length; i++) {
-      jsonList.add(jsonEncode(list[i]));
-    }
-    await Client.request('updateElementOrder', {'elem_order': jsonList});
-  }
+  PageCustom get page => widget.page;
 
   @override
   Widget build(BuildContext context) {
@@ -34,30 +23,25 @@ class _StateVerticalList extends State<VerticalList> {
           flex: 5,
           child: ReorderableListView(
             onReorder: (int oldIndex, int newIndex) async {
-              if (oldIndex < newIndex) {
-                newIndex -= 1;
-              }
-              ElementCustom item = elements.removeAt(oldIndex);
-              elements.insert(newIndex, item);
-              await updateElemOrder(elements);
+              page.reorderElements(oldIndex, newIndex);
               setState(() {});
             },
             children: [
-              for (var index = 0; index < elements.length; index++)
+              for (var index = 0; index < page.elements.length; index++)
                 Dismissible(
                   key: UniqueKey(),
                   child: _VerticalListElem(
-                      key: UniqueKey(), widget: elements[index].toWidget()),
+                      key: UniqueKey(),
+                      widget: page.elements[index].toWidget()),
                   onDismissed: (direction) async {
                     bool result = await showDialog(
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) => DeleteElementDialog(
                             elementType:
-                                elements[index].runtimeType.toString()));
+                                page.elements[index].runtimeType.toString()));
                     if (result) {
-                      await Client.deleteItem(elements[index].id, 'element');
-                      elements.removeAt(index);
+                      await page.deleteElement(index);
                     }
                     setState(() {});
                   },

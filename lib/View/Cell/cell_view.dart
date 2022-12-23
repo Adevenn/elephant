@@ -1,14 +1,10 @@
+import 'package:elephant_client/Model/Cells/cell.dart';
+import 'package:elephant_client/View/Cell/Book/book_view.dart';
+import 'package:elephant_client/View/Cell/Quiz/quiz_view.dart';
+import 'package:elephant_client/View/Cell/ToDoList/to_do_view.dart';
+import 'package:elephant_client/View/option_screen.dart';
+import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
-
-import '/Model/Cells/sheet.dart';
-import '/Network/client.dart';
-import '../loading_screen.dart';
-import '/View/Options/option_screen.dart';
-import '/View/Cell/Book/book_view.dart';
-import '/Model/Cells/cell.dart';
-import 'Quiz/quiz_view.dart';
-import 'Rank/rank_view.dart';
-import 'ToDoList/to_do_view.dart';
 
 class CellView extends StatefulWidget {
   final Cell cell;
@@ -21,52 +17,39 @@ class CellView extends StatefulWidget {
 
 class _StateCellView extends State<CellView> {
   Cell get cell => widget.cell;
-
-  Sheet? sheet;
-  int sheetIndex = 0;
-
-  Future<Sheet> getSheet(int idCell, int sheetIndex) async {
-    try {
-      var result = await Client.requestResult(
-          'sheet', {'id_cell': idCell, 'sheet_index': sheetIndex});
-      return Sheet.fromJson(result);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  int pageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Sheet>(
-        future: getSheet(cell.id, sheetIndex),
-        builder: (BuildContext context, AsyncSnapshot<Sheet> snapshot) {
-          if (snapshot.hasData && sheet != snapshot.data) {
-            sheet = snapshot.data;
-            return Scaffold(
-              appBar: appBar(context),
-              endDrawer: const Drawer(child: OptionScreen()),
-              body: (() {
-                switch (cell.type) {
-                  case 'Book':
-                    return BookView(
-                      cell: cell,
-                      sheet: sheet!,
-                      sheetIndex: sheetIndex,
-                      onSheetIndexChange: (int newSheetIndex) {
-                        setState(() => sheetIndex = newSheetIndex);
-                      },
-                    );
-                  case 'ToDoList':
-                    return ToDoView(cell: cell, sheet: sheet!);
-                  case 'Quiz':
-                    return QuizView(cell: cell, sheet: sheet!);
-                  case 'Rank':
-                    return RankView(cell: cell, sheet: sheet!);
-                }
-              }()),
-            );
-          } else {
-            return const LoadingScreen();
+    return FutureBuilder<void>(
+        future: cell.getPages(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return const LoadingScreen();
+            case ConnectionState.active:
+            case ConnectionState.done:
+              return Scaffold(
+                appBar: appBar(context),
+                endDrawer: const Drawer(child: OptionScreen()),
+                body: (() {
+                  switch (cell.type) {
+                    case 'Book':
+                      return BookView(
+                        cell: cell,
+                        pageIndex: pageIndex,
+                        onPageIndexChange: (int newPageIndex) {
+                          setState(() => pageIndex = newPageIndex);
+                        },
+                      );
+                    case 'ToDoList':
+                      return ToDoView(cell: cell);
+                    case 'Quiz':
+                      return QuizView(cell: cell);
+                  }
+                }()),
+              );
           }
         });
   }
@@ -80,6 +63,7 @@ class _StateCellView extends State<CellView> {
       title: Row(
         children: [
           Expanded(child: Text(cell.title), flex: 3),
+          //TODO: Add isPublic icon
           Expanded(child: Text(cell.subtitle)),
         ],
       ),
