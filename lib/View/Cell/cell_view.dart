@@ -24,32 +24,29 @@ class _StateCellView extends State<CellView> {
     return FutureBuilder<void>(
         future: cell.getPages(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return const LoadingScreen();
-            case ConnectionState.active:
-            case ConnectionState.done:
-              return Scaffold(
-                appBar: appBar(context),
-                endDrawer: const Drawer(child: OptionScreen()),
-                body: (() {
-                  switch (cell.type) {
-                    case 'Book':
-                      return BookView(
-                        cell: cell,
-                        pageIndex: pageIndex,
-                        onPageIndexChange: (int newPageIndex) {
-                          setState(() => pageIndex = newPageIndex);
-                        },
-                      );
-                    case 'ToDoList':
-                      return ToDoView(cell: cell);
-                    case 'Quiz':
-                      return QuizView(cell: cell);
-                  }
-                }()),
-              );
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Scaffold(
+              appBar: appBar(context),
+              endDrawer: const Drawer(child: OptionScreen()),
+              body: (() {
+                switch (cell.type) {
+                  case 'Book':
+                    return BookView(
+                      cell: cell,
+                      pageIndex: pageIndex,
+                      onPageIndexChange: (int newPageIndex) {
+                        setState(() => pageIndex = newPageIndex);
+                      },
+                    );
+                  case 'ToDoList':
+                    return ToDoView(cell: cell);
+                  case 'Quiz':
+                    return QuizView(cell: cell);
+                }
+              }()),
+            );
+          } else {
+            return const LoadingScreen();
           }
         });
   }
