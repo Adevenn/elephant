@@ -52,12 +52,11 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
             ),
             title: const Text('Cells')),
         endDrawer: const Drawer(child: OptionScreen()),
-        body: FutureBuilder<List<Cell>>(
+        body: FutureBuilder<void>(
             future: cellList.getCells(researchWord),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Cell>> snapshot) {
-              if (snapshot.hasData) {
-                var cells = snapshot.data!;
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                var cells = cellList.cells;
                 return Padding(
                   padding: const EdgeInsets.all(10),
                   child: Column(
