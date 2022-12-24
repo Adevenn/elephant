@@ -35,6 +35,7 @@ class _StateCellView extends State<CellView> {
                   controller: controller,
                   itemCount: cell.pages.length,
                   itemBuilder: (context, index) {
+                    pageIndex = index;
                     return _selectCellType(cell);
                   },
                 );
