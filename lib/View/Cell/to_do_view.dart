@@ -1,21 +1,21 @@
-import 'package:elephant_client/Model/Cells/cell.dart';
 import 'package:elephant_client/Model/Cells/page_custom.dart';
+import 'package:elephant_client/Model/Cells/to_do_list.dart';
 import 'package:elephant_client/View/Cell/ElementManager/vertical_list.dart';
 import 'package:elephant_client/View/Cell/FloatingBtns/floatings_btns.dart';
 import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class ToDoView extends StatefulWidget {
-  final Cell cell;
+  final ToDoList todolist;
 
-  const ToDoView({Key? key, required this.cell}) : super(key: key);
+  const ToDoView({Key? key, required this.todolist}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateToDoView();
 }
 
 class _StateToDoView extends State<ToDoView> {
-  late PageCustom page = widget.cell.pages[0];
+  late PageCustom page = widget.todolist.pages[0];
 
   @override
   Widget build(BuildContext context) {

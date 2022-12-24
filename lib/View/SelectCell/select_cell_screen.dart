@@ -141,8 +141,8 @@ class _SelectCellScreenState extends State<SelectCellScreen> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CellView(cell: cell)));
+                                                builder: (context) => CellView(
+                                                    cell: cell.fastFactory())));
                                       },
                                     ),
                                     /* DELETE CELL*/

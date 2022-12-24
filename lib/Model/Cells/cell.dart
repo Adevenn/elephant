@@ -73,6 +73,35 @@ abstract class Cell {
         throw Exception('Json with wrong cell type');
     }
   }
+  
+  Cell fastFactory(){
+    switch (type) {
+      case 'Book':
+        return Book(
+            id: id,
+            title: title,
+            subtitle: subtitle,
+            author: author,
+            isPublic: isPublic);
+      case 'ToDoList':
+        return ToDoList(
+            id: id,
+            title: title,
+            subtitle: subtitle,
+            author: author,
+            isPublic: isPublic);
+      case 'Quiz':
+        return Quiz(
+            id: id,
+            title: title,
+            subtitle: subtitle,
+            type: type,
+            author: author,
+            isPublic: isPublic);
+      default:
+        throw Exception('Factory with wrong cell type');
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         'id_cell': id,

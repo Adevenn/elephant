@@ -20,36 +20,39 @@ class _StateVerticalList extends State<VerticalList> {
       children: [
         Expanded(child: Container()),
         Expanded(
-          flex: 5,
-          child: ReorderableListView(
-            onReorder: (int oldIndex, int newIndex) async {
-              page.reorderElements(oldIndex, newIndex);
-              setState(() {});
-            },
-            children: [
-              for (var index = 0; index < page.elements.length; index++)
-                Dismissible(
-                  key: UniqueKey(),
-                  child: _VerticalListElem(
-                      key: UniqueKey(),
-                      widget: page.elements[index].toWidget()),
-                  onDismissed: (direction) async {
-                    bool result = await showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) => DeleteElementDialog(
-                            elementType:
-                                page.elements[index].runtimeType.toString()));
-                    if (result) {
-                      await page.deleteElement(index);
-                    }
-                    setState(() {});
-                  },
-                  background: Container(color: const Color(0xBCC11717)),
-                )
-            ],
-          ),
-        ),
+            flex: 5,
+            child: page.elements.isNotEmpty
+                ? ReorderableListView(
+                    onReorder: (int oldIndex, int newIndex) async {
+                      page.reorderElements(oldIndex, newIndex);
+                      setState(() {});
+                    },
+                    children: [
+                      for (var index = 0; index < page.elements.length; index++)
+                        Dismissible(
+                          key: UniqueKey(),
+                          child: _VerticalListElem(
+                              key: UniqueKey(),
+                              widget: page.elements[index].toWidget()),
+                          onDismissed: (direction) async {
+                            bool result = await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    DeleteElementDialog(
+                                        elementType: page
+                                            .elements[index].runtimeType
+                                            .toString()));
+                            if (result) {
+                              await page.deleteElement(index);
+                            }
+                            setState(() {});
+                          },
+                          background: Container(color: const Color(0xBCC11717)),
+                        )
+                    ],
+                  )
+                : const Center(child: Text('No items'))),
         Expanded(child: Container()),
       ],
     );

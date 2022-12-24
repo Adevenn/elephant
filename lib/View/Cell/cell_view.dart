@@ -1,4 +1,7 @@
+import 'package:elephant_client/Model/Cells/book.dart';
 import 'package:elephant_client/Model/Cells/cell.dart';
+import 'package:elephant_client/Model/Cells/quiz.dart';
+import 'package:elephant_client/Model/Cells/to_do_list.dart';
 import 'package:elephant_client/View/Cell/book_view.dart';
 import 'package:elephant_client/View/Cell/Page/page_screen.dart';
 import 'package:elephant_client/View/Cell/quiz_view.dart';
@@ -78,11 +81,11 @@ class _StateCellView extends State<CellView> {
   Widget _cellViewFactory() {
     switch (cell.type) {
       case 'Book':
-        return BookView(cell: cell, pageIndex: pageIndex);
+        return BookView(book: cell as Book, pageIndex: pageIndex);
       case 'ToDoList':
-        return ToDoView(cell: cell);
+        return ToDoView(todolist: cell as ToDoList);
       case 'Quiz':
-        return QuizView(cell: cell);
+        return QuizView(quiz: cell as Quiz);
       default:
         throw Exception();
     }

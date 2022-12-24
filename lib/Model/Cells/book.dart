@@ -1,8 +1,6 @@
 import 'cell.dart';
 
 class Book extends Cell {
-  int sheetSelect = 0;
-
   Book(
       {required int id,
       required String title,
