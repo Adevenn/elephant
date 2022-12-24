@@ -1,20 +1,23 @@
+import 'package:elephant_client/Model/Cells/cell.dart';
 import 'package:elephant_client/Model/Cells/page_custom.dart';
 import 'package:elephant_client/View/Cell/ElementScreen/vertical_list.dart';
 import 'package:elephant_client/View/Cell/FloatingBtns/floatings_btns.dart';
 import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
 
-class BookElemView extends StatefulWidget {
-  final PageCustom page;
+class BookView extends StatefulWidget {
+  final Cell cell;
+  final int pageIndex;
 
-  const BookElemView({Key? key, required this.page}) : super(key: key);
+  const BookView({Key? key, required this.cell, required this.pageIndex})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _StateBookElemView();
+  State<StatefulWidget> createState() => _StateBookView();
 }
 
-class _StateBookElemView extends State<BookElemView> {
-  PageCustom get page => widget.page;
+class _StateBookView extends State<BookView> {
+  late PageCustom page = widget.cell.pages[widget.pageIndex];
 
   @override
   Widget build(BuildContext context) {

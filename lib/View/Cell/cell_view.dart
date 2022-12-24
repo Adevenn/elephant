@@ -1,5 +1,5 @@
 import 'package:elephant_client/Model/Cells/cell.dart';
-import 'package:elephant_client/View/Cell/Book/book_view.dart';
+import 'package:elephant_client/View/Cell/book_view.dart';
 import 'package:elephant_client/View/Cell/Page/page_screen.dart';
 import 'package:elephant_client/View/Cell/Quiz/quiz_view.dart';
 import 'package:elephant_client/View/Cell/ToDoList/to_do_view.dart';
