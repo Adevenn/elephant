@@ -36,11 +36,11 @@ class _StateCellView extends State<CellView> {
                   itemCount: cell.pages.length,
                   itemBuilder: (context, index) {
                     pageIndex = index;
-                    return _selectCellType(cell);
+                    return _cellViewFactory();
                   },
                 );
               }
-              return _selectCellType(cell);
+              return _cellViewFactory();
             } else {
               return const LoadingScreen();
             }
@@ -75,7 +75,7 @@ class _StateCellView extends State<CellView> {
     );
   }
 
-  Widget _selectCellType(Cell cell) {
+  Widget _cellViewFactory() {
     switch (cell.type) {
       case 'Book':
         return BookView(cell: cell, pageIndex: pageIndex);
