@@ -7,14 +7,10 @@ import 'delete_page_dialog.dart';
 
 class PageScreen extends StatefulWidget {
   final Cell cell;
-  final int selectedPageId;
-  final int index;
+  final int selectedPageIndex;
 
   const PageScreen(
-      {Key? key,
-      required this.cell,
-      required this.index,
-      required this.selectedPageId})
+      {Key? key, required this.cell, required this.selectedPageIndex})
       : super(key: key);
 
   @override
@@ -24,9 +20,7 @@ class PageScreen extends StatefulWidget {
 class _PageScreenState extends State<PageScreen> {
   Cell get cell => widget.cell;
 
-  int get selectedPageId => widget.selectedPageId;
-
-  int get index => widget.index;
+  int get selectedPageIndex => widget.selectedPageIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +28,7 @@ class _PageScreenState extends State<PageScreen> {
       appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context, index),
+            onPressed: () => Navigator.pop(context, selectedPageIndex),
           ),
           title: const Text('Pages')),
       endDrawer: const Drawer(child: OptionScreen()),
@@ -58,7 +52,8 @@ class _PageScreenState extends State<PageScreen> {
                               background:
                                   Container(color: const Color(0xBCC11717)),
                               child: ((() {
-                                if (cell.pages[index].id == selectedPageId) {
+                                if (cell.pages[index].id ==
+                                    cell.pages[selectedPageIndex].id) {
                                   return ListTile(
                                       leading: const Icon(
                                           Icons.text_snippet_rounded),

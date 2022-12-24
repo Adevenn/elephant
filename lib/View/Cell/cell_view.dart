@@ -1,5 +1,6 @@
 import 'package:elephant_client/Model/Cells/cell.dart';
 import 'package:elephant_client/View/Cell/Book/book_view.dart';
+import 'package:elephant_client/View/Cell/Page/page_screen.dart';
 import 'package:elephant_client/View/Cell/Quiz/quiz_view.dart';
 import 'package:elephant_client/View/Cell/ToDoList/to_do_view.dart';
 import 'package:elephant_client/View/option_screen.dart';
@@ -17,38 +18,73 @@ class CellView extends StatefulWidget {
 
 class _StateCellView extends State<CellView> {
   Cell get cell => widget.cell;
+  final PageController controller = PageController();
   int pageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
-        future: cell.getPages(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Scaffold(
-              appBar: appBar(context),
-              endDrawer: const Drawer(child: OptionScreen()),
-              body: (() {
-                switch (cell.type) {
-                  case 'Book':
-                    return BookView(
-                      cell: cell,
-                      pageIndex: pageIndex,
-                      onPageIndexChange: (int newPageIndex) {
-                        setState(() => pageIndex = newPageIndex);
-                      },
-                    );
-                  case 'ToDoList':
-                    return ToDoView(cell: cell);
-                  case 'Quiz':
-                    return QuizView(cell: cell);
-                }
-              }()),
-            );
-          } else {
-            return const LoadingScreen();
-          }
-        });
+    return Scaffold(
+      appBar: appBar(context),
+      endDrawer: const Drawer(child: OptionScreen()),
+      body: FutureBuilder(
+          future: cell.getPages(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (cell.multiPage) {
+                return PageView.builder(
+                  controller: controller,
+                  itemCount: cell.pages.length,
+                  itemBuilder: (context, index) {
+                    return _selectCellType(cell);
+                  },
+                );
+              }
+              return _selectCellType(cell);
+            } else {
+              return const LoadingScreen();
+            }
+          }),
+      bottomSheet: (() {
+        if (cell.multiPage) {
+          return Container(
+            margin: const EdgeInsets.all(15),
+            child: Tooltip(
+              message: 'Pages',
+              child: FloatingActionButton(
+                heroTag: 'pagesBtn',
+                onPressed: () async {
+                  var result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PageScreen(
+                                cell: cell,
+                                selectedPageIndex: pageIndex,
+                              )));
+                  if (pageIndex != result) {
+                    pageIndex = result;
+                  }
+                  setState(() {});
+                },
+                child: const Icon(Icons.text_snippet),
+              ),
+            ),
+          );
+        }
+      }()),
+    );
+  }
+
+  Widget _selectCellType(Cell cell) {
+    switch (cell.type) {
+      case 'Book':
+        return BookView(cell: cell, pageIndex: pageIndex);
+      case 'ToDoList':
+        return ToDoView(cell: cell);
+      case 'Quiz':
+        return QuizView(cell: cell);
+      default:
+        throw Exception();
+    }
   }
 
   AppBar appBar(BuildContext context) {
@@ -59,9 +95,12 @@ class _StateCellView extends State<CellView> {
       ),
       title: Row(
         children: [
-          Expanded(child: Text(cell.title), flex: 3),
-          //TODO: Add isPublic icon
+          Expanded(child: Text(cell.title), flex: 9),
           Expanded(child: Text(cell.subtitle)),
+          Expanded(
+              child: Icon(cell.isPublic == false
+                  ? Icons.lock_rounded
+                  : Icons.public_rounded))
         ],
       ),
     );
