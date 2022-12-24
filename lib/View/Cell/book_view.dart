@@ -1,6 +1,6 @@
 import 'package:elephant_client/Model/Cells/cell.dart';
 import 'package:elephant_client/Model/Cells/page_custom.dart';
-import 'package:elephant_client/View/Cell/ElementScreen/vertical_list.dart';
+import 'package:elephant_client/View/Cell/ElementManager/vertical_list.dart';
 import 'package:elephant_client/View/Cell/FloatingBtns/floatings_btns.dart';
 import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';

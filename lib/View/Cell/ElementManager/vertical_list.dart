@@ -1,5 +1,5 @@
 import 'package:elephant_client/Model/Cells/page_custom.dart';
-import 'package:elephant_client/View/Cell/ElementScreen/delete_element_dialog.dart';
+import 'package:elephant_client/View/Cell/ElementManager/delete_element_dialog.dart';
 import 'package:flutter/material.dart';
 
 class VerticalList extends StatefulWidget {

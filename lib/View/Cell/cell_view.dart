@@ -1,8 +1,8 @@
 import 'package:elephant_client/Model/Cells/cell.dart';
 import 'package:elephant_client/View/Cell/book_view.dart';
 import 'package:elephant_client/View/Cell/Page/page_screen.dart';
-import 'package:elephant_client/View/Cell/Quiz/quiz_view.dart';
-import 'package:elephant_client/View/Cell/ToDoList/to_do_view.dart';
+import 'package:elephant_client/View/Cell/quiz_view.dart';
+import 'package:elephant_client/View/Cell/to_do_view.dart';
 import 'package:elephant_client/View/option_screen.dart';
 import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +81,7 @@ class _StateCellView extends State<CellView> {
       case 'ToDoList':
         return ToDoView(cell: cell);
       case 'Quiz':
-        return QuizView(cell: cell);
+        return QuizView(cell: cell, pageIndex: pageIndex);
       default:
         throw Exception();
     }

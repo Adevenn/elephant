@@ -1,32 +1,37 @@
+import 'package:elephant_client/Model/Cells/cell.dart';
 import 'package:elephant_client/Model/Cells/page_custom.dart';
-import 'package:elephant_client/View/Cell/ElementScreen/vertical_list.dart';
+import 'package:elephant_client/View/Cell/ElementManager/horizontal_list.dart';
 import 'package:elephant_client/View/Cell/FloatingBtns/floatings_btns.dart';
 import 'package:elephant_client/View/loading_screen.dart';
 import 'package:flutter/material.dart';
 
-class ToDoElemView extends StatefulWidget {
-  final PageCustom page;
+class QuizView extends StatefulWidget {
+  final Cell cell;
+  final int pageIndex;
 
-  const ToDoElemView({Key? key, required this.page}) : super(key: key);
+  const QuizView({Key? key, required this.cell, required this.pageIndex})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _StateToDoListElemView();
+  State<StatefulWidget> createState() => _StateQuizView();
 }
 
-class _StateToDoListElemView extends State<ToDoElemView> {
-  PageCustom get page => widget.page;
+class _StateQuizView extends State<QuizView> {
+  late PageCustom page = widget.cell.pages[widget.pageIndex];
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: page.getElements(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          var elements = snapshot.data!;
+
           return Scaffold(
-              body: VerticalList(page: page),
+              body: HorizontalList(elements: elements),
               floatingActionButton: FloatingButtons(
                 page: page,
-                elementsType: const ['checkbox'],
+                elementsType: const ['flashcard'],
                 onElementAdded: () {
                   setState(() {});
                 },
