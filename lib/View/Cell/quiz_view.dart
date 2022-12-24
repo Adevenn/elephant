@@ -7,17 +7,15 @@ import 'package:flutter/material.dart';
 
 class QuizView extends StatefulWidget {
   final Cell cell;
-  final int pageIndex;
 
-  const QuizView({Key? key, required this.cell, required this.pageIndex})
-      : super(key: key);
+  const QuizView({Key? key, required this.cell}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _StateQuizView();
 }
 
 class _StateQuizView extends State<QuizView> {
-  late PageCustom page = widget.cell.pages[widget.pageIndex];
+  late PageCustom page = widget.cell.pages[0];
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,7 @@ class _StateQuizView extends State<QuizView> {
       future: page.getElements(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          var elements = snapshot.data!;
+          var elements = page.elements;
 
           return Scaffold(
               body: HorizontalList(elements: elements),

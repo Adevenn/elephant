@@ -81,7 +81,7 @@ class _StateCellView extends State<CellView> {
       case 'ToDoList':
         return ToDoView(cell: cell);
       case 'Quiz':
-        return QuizView(cell: cell, pageIndex: pageIndex);
+        return QuizView(cell: cell);
       default:
         throw Exception();
     }
