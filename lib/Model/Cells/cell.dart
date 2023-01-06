@@ -35,27 +35,11 @@ abstract class Cell {
       required bool isPublic}) {
     switch (type) {
       case 'Book':
-        return Book(
-            id: id,
-            title: title,
-            subtitle: subtitle,
-            author: author,
-            isPublic: isPublic);
+        return Book(id: id, title: title, subtitle: subtitle, author: author, isPublic: isPublic);
       case 'ToDoList':
-        return ToDoList(
-            id: id,
-            title: title,
-            subtitle: subtitle,
-            author: author,
-            isPublic: isPublic);
+        return ToDoList(id: id, title: title, subtitle: subtitle, author: author, isPublic: isPublic);
       case 'Quiz':
-        return Quiz(
-            id: id,
-            title: title,
-            subtitle: subtitle,
-            type: type,
-            author: author,
-            isPublic: isPublic);
+        return Quiz(id: id, title: title, subtitle: subtitle, type: type, author: author, isPublic: isPublic);
       default:
         throw Exception('Factory with wrong cell type');
     }
@@ -73,63 +57,38 @@ abstract class Cell {
         throw Exception('Json with wrong cell type');
     }
   }
-  
-  Cell fastFactory(){
+
+  Cell fastFactory() {
     switch (type) {
       case 'Book':
-        return Book(
-            id: id,
-            title: title,
-            subtitle: subtitle,
-            author: author,
-            isPublic: isPublic);
+        return Book(id: id, title: title, subtitle: subtitle, author: author, isPublic: isPublic);
       case 'ToDoList':
-        return ToDoList(
-            id: id,
-            title: title,
-            subtitle: subtitle,
-            author: author,
-            isPublic: isPublic);
+        return ToDoList(id: id, title: title, subtitle: subtitle, author: author, isPublic: isPublic);
       case 'Quiz':
-        return Quiz(
-            id: id,
-            title: title,
-            subtitle: subtitle,
-            type: type,
-            author: author,
-            isPublic: isPublic);
+        return Quiz(id: id, title: title, subtitle: subtitle, type: type, author: author, isPublic: isPublic);
       default:
         throw Exception('Factory with wrong cell type');
     }
   }
 
-  Map<String, dynamic> toJson() => {
-        'id_cell': id,
-        'title': title,
-        'subtitle': subtitle,
-        'type': type,
-        'author': author,
-        'is_public': isPublic
-      };
+  Map<String, dynamic> toJson() =>
+      {'id_cell': id, 'title': title, 'subtitle': subtitle, 'type': type, 'author': author, 'is_public': isPublic};
 
   ///Get pages that match with [id]
   Future<void> getPages() async {
     try {
       var result = await Client.requestResult('sheets', {'id_cell': id});
-      pages = List<PageCustom>.from(
-          result.map((model) => PageCustom.fromJson(model)));
+      pages = List<PageCustom>.from(result.map((model) => PageCustom.fromJson(model)));
     } catch (e) {
       throw Exception(e);
     }
   }
 
   ///Add page
-  Future<void> addPage() async =>
-      await Client.request('addPage', {'id_cell': id});
+  Future<void> addPage() async => await Client.request('addPage', {'id_cell': id});
 
   ///Delete page
-  Future<void> deletePage(int index) async =>
-      await Client.deleteItem(pages[index].id, 'page');
+  Future<void> deletePage(int index) async => await Client.deleteItem(pages[index].id, 'page');
 
   ///Reorder pages and update database
   Future<void> reorderPages(int oldIndex, int newIndex) async {

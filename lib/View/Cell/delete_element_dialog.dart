@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class DeleteElementDialog extends StatelessWidget {
   final String elementType;
 
-  const DeleteElementDialog({Key? key, required this.elementType})
-      : super(key: key);
+  const DeleteElementDialog({Key? key, required this.elementType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -101,10 +101,7 @@ class _StateCellView extends State<CellView> {
         children: [
           Expanded(child: Text(cell.title), flex: 9),
           Expanded(child: Text(cell.subtitle)),
-          Expanded(
-              child: Icon(cell.isPublic == false
-                  ? Icons.lock_rounded
-                  : Icons.public_rounded))
+          Expanded(child: Icon(cell.isPublic == false ? Icons.lock_rounded : Icons.public_rounded))
         ],
       ),
     );

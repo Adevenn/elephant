@@ -45,26 +45,20 @@ class PageCustom {
   Future<void> getElements() async {
     try {
       var result = await Client.requestResult('elements', {'id_sheet': id});
-      elements = List<ElementCustom>.from(
-          result.map((model) => ElementCustom.fromJson(model)));
+      elements = List<ElementCustom>.from(result.map((model) => ElementCustom.fromJson(model)));
     } catch (e) {
       throw Exception(e);
     }
   }
 
   ///Add checkbox element
-  Future<void> addCheckbox() async =>
-      await Client.request('addCheckbox', {'id_sheet': id});
+  Future<void> addCheckbox() async => await Client.request('addCheckbox', {'id_sheet': id});
 
   ///Add image element
   Future<void> addImage(List<ImageCustom> images) async {
     try {
       for (var image in images) {
-        await Client.request('addImage', {
-          'id_sheet': id,
-          'img_preview': image.imgPreview,
-          'img_raw': image.imgRaw
-        });
+        await Client.request('addImage', {'id_sheet': id, 'img_preview': image.imgPreview, 'img_raw': image.imgRaw});
       }
     } catch (e) {
       throw Exception(e);
@@ -72,16 +66,13 @@ class PageCustom {
   }
 
   ///Add text element
-  Future<void> addTexts(int txtType) async =>
-      await Client.request('addText', {'id_sheet': id, 'txt_type': txtType});
+  Future<void> addTexts(int txtType) async => await Client.request('addText', {'id_sheet': id, 'txt_type': txtType});
 
   ///Add flashcard element
-  Future<void> addFlashcard() async =>
-      await Client.request('addFlashcard', {'id_sheet': id});
+  Future<void> addFlashcard() async => await Client.request('addFlashcard', {'id_sheet': id});
 
   ///Delete an element
-  Future<void> deleteElement(int index) async =>
-      await Client.deleteItem(elements[index].id, 'element');
+  Future<void> deleteElement(int index) async => await Client.deleteItem(elements[index].id, 'element');
 
   ///Reorder elements and update database
   Future<void> reorderElements(int oldIndex, int newIndex) async {
