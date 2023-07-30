@@ -54,11 +54,11 @@ class _OptionState extends State<OptionScreen> {
               ],
             );
           } else {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   SizedBox(
                     child: CircularProgressIndicator(),
                     width: 60,
